@@ -71,51 +71,56 @@ export default async function Home() {
     <div className="bg-white">
 
       {/* Hero */}
-      <section className="relative overflow-hidden min-h-[520px] md:min-h-[600px] flex items-center">
-        {/* Background image */}
-        <Image
-          src="/hero-bg.JPG"
-          alt="Kids clothing"
-          fill
-          className="object-cover object-top"
-          priority
-          sizes="100vw"
-        />
-        {/* Gradient overlay — lighter so image stays vivid */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent" />
+      <section className="relative overflow-hidden">
+        {/* Container: natural aspect ratio on mobile, fixed height on desktop */}
+        <div className="relative aspect-[3/4] sm:aspect-auto sm:min-h-[600px]">
+          <Image
+            src="/hero-bg.JPG"
+            alt="Kids clothing"
+            fill
+            className="object-cover object-center"
+            priority
+            sizes="100vw"
+          />
 
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 w-full">
-          <div className="max-w-lg">
-            <span
-              className="inline-block px-3 py-1 bg-[#E55A1C] text-white text-xs font-bold rounded-full mb-5"
-              style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 800 }}
-            >
-              Ships Nationwide
-            </span>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl leading-tight mb-4 text-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              Dress Them<br />
-              <span style={{ color: '#F5C000' }}>in Pure</span>{' '}
-              <span style={{ color: '#f87171' }}>Joy</span>
-            </h1>
-            <p className="text-base text-white/80 mb-8 max-w-md leading-relaxed" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700 }}>
-              Premium children&apos;s clothing for Nigerian kids. Bold styles, vibrant colours, and quality that lasts.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/shop"
-                className="px-7 py-3 text-white font-bold rounded-full shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all inline-block"
-                style={{ fontFamily: "'Poppins', sans-serif", fontSize: '1rem', backgroundColor: '#D9247A' }}
-              >
-                Shop Now
-              </Link>
-              <Link
-                href="/shop?gender=girls"
-                className="px-7 py-3 bg-white text-gray-900 font-bold rounded-full shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all inline-block"
-                style={{ fontFamily: "'Poppins', sans-serif", fontSize: '1rem' }}
-              >
-                View Girls
-              </Link>
+          {/* Gradient: bottom-up on mobile (text sits at bottom), left-right on desktop */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 sm:bg-gradient-to-r sm:from-black/55 sm:via-black/25 sm:to-transparent" />
+
+          {/* Content: bottom of image on mobile, vertically centred on desktop */}
+          <div className="absolute inset-0 flex items-end sm:items-center">
+            <div className="max-w-7xl mx-auto px-5 sm:px-6 pb-8 sm:pb-0 sm:py-20 w-full">
+              <div className="max-w-lg">
+                <span
+                  className="inline-block px-3 py-1 bg-[#E55A1C] text-white text-xs font-bold rounded-full mb-4"
+                  style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 800 }}
+                >
+                  Ships Nationwide
+                </span>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl leading-tight mb-3 text-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                  Dress Them<br />
+                  <span style={{ color: '#F5C000' }}>in Pure</span>{' '}
+                  <span style={{ color: '#f87171' }}>Joy</span>
+                </h1>
+                <p className="text-sm sm:text-base text-white/80 mb-6 max-w-md leading-relaxed" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700 }}>
+                  Premium children&apos;s clothing for Nigerian kids. Bold styles, vibrant colours, and quality that lasts.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <Link
+                    href="/shop"
+                    className="px-7 py-3 text-white font-bold rounded-full shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all inline-block"
+                    style={{ fontFamily: "'Poppins', sans-serif", fontSize: '1rem', backgroundColor: '#D9247A' }}
+                  >
+                    Shop Now
+                  </Link>
+                  <Link
+                    href="/shop?gender=girls"
+                    className="px-7 py-3 bg-white text-gray-900 font-bold rounded-full shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all inline-block"
+                    style={{ fontFamily: "'Poppins', sans-serif", fontSize: '1rem' }}
+                  >
+                    View Girls
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
