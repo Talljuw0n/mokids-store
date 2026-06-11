@@ -55,7 +55,7 @@ export default async function AdminDashboard() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
         <h1 className="text-3xl font-bold" style={{ fontFamily: "'Fredoka One', cursive" }}>
           Dashboard
         </h1>

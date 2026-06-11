@@ -99,18 +99,18 @@ export default function AdminProductsPage() {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-5">
+      <div className="flex flex-col gap-3 mb-5">
         <input
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder="Search SKU or name..."
-          className="px-3 py-1.5 text-sm font-bold border-[2.5px] border-black rounded-lg bg-white focus:outline-none focus:border-[#F5C000] w-60"
+          className="px-3 py-1.5 text-sm font-bold border-[2.5px] border-black rounded-lg bg-white focus:outline-none focus:border-[#F5C000] w-full sm:w-60"
           style={{ fontFamily: "'Nunito', sans-serif" }}
         />
-        <div className="flex gap-1 flex-wrap">
-          <button onClick={() => setCategory('')} className={`px-3 py-1.5 text-xs font-bold rounded-lg border-[2px] border-black ${!category ? 'bg-[#F5C000]' : 'bg-white hover:bg-gray-50'} transition-colors`}>All</button>
+        <div className="flex gap-1 overflow-x-auto pb-1 -mx-1 px-1">
+          <button onClick={() => setCategory('')} className={`flex-shrink-0 px-3 py-1.5 text-xs font-bold rounded-lg border-[2px] border-black ${!category ? 'bg-[#F5C000]' : 'bg-white hover:bg-gray-50'} transition-colors`}>All</button>
           {Object.entries(CATEGORY_LABELS).map(([k, v]) => (
-            <button key={k} onClick={() => setCategory(k)} className={`px-3 py-1.5 text-xs font-bold rounded-lg border-[2px] border-black ${category === k ? 'bg-[#F5C000]' : 'bg-white hover:bg-gray-50'} transition-colors`}>{v}</button>
+            <button key={k} onClick={() => setCategory(k)} className={`flex-shrink-0 px-3 py-1.5 text-xs font-bold rounded-lg border-[2px] border-black ${category === k ? 'bg-[#F5C000]' : 'bg-white hover:bg-gray-50'} transition-colors`}>{v}</button>
           ))}
         </div>
       </div>

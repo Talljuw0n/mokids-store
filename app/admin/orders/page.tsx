@@ -56,7 +56,7 @@ export default function AdminOrdersPage() {
 
       <div className="flex gap-5">
         {/* Table */}
-        <div className="flex-1 bg-white rounded-xl border-[2.5px] border-black shadow-[4px_4px_0_#000] overflow-hidden">
+        <div className="flex-1 min-w-0 bg-white rounded-xl border-[2.5px] border-black shadow-[4px_4px_0_#000] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -109,49 +109,63 @@ export default function AdminOrdersPage() {
           </div>
         </div>
 
-        {/* Order Detail Panel */}
+        {/* Order Detail Panel — sidebar on desktop, full-screen overlay on mobile */}
         {selected && (
-          <div className="w-80 flex-shrink-0 bg-white rounded-xl border-[2.5px] border-black shadow-[4px_4px_0_#000] p-4 h-fit sticky top-24">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-bold" style={{ fontFamily: "'Fredoka One', cursive" }}>
-                Order {selected.id.slice(0, 8).toUpperCase()}
-              </h3>
-              <button onClick={() => setSelected(null)} className="text-gray-400 hover:text-black">✕</button>
-            </div>
-
-            <div className="text-xs font-bold space-y-1.5 mb-3" style={{ fontFamily: "'Nunito', sans-serif" }}>
-              <div><span className="text-gray-400">Customer:</span> {selected.customer_name}</div>
-              <div><span className="text-gray-400">Email:</span> {selected.email}</div>
-              <div><span className="text-gray-400">Phone:</span> {selected.phone}</div>
-              <div><span className="text-gray-400">Address:</span> {selected.shipping_address}, {selected.state}</div>
-              {selected.payment_ref && <div><span className="text-gray-400">Ref:</span> <span className="font-mono">{selected.payment_ref}</span></div>}
-            </div>
-
-            <hr className="border-black mb-3" />
-            <h4 className="font-bold text-xs mb-2">Items</h4>
-            {selected.items.map((item, i) => (
-              <div key={i} className="flex justify-between text-xs mb-1" style={{ fontFamily: "'Nunito', sans-serif" }}>
-                <span className="font-bold truncate flex-1">{item.name} ({item.size}) ×{item.quantity}</span>
-                <span className="font-bold ml-2">{formatPrice(item.price * item.quantity)}</span>
+          <>
+            {/* Mobile overlay backdrop */}
+            <div
+              className="fixed inset-0 bg-black/50 z-40 sm:hidden"
+              onClick={() => setSelected(null)}
+            />
+            <div className="
+              fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-2xl
+              sm:static sm:inset-auto sm:max-h-none sm:rounded-xl sm:overflow-visible
+              w-full sm:w-80 sm:flex-shrink-0
+              bg-white border-[2.5px] border-black shadow-[4px_4px_0_#000] p-4 sm:h-fit sm:sticky sm:top-24
+            ">
+              {/* Handle bar (mobile only) */}
+              <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-3 sm:hidden" />
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-bold" style={{ fontFamily: "'Fredoka One', cursive" }}>
+                  Order {selected.id.slice(0, 8).toUpperCase()}
+                </h3>
+                <button onClick={() => setSelected(null)} className="text-gray-400 hover:text-black text-lg leading-none">✕</button>
               </div>
-            ))}
-            <hr className="border-gray-200 my-2" />
-            <div className="flex justify-between text-xs font-bold" style={{ fontFamily: "'Fredoka One', cursive" }}>
-              <span>Total</span>
-              <span style={{ color: '#D9247A' }}>{formatPrice(selected.total)}</span>
-            </div>
 
-            {selected.status === 'paid' && (
-              <button
-                onClick={() => markFulfilled(selected.id)}
-                disabled={updating === selected.id}
-                className="w-full mt-3 py-2 text-sm font-bold rounded-lg border-[2.5px] border-black bg-[#3DB8E8] hover:bg-[#2aa8d8] transition-colors shadow-[3px_3px_0_#000] disabled:opacity-50"
-                style={{ fontFamily: "'Nunito', sans-serif" }}
-              >
-                {updating === selected.id ? 'Updating...' : '✓ Mark as Fulfilled'}
-              </button>
-            )}
-          </div>
+              <div className="text-xs font-bold space-y-1.5 mb-3" style={{ fontFamily: "'Nunito', sans-serif" }}>
+                <div><span className="text-gray-400">Customer:</span> {selected.customer_name}</div>
+                <div><span className="text-gray-400">Email:</span> {selected.email}</div>
+                <div><span className="text-gray-400">Phone:</span> {selected.phone}</div>
+                <div><span className="text-gray-400">Address:</span> {selected.shipping_address}, {selected.state}</div>
+                {selected.payment_ref && <div><span className="text-gray-400">Ref:</span> <span className="font-mono">{selected.payment_ref}</span></div>}
+              </div>
+
+              <hr className="border-black mb-3" />
+              <h4 className="font-bold text-xs mb-2">Items</h4>
+              {selected.items.map((item, i) => (
+                <div key={i} className="flex justify-between text-xs mb-1" style={{ fontFamily: "'Nunito', sans-serif" }}>
+                  <span className="font-bold truncate flex-1">{item.name} ({item.size}) ×{item.quantity}</span>
+                  <span className="font-bold ml-2">{formatPrice(item.price * item.quantity)}</span>
+                </div>
+              ))}
+              <hr className="border-gray-200 my-2" />
+              <div className="flex justify-between text-xs font-bold" style={{ fontFamily: "'Fredoka One', cursive" }}>
+                <span>Total</span>
+                <span style={{ color: '#D9247A' }}>{formatPrice(selected.total)}</span>
+              </div>
+
+              {selected.status === 'paid' && (
+                <button
+                  onClick={() => markFulfilled(selected.id)}
+                  disabled={updating === selected.id}
+                  className="w-full mt-3 py-2 text-sm font-bold rounded-lg border-[2.5px] border-black bg-[#3DB8E8] hover:bg-[#2aa8d8] transition-colors shadow-[3px_3px_0_#000] disabled:opacity-50"
+                  style={{ fontFamily: "'Nunito', sans-serif" }}
+                >
+                  {updating === selected.id ? 'Updating...' : '✓ Mark as Fulfilled'}
+                </button>
+              )}
+            </div>
+          </>
         )}
       </div>
     </div>
