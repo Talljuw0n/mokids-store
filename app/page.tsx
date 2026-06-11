@@ -74,7 +74,7 @@ export default async function Home() {
       <section className="relative overflow-hidden min-h-[520px] md:min-h-[600px] flex items-center">
         {/* Background image */}
         <Image
-          src="/hero-bg.jpeg"
+          src="/hero-bg.JPG"
           alt="Kids clothing"
           fill
           className="object-cover object-top"

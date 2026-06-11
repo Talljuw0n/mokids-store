@@ -141,34 +141,48 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                  <div className="flex items-center justify-center gap-2 mt-10">
+                  <div className="flex items-center justify-center gap-2 mt-10 flex-wrap">
                     {currentPage > 1 && (
                       <Link
                         href={buildHref({ page: String(currentPage - 1) })}
-                        className="px-4 py-2 font-bold text-sm rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:-translate-y-px transition-all text-gray-700"
+                        className="px-4 py-2 font-bold text-sm rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all text-gray-700"
                         style={{ fontFamily: "'Poppins', sans-serif" }}
                       >
                         ← Prev
                       </Link>
                     )}
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                      <Link
-                        key={p}
-                        href={buildHref({ page: String(p) })}
-                        className={`px-4 py-2 font-bold text-sm rounded-xl border shadow-sm hover:shadow-md hover:-translate-y-px transition-all ${
-                          p === currentPage
-                            ? 'bg-[#F5C000] border-[#F5C000] text-gray-900'
-                            : 'bg-white border-gray-200 text-gray-700'
-                        }`}
-                        style={{ fontFamily: "'Poppins', sans-serif" }}
-                      >
-                        {p}
-                      </Link>
-                    ))}
+                    {Array.from({ length: totalPages }, (_, i) => i + 1)
+                      .filter(p => {
+                        // Always show first, last, current, and ±1 around current
+                        return p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1
+                      })
+                      .reduce<(number | '…')[]>((acc, p, idx, arr) => {
+                        if (idx > 0 && typeof arr[idx - 1] === 'number' && (p as number) - (arr[idx - 1] as number) > 1) acc.push('…')
+                        acc.push(p)
+                        return acc
+                      }, [])
+                      .map((p, idx) =>
+                        p === '…' ? (
+                          <span key={`ellipsis-${idx}`} className="px-1 text-gray-400 font-bold text-sm select-none">…</span>
+                        ) : (
+                          <Link
+                            key={p}
+                            href={buildHref({ page: String(p) })}
+                            className={`px-4 py-2 font-bold text-sm rounded-xl border shadow-sm hover:shadow-md transition-all ${
+                              p === currentPage
+                                ? 'bg-[#F5C000] border-[#F5C000] text-gray-900'
+                                : 'bg-white border-gray-200 text-gray-700'
+                            }`}
+                            style={{ fontFamily: "'Poppins', sans-serif" }}
+                          >
+                            {p}
+                          </Link>
+                        )
+                      )}
                     {currentPage < totalPages && (
                       <Link
                         href={buildHref({ page: String(currentPage + 1) })}
-                        className="px-4 py-2 font-bold text-sm rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:-translate-y-px transition-all text-gray-700"
+                        className="px-4 py-2 font-bold text-sm rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all text-gray-700"
                         style={{ fontFamily: "'Poppins', sans-serif" }}
                       >
                         Next →
