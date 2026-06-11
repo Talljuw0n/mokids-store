@@ -93,7 +93,7 @@ export default async function Home() {
             >
               Ships Nationwide
             </span>
-            <h1 className="text-5xl md:text-6xl leading-tight mb-4 text-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl leading-tight mb-4 text-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
               Dress Them<br />
               <span style={{ color: '#F5C000' }}>in Pure</span>{' '}
               <span style={{ color: '#f87171' }}>Joy</span>

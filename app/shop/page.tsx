@@ -6,6 +6,7 @@ import { ProductCard } from '@/components/ui/ProductCard'
 import { ProductWithInventory, ProductCategory, Gender } from '@/types'
 import { CATEGORY_LABELS } from '@/lib/utils'
 import Link from 'next/link'
+import { ShopSidebar } from '@/components/shop/ShopSidebar'
 
 const ITEMS_PER_PAGE = 12
 
@@ -75,8 +76,6 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     return `/shop${qs ? `?${qs}` : ''}`
   }
 
-  const categories = Object.entries(CATEGORY_LABELS)
-
   return (
     <div className="bg-white min-h-screen">
       <div className="max-w-7xl mx-auto px-4 py-10">
@@ -96,107 +95,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
         <div className="flex flex-col lg:flex-row gap-8">
 
-          {/* Sidebar */}
-          <aside className="lg:w-56 flex-shrink-0">
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sticky top-24">
-              <h2 className="text-base font-bold text-gray-900 mb-5" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                Filters
-              </h2>
-
-              {/* Gender */}
-              <div className="mb-6">
-                <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2.5" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                  Gender
-                </p>
-                <div className="flex flex-col gap-1">
-                  {[
-                    { value: '', label: 'All' },
-                    { value: 'girls', label: 'Girls' },
-                    { value: 'boys',  label: 'Boys'  },
-                  ].map((g) => (
-                    <Link
-                      key={g.value}
-                      href={buildHref({ gender: g.value || undefined, page: '1' })}
-                      className={`px-3 py-2 text-sm font-bold rounded-xl transition-all ${
-                        params.gender === g.value || (!params.gender && !g.value)
-                          ? 'bg-[#F5C000] text-gray-900'
-                          : 'text-gray-600 hover:bg-gray-50'
-                      }`}
-                      style={{ fontFamily: "'Poppins', sans-serif" }}
-                    >
-                      {g.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              {/* Category */}
-              <div className="mb-6">
-                <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2.5" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                  Category
-                </p>
-                <div className="flex flex-col gap-1">
-                  <Link
-                    href={buildHref({ category: undefined, page: '1' })}
-                    className={`px-3 py-2 text-sm font-bold rounded-xl transition-all ${
-                      !params.category ? 'bg-[#F5C000] text-gray-900' : 'text-gray-600 hover:bg-gray-50'
-                    }`}
-                    style={{ fontFamily: "'Poppins', sans-serif" }}
-                  >
-                    All Categories
-                  </Link>
-                  {categories.map(([value, label]) => (
-                    <Link
-                      key={value}
-                      href={buildHref({ category: value, page: '1' })}
-                      className={`px-3 py-2 text-sm font-bold rounded-xl transition-all ${
-                        params.category === value ? 'bg-[#F5C000] text-gray-900' : 'text-gray-600 hover:bg-gray-50'
-                      }`}
-                      style={{ fontFamily: "'Poppins', sans-serif" }}
-                    >
-                      {label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              {/* Sort */}
-              <div className="mb-6">
-                <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2.5" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                  Sort By
-                </p>
-                <div className="flex flex-col gap-1">
-                  {[
-                    { value: 'newest',     label: 'Newest First'       },
-                    { value: 'price-asc',  label: 'Price: Low → High'  },
-                    { value: 'price-desc', label: 'Price: High → Low'  },
-                  ].map((s) => (
-                    <Link
-                      key={s.value}
-                      href={buildHref({ sort: s.value, page: '1' })}
-                      className={`px-3 py-2 text-sm font-bold rounded-xl transition-all ${
-                        (params.sort || 'newest') === s.value ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'
-                      }`}
-                      style={{ fontFamily: "'Poppins', sans-serif" }}
-                    >
-                      {s.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              {/* Clear filters */}
-              {(params.category || params.gender || params.search) && (
-                <Link
-                  href="/shop"
-                  className="block text-center px-3 py-2 text-sm font-bold text-[#E55A1C] hover:bg-red-50 rounded-xl transition-colors"
-                  style={{ fontFamily: "'Poppins', sans-serif" }}
-                >
-                  Clear Filters
-                </Link>
-              )}
-            </div>
-          </aside>
+          <ShopSidebar params={params} />
 
           {/* Product Grid */}
           <div className="flex-1">

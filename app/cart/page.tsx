@@ -64,14 +64,19 @@ export default function CartPage() {
 
                 {/* Info */}
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-sm leading-tight text-gray-900" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                    {item.name}
-                  </h3>
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="font-bold text-sm leading-tight text-gray-900" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                      {item.name}
+                    </h3>
+                    <p className="font-bold text-sm flex-shrink-0 text-gray-900" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                      {formatPrice(item.price * item.quantity)}
+                    </p>
+                  </div>
                   <p className="text-xs text-gray-400 font-bold mt-0.5" style={{ fontFamily: "'Poppins', sans-serif" }}>
                     {item.sku} · Size: <span className="text-gray-700">{item.size}</span>
                   </p>
-                  <p className="font-bold mt-1 text-[#D9247A]" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                    {formatPrice(item.price)}
+                  <p className="font-bold mt-1 text-[#D9247A] text-sm" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                    {formatPrice(item.price)} each
                   </p>
 
                   <div className="flex items-center gap-3 mt-2">
@@ -102,13 +107,6 @@ export default function CartPage() {
                       Remove
                     </button>
                   </div>
-                </div>
-
-                {/* Line total */}
-                <div className="text-right flex-shrink-0">
-                  <p className="font-bold text-gray-900" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                    {formatPrice(item.price * item.quantity)}
-                  </p>
                 </div>
               </div>
             ))}
