@@ -16,7 +16,6 @@ export function ProductCard({ product, inventory = [] }: ProductCardProps) {
   const addItem = useCartStore((s) => s.addItem)
   const totalStock = inventory.reduce((sum, i) => sum + i.quantity, 0)
   const isOutOfStock = totalStock === 0
-  const isLowStock = totalStock > 0 && totalStock <= 3
   const slug = productSlug(product.sku, product.name)
   const mainImage = product.images?.[0]
 
@@ -56,10 +55,11 @@ export function ProductCard({ product, inventory = [] }: ProductCardProps) {
             </div>
           )}
           {/* Badges */}
-          <div className="absolute top-2 left-2 flex flex-col gap-1">
-            {isOutOfStock && <Badge variant="out">Sold Out</Badge>}
-            {isLowStock && !isOutOfStock && <Badge variant="low">Low Stock</Badge>}
-          </div>
+          {isOutOfStock && (
+            <div className="absolute top-2 left-2">
+              <Badge variant="out">Sold Out</Badge>
+            </div>
+          )}
         </div>
 
         {/* Info */}

@@ -9,32 +9,18 @@ interface SizeSelectorProps {
 
 export function SizeSelector({ inventory, selectedSize, onSelect }: SizeSelectorProps) {
   return (
-    <div className="flex flex-wrap gap-2">
-      {inventory.map((item) => {
-        const inStock = item.quantity > 0
-        const isSelected = selectedSize === item.size
-        return (
-          <button
-            key={item.size}
-            onClick={() => inStock && onSelect(item.size)}
-            disabled={!inStock}
-            className={[
-              'px-4 py-2 text-sm font-bold rounded-xl border transition-all duration-150',
-              isSelected
-                ? 'bg-gray-900 text-white border-gray-900 shadow-sm'
-                : inStock
-                ? 'bg-white text-gray-800 border-gray-200 hover:border-gray-900 hover:bg-gray-50 shadow-sm'
-                : 'bg-gray-50 text-gray-300 border-gray-100 line-through cursor-not-allowed',
-            ].join(' ')}
-            style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700 }}
-          >
-            {item.size}
-            {inStock && item.quantity <= 3 && (
-              <span className="ml-1 text-[10px] text-[#E55A1C] font-bold">({item.quantity})</span>
-            )}
-          </button>
-        )
-      })}
-    </div>
+    <select
+      value={selectedSize ?? ''}
+      onChange={e => { if (e.target.value) onSelect(e.target.value) }}
+      className="w-full px-4 py-2.5 text-sm font-bold border-2 border-gray-200 rounded-xl bg-white focus:outline-none focus:border-gray-900 transition-colors"
+      style={{ fontFamily: "'Poppins', sans-serif" }}
+    >
+      <option value="">Choose a size…</option>
+      {inventory.map((item) => (
+        <option key={item.size} value={item.size} disabled={item.quantity === 0}>
+          {item.size}{item.quantity === 0 ? ' — Sold Out' : ''}
+        </option>
+      ))}
+    </select>
   )
 }

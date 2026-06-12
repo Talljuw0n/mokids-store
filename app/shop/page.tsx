@@ -19,6 +19,8 @@ interface ShopPageProps {
     page?: string
     minPrice?: string
     maxPrice?: string
+    colour?: string
+    size?: string
   }>
 }
 
@@ -38,8 +40,21 @@ async function getProducts(params: Awaited<ShopPageProps['searchParams']>) {
     if (params.category) query = query.eq('category', params.category as ProductCategory)
     if (params.gender)   query = query.eq('gender', params.gender as Gender)
     if (params.search)   query = query.ilike('name', `%${params.search}%`)
+    if (params.colour)   query = query.ilike('colour', params.colour)
     if (params.minPrice) query = query.gte('price', parseInt(params.minPrice))
     if (params.maxPrice) query = query.lte('price', parseInt(params.maxPrice))
+
+    // Size filter: only products that have this size in stock
+    if (params.size) {
+      const { data: sizeRows } = await sb
+        .from('inventory')
+        .select('product_id')
+        .eq('size', params.size)
+        .gt('quantity', 0)
+      const ids = (sizeRows ?? []).map((r: { product_id: string }) => r.product_id)
+      if (ids.length === 0) return { products: [], count: 0 }
+      query = query.in('id', ids)
+    }
 
     if (params.sort === 'price-asc')       query = query.order('price', { ascending: true })
     else if (params.sort === 'price-desc') query = query.order('price', { ascending: false })
@@ -61,9 +76,28 @@ async function getProducts(params: Awaited<ShopPageProps['searchParams']>) {
   }
 }
 
+async function getFilterOptions() {
+  try {
+    if (!isConfigured()) return { colours: [], sizes: [] }
+    const sb = getServiceClient()
+    const [{ data: colourRows }, { data: sizeRows }] = await Promise.all([
+      sb.from('products').select('colour').eq('is_active', true).not('colour', 'is', null).neq('colour', ''),
+      sb.from('inventory').select('size').gt('quantity', 0),
+    ])
+    const colours = [...new Set((colourRows ?? []).map((r: { colour: string }) => r.colour).filter(Boolean))].sort() as string[]
+    const sizes = [...new Set((sizeRows ?? []).map((r: { size: string }) => r.size).filter(Boolean))].sort() as string[]
+    return { colours, sizes }
+  } catch {
+    return { colours: [], sizes: [] }
+  }
+}
+
 export default async function ShopPage({ searchParams }: ShopPageProps) {
   const params = await searchParams
-  const { products, count } = await getProducts(params)
+  const [{ products, count }, { colours, sizes }] = await Promise.all([
+    getProducts(params),
+    getFilterOptions(),
+  ])
   const totalPages = Math.ceil(count / ITEMS_PER_PAGE)
   const currentPage = parseInt(params.page || '1', 10)
 
@@ -95,12 +129,12 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
         <div className="flex flex-col lg:flex-row gap-8">
 
-          <ShopSidebar params={params} />
+          <ShopSidebar params={params} colours={colours} sizes={sizes} />
 
           {/* Product Grid */}
           <div className="flex-1">
             {/* Active filter chips */}
-            {(params.search || params.category || params.gender) && (
+            {(params.search || params.category || params.gender || params.colour || params.size) && (
               <div className="flex flex-wrap gap-2 mb-5">
                 {params.search && (
                   <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-bold rounded-full" style={{ fontFamily: "'Poppins', sans-serif" }}>
@@ -115,6 +149,16 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                 {params.gender && (
                   <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-bold rounded-full" style={{ fontFamily: "'Poppins', sans-serif" }}>
                     {params.gender === 'girls' ? 'Girls' : 'Boys'}
+                  </span>
+                )}
+                {params.colour && (
+                  <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-bold rounded-full capitalize" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                    {params.colour}
+                  </span>
+                )}
+                {params.size && (
+                  <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-bold rounded-full" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                    Size: {params.size}
                   </span>
                 )}
               </div>
