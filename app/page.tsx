@@ -78,7 +78,7 @@ export default async function Home() {
             src="/hero-bg.JPG"
             alt="Kids clothing"
             fill
-            className="object-cover object-center"
+            className="object-cover object-center sm:object-top"
             priority
             sizes="100vw"
           />
