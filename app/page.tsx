@@ -40,28 +40,34 @@ async function getCategoryImages(): Promise<Record<string, string[]>> {
   }
 }
 
+const FEATURED_SKUS = [
+  'MOKIDSD043',        // 1. Girls Dress 043
+  'MOKIDSDRESSSHOE001',// 2. Girls Dress Shoe 001
+  'MOKIDSSL007',       // 3. Boys Short Sleeve Shirt 007
+  'MOKIDSLS021',       // 4. Boys Christmas Shirt (latest)
+  'MOKIDSD042',        // 5. Girls Dress 042
+  'MOKIDSDRESSSHOE002',// 6. Girls Dress Shoe 002
+  'MOKIDSLS004',       // 7. Boys Long Sleeve Shirt 004
+  'MOKIDSJP001',       // 8. Girls Jumpsuit 001
+]
+
 async function getFeaturedProducts() {
   try {
     if (!isConfigured()) return []
     const sb = getServiceClient()
 
-    // Two pinned dresses always first
-    const [{ data: pinned1 }, { data: pinned2 }] = await Promise.all([
-      sb.from('products').select('*, inventory(*)').eq('sku', 'MOKIDSD043').eq('is_active', true).single(),
-      sb.from('products').select('*, inventory(*)').eq('sku', 'MOKIDSD042').eq('is_active', true).single(),
-    ])
-
-    // Fill remaining 6 slots with most recent active products (excluding the pinned two)
-    const { data: rest } = await sb
+    const { data } = await sb
       .from('products')
       .select('*, inventory(*)')
+      .in('sku', FEATURED_SKUS)
       .eq('is_active', true)
-      .not('sku', 'in', '("MOKIDSD043","MOKIDSD042")')
-      .order('created_at', { ascending: false })
-      .limit(6)
 
-    const all = [pinned1, pinned2, ...(rest ?? [])].filter(Boolean) as ProductWithInventory[]
-    return all.slice(0, 8).map((p) => ({ product: p, inventory: p.inventory || [] }))
+    // Re-order to match the curated slot order above
+    const bySkU = Object.fromEntries(((data ?? []) as ProductWithInventory[]).map(p => [p.sku, p]))
+    return FEATURED_SKUS
+      .map(sku => bySkU[sku])
+      .filter(Boolean)
+      .map(p => ({ product: p, inventory: p.inventory || [] }))
   } catch {
     return []
   }
