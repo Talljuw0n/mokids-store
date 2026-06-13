@@ -50,7 +50,7 @@ export function NavBar() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products..."
+                placeholder="Search by name, colour or age…"
                 className="w-full pl-4 pr-10 py-2 text-sm border border-gray-200 rounded-full bg-gray-50 focus:outline-none focus:bg-white focus:border-[#F5C000] transition-colors"
                 style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700 }}
               />
@@ -91,7 +91,7 @@ export function NavBar() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products..."
+                placeholder="Search by name, colour or age…"
                 className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-full bg-gray-50 focus:outline-none focus:border-[#F5C000]"
                 style={{ fontFamily: "'Poppins', sans-serif" }}
               />

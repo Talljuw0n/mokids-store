@@ -19,8 +19,6 @@ interface ShopPageProps {
     page?: string
     minPrice?: string
     maxPrice?: string
-    colour?: string
-    size?: string
   }>
 }
 
@@ -39,21 +37,25 @@ async function getProducts(params: Awaited<ShopPageProps['searchParams']>) {
 
     if (params.category) query = query.eq('category', params.category as ProductCategory)
     if (params.gender)   query = query.eq('gender', params.gender as Gender)
-    if (params.search)   query = query.ilike('name', `%${params.search}%`)
-    if (params.colour)   query = query.ilike('colour', params.colour)
     if (params.minPrice) query = query.gte('price', parseInt(params.minPrice))
     if (params.maxPrice) query = query.lte('price', parseInt(params.maxPrice))
 
-    // Size filter: only products that have this size in stock
-    if (params.size) {
-      const { data: sizeRows } = await sb
+    // Smart search: match name, colour, description, or inventory size/age
+    if (params.search) {
+      const term = params.search.replace(/'/g, "''")
+      const { data: sizeMatchRows } = await sb
         .from('inventory')
         .select('product_id')
-        .eq('size', params.size)
-        .gt('quantity', 0)
-      const ids = (sizeRows ?? []).map((r: { product_id: string }) => r.product_id)
-      if (ids.length === 0) return { products: [], count: 0 }
-      query = query.in('id', ids)
+        .ilike('size', `%${term}%`)
+      const sizeMatchIds = (sizeMatchRows ?? []).map((r: { product_id: string }) => r.product_id)
+
+      if (sizeMatchIds.length > 0) {
+        query = query.or(
+          `name.ilike.%${term}%,colour.ilike.%${term}%,description.ilike.%${term}%,id.in.(${sizeMatchIds.join(',')})`
+        )
+      } else {
+        query = query.or(`name.ilike.%${term}%,colour.ilike.%${term}%,description.ilike.%${term}%`)
+      }
     }
 
     if (params.sort === 'price-asc')       query = query.order('price', { ascending: true })
@@ -76,28 +78,9 @@ async function getProducts(params: Awaited<ShopPageProps['searchParams']>) {
   }
 }
 
-async function getFilterOptions() {
-  try {
-    if (!isConfigured()) return { colours: [], sizes: [] }
-    const sb = getServiceClient()
-    const [{ data: colourRows }, { data: sizeRows }] = await Promise.all([
-      sb.from('products').select('colour').eq('is_active', true).not('colour', 'is', null).neq('colour', ''),
-      sb.from('inventory').select('size').gt('quantity', 0),
-    ])
-    const colours = [...new Set((colourRows ?? []).map((r: { colour: string }) => r.colour).filter(Boolean))].sort() as string[]
-    const sizes = [...new Set((sizeRows ?? []).map((r: { size: string }) => r.size).filter(Boolean))].sort() as string[]
-    return { colours, sizes }
-  } catch {
-    return { colours: [], sizes: [] }
-  }
-}
-
 export default async function ShopPage({ searchParams }: ShopPageProps) {
   const params = await searchParams
-  const [{ products, count }, { colours, sizes }] = await Promise.all([
-    getProducts(params),
-    getFilterOptions(),
-  ])
+  const { products, count } = await getProducts(params)
   const totalPages = Math.ceil(count / ITEMS_PER_PAGE)
   const currentPage = parseInt(params.page || '1', 10)
 
@@ -129,12 +112,12 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
         <div className="flex flex-col lg:flex-row gap-8">
 
-          <ShopSidebar params={params} colours={colours} sizes={sizes} />
+          <ShopSidebar params={params} />
 
           {/* Product Grid */}
           <div className="flex-1">
             {/* Active filter chips */}
-            {(params.search || params.category || params.gender || params.colour || params.size) && (
+            {(params.search || params.category || params.gender) && (
               <div className="flex flex-wrap gap-2 mb-5">
                 {params.search && (
                   <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-bold rounded-full" style={{ fontFamily: "'Poppins', sans-serif" }}>
@@ -151,16 +134,6 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                     {params.gender === 'girls' ? 'Girls' : 'Boys'}
                   </span>
                 )}
-                {params.colour && (
-                  <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-bold rounded-full capitalize" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                    {params.colour}
-                  </span>
-                )}
-                {params.size && (
-                  <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-bold rounded-full" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                    Size: {params.size}
-                  </span>
-                )}
               </div>
             )}
 
@@ -168,7 +141,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
               <div className="text-center py-20 bg-gray-50 rounded-2xl">
                 <p className="text-4xl mb-3">🔍</p>
                 <p className="text-xl font-bold text-gray-700" style={{ fontFamily: "'Poppins', sans-serif" }}>No products found</p>
-                <p className="text-gray-400 mt-1 text-sm font-bold" style={{ fontFamily: "'Poppins', sans-serif" }}>Try adjusting your filters</p>
+                <p className="text-gray-400 mt-1 text-sm font-bold" style={{ fontFamily: "'Poppins', sans-serif" }}>Try a different search term or adjust your filters</p>
                 <Link href="/shop" className="inline-block mt-5 px-6 py-2.5 bg-[#F5C000] text-gray-900 font-bold rounded-full shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all" style={{ fontFamily: "'Poppins', sans-serif" }}>
                   Clear All Filters
                 </Link>
@@ -196,10 +169,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                       </Link>
                     )}
                     {Array.from({ length: totalPages }, (_, i) => i + 1)
-                      .filter(p => {
-                        // Always show first, last, current, and ±1 around current
-                        return p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1
-                      })
+                      .filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1)
                       .reduce<(number | '…')[]>((acc, p, idx, arr) => {
                         if (idx > 0 && typeof arr[idx - 1] === 'number' && (p as number) - (arr[idx - 1] as number) > 1) acc.push('…')
                         acc.push(p)

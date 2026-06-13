@@ -11,14 +11,10 @@ interface Params {
   page?: string
   minPrice?: string
   maxPrice?: string
-  colour?: string
-  size?: string
 }
 
 interface ShopSidebarProps {
   params: Params
-  colours?: string[]
-  sizes?: string[]
 }
 
 function buildHref(params: Params, overrides: Record<string, string | undefined>) {
@@ -41,10 +37,10 @@ function FilterSection({ title, children }: { title: string; children: React.Rea
   )
 }
 
-export function ShopSidebar({ params, colours = [], sizes = [] }: ShopSidebarProps) {
+export function ShopSidebar({ params }: ShopSidebarProps) {
   const [open, setOpen] = useState(false)
   const categories = Object.entries(CATEGORY_LABELS)
-  const hasFilters = !!(params.category || params.gender || params.search || params.colour || params.size)
+  const hasFilters = !!(params.category || params.gender || params.search)
 
   const close = () => setOpen(false)
 
@@ -87,42 +83,6 @@ export function ShopSidebar({ params, colours = [], sizes = [] }: ShopSidebarPro
           ))}
         </div>
       </FilterSection>
-
-      {/* Colour */}
-      {colours.length > 0 && (
-        <FilterSection title="Colour">
-          <div className="flex flex-col gap-0.5">
-            <Link href={buildHref(params, { colour: undefined, page: '1' })} onClick={close}
-              className={linkCls(!params.colour)} style={{ fontFamily: "'Poppins', sans-serif" }}>
-              All Colours
-            </Link>
-            {colours.map((c) => (
-              <Link key={c} href={buildHref(params, { colour: c, page: '1' })} onClick={close}
-                className={linkCls(params.colour === c)} style={{ fontFamily: "'Poppins', sans-serif" }}>
-                <span className="capitalize">{c}</span>
-              </Link>
-            ))}
-          </div>
-        </FilterSection>
-      )}
-
-      {/* Size / Age */}
-      {sizes.length > 0 && (
-        <FilterSection title="Size / Age">
-          <div className="flex flex-col gap-0.5">
-            <Link href={buildHref(params, { size: undefined, page: '1' })} onClick={close}
-              className={linkCls(!params.size)} style={{ fontFamily: "'Poppins', sans-serif" }}>
-              All Sizes
-            </Link>
-            {sizes.map((s) => (
-              <Link key={s} href={buildHref(params, { size: s, page: '1' })} onClick={close}
-                className={linkCls(params.size === s)} style={{ fontFamily: "'Poppins', sans-serif" }}>
-                {s}
-              </Link>
-            ))}
-          </div>
-        </FilterSection>
-      )}
 
       {/* Sort */}
       <FilterSection title="Sort By">
