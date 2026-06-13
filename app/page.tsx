@@ -45,22 +45,20 @@ async function getFeaturedProducts() {
     if (!isConfigured()) return []
     const sb = getServiceClient()
 
-    // Pinned first product
-    const { data: pinnedData } = await sb
-      .from('products')
-      .select('*, inventory(*)')
-      .eq('sku', 'MOKIDSD043')
-      .eq('is_active', true)
-      .single()
+    // Fetch the two pinned girls dresses in parallel
+    const [{ data: pinned1 }, { data: pinned2 }] = await Promise.all([
+      sb.from('products').select('*, inventory(*)').eq('sku', 'MOKIDSD043').eq('is_active', true).single(),
+      sb.from('products').select('*, inventory(*)').eq('sku', 'MOKIDSD042').eq('is_active', true).single(),
+    ])
 
-    // One per remaining category — fetch recent 60 and pick first of each
+    // One per remaining category — fetch recent 100 and pick first of each
     const { data: rest } = await sb
       .from('products')
       .select('*, inventory(*)')
       .eq('is_active', true)
       .neq('category', 'girls-dresses')
       .order('created_at', { ascending: false })
-      .limit(60)
+      .limit(100)
 
     const seen = new Set<string>()
     const variety: ProductWithInventory[] = []
@@ -69,10 +67,10 @@ async function getFeaturedProducts() {
         seen.add(p.category)
         variety.push(p)
       }
-      if (variety.length >= 7) break
+      if (variety.length >= 6) break
     }
 
-    const all = [pinnedData, ...variety].filter(Boolean) as ProductWithInventory[]
+    const all = [pinned1, pinned2, ...variety].filter(Boolean) as ProductWithInventory[]
     return all.slice(0, 8).map((p) => ({ product: p, inventory: p.inventory || [] }))
   } catch {
     return []
