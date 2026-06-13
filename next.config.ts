@@ -5,9 +5,8 @@ const nextConfig: NextConfig = {
     turbopackFileSystemCacheForDev: false,
   },
   images: {
-    // Cloudinary already serves optimised, CDN-cached images — skip Next.js
-    // server-side re-optimisation to avoid the 7-8 s timeout errors.
-    unoptimized: true,
+    loader: 'custom',
+    loaderFile: './lib/cloudinary-loader.ts',
     remotePatterns: [
       {
         protocol: 'https',

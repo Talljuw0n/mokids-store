@@ -116,7 +116,7 @@ export default function ProductDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-20">
 
           {/* ── Gallery ── */}
-          <div>
+          <div className="min-w-0">
             {/* Main image — tall and prominent */}
             <div className="relative w-full aspect-[4/5] rounded-3xl overflow-hidden bg-gray-50">
               {product.images.length > 0 ? (
@@ -124,7 +124,7 @@ export default function ProductDetailPage() {
                   src={product.images[activeImage]}
                   alt={product.name}
                   fill
-                  className="object-cover"
+                  className="object-cover object-top"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   priority
                 />
@@ -151,7 +151,7 @@ export default function ProductDetailPage() {
                       idx === activeImage ? 'border-gray-900 opacity-100' : 'border-transparent opacity-60 hover:opacity-100'
                     }`}
                   >
-                    <Image src={img} alt="" width={80} height={80} className="object-cover w-full h-full" />
+                    <Image src={img} alt="" width={80} height={80} className="object-cover object-top w-full h-full" />
                   </button>
                 ))}
               </div>
@@ -159,7 +159,7 @@ export default function ProductDetailPage() {
           </div>
 
           {/* ── Info ── */}
-          <div className="flex flex-col lg:py-2">
+          <div className="flex flex-col lg:py-2 min-w-0">
 
             {/* Pills */}
             <div className="flex flex-wrap gap-2 mb-4">
