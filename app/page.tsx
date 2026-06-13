@@ -44,17 +44,36 @@ async function getFeaturedProducts() {
   try {
     if (!isConfigured()) return []
     const sb = getServiceClient()
-    const { data } = await sb
+
+    // Pinned first product
+    const { data: pinnedData } = await sb
+      .from('products')
+      .select('*, inventory(*)')
+      .eq('sku', 'MOKIDSD043')
+      .eq('is_active', true)
+      .single()
+
+    // One per remaining category — fetch recent 60 and pick first of each
+    const { data: rest } = await sb
       .from('products')
       .select('*, inventory(*)')
       .eq('is_active', true)
+      .neq('category', 'girls-dresses')
       .order('created_at', { ascending: false })
-      .limit(8)
+      .limit(60)
 
-    return ((data ?? []) as ProductWithInventory[]).map((p) => ({
-      product: p,
-      inventory: p.inventory || [],
-    }))
+    const seen = new Set<string>()
+    const variety: ProductWithInventory[] = []
+    for (const p of (rest ?? []) as ProductWithInventory[]) {
+      if (!seen.has(p.category)) {
+        seen.add(p.category)
+        variety.push(p)
+      }
+      if (variety.length >= 7) break
+    }
+
+    const all = [pinnedData, ...variety].filter(Boolean) as ProductWithInventory[]
+    return all.slice(0, 8).map((p) => ({ product: p, inventory: p.inventory || [] }))
   } catch {
     return []
   }
