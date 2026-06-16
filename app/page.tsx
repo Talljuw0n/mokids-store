@@ -203,7 +203,7 @@ export default async function Home() {
               <p className="text-lg font-bold" style={{ fontFamily: "'Poppins', sans-serif" }}>Products coming soon</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 items-stretch">
               {featured.map(({ product, inventory }) => (
                 <ProductCard key={product.id} product={product} inventory={inventory} />
               ))}
