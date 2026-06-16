@@ -33,6 +33,7 @@ export const CATEGORY_LABELS: Record<string, string> = {
   'girls-jumpsuits': 'Girls Jumpsuits',
   'boys-shirts': 'Boys Shirts',
   'boys-polo': 'Boys Polo',
+  'boys-sets': 'Boys 2PCS Sets',
   'boys-pyjamas': 'Boys Pyjamas',
   'boys-shoes': 'Boys Shoes',
   'boys-shorts': 'Boys Shorts',
