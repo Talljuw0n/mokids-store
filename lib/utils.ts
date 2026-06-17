@@ -31,6 +31,9 @@ export const CATEGORY_LABELS: Record<string, string> = {
   'girls-underwear': 'Girls Underwear',
   'girls-shoes': 'Girls Shoes',
   'girls-jumpsuits': 'Girls Jumpsuits',
+  'girls-leggings': 'Girls Leggings',
+  'back-to-school-girls': 'Back to School (Girls)',
+  'girls-baby': 'Girls Baby (0-24m)',
   'boys-shirts': 'Boys Shirts',
   'boys-polo': 'Boys Polo',
   'boys-sets': 'Boys 2PCS Sets',
@@ -38,6 +41,10 @@ export const CATEGORY_LABELS: Record<string, string> = {
   'boys-shoes': 'Boys Shoes',
   'boys-shorts': 'Boys Shorts',
   'boys-trousers': 'Boys Trousers',
+  'back-to-school-boys': 'Back to School (Boys)',
+  'boys-baby': 'Boys Baby (0-24m)',
+  'birthday-tees': 'Birthday Tees',
+  'clearance': 'Clearance Sale',
 }
 
 export const STANDARD_SHIPPING_FEE = 5500

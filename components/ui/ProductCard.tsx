@@ -71,22 +71,6 @@ export function ProductCard({ product, inventory = [] }: ProductCardProps) {
             {product.name}
           </h3>
 
-          {/* Sizes */}
-          <div className="flex flex-wrap gap-1 mt-2 min-h-[20px]">
-            {inventory.map((inv) => (
-              <span
-                key={inv.size}
-                className={`px-1.5 py-0.5 text-[10px] font-bold rounded-md ${
-                  inv.quantity > 0
-                    ? 'bg-gray-100 text-gray-700'
-                    : 'bg-gray-50 text-gray-300 line-through'
-                }`}
-              >
-                {inv.size}
-              </span>
-            ))}
-          </div>
-
           <div className="flex items-center justify-between mt-auto pt-3 gap-2">
             <p className="text-base font-bold text-gray-900" style={{ fontFamily: "'Poppins', sans-serif" }}>
               {product.price > 0 ? formatPrice(product.price) : 'TBD'}

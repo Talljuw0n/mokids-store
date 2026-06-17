@@ -5,6 +5,9 @@ export type ProductCategory =
   | 'girls-underwear'
   | 'girls-shoes'
   | 'girls-jumpsuits'
+  | 'girls-leggings'
+  | 'back-to-school-girls'
+  | 'girls-baby'
   | 'boys-shirts'
   | 'boys-polo'
   | 'boys-sets'
@@ -12,6 +15,10 @@ export type ProductCategory =
   | 'boys-shoes'
   | 'boys-shorts'
   | 'boys-trousers'
+  | 'back-to-school-boys'
+  | 'boys-baby'
+  | 'birthday-tees'
+  | 'clearance'
 
 export type Gender = 'girls' | 'boys' | 'unisex'
 
