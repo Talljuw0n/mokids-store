@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { getServiceClient } from '@/lib/supabase'
+import { isAdminRequest, unauthorized } from '@/lib/auth'
 
 const GIRLS_DRESSES = [
   { sku: 'MokidsD001', name: 'Stunning Turquoise Layered Dress', description: 'A stunning turquoise layered dress that commands attention. Perfect for special occasions.', price: 54999, colour: 'Turquoise', sizes: [{ size: '7 Years', qty: 1 }, { size: '8 Years', qty: 1 }] },
@@ -37,7 +38,8 @@ const GIRLS_DRESSES = [
   { sku: 'MokidsD042', name: 'Yellow Floral Casual Dress', description: 'Bright and cheerful yellow floral casual dress — sunshine in a dress.', price: 8000, colour: 'Yellow', sizes: [{ size: '2T', qty: 1 }, { size: '3T', qty: 1 }, { size: '6 Years', qty: 1 }, { size: '6X', qty: 1 }, { size: '8 Years', qty: 1 }, { size: '10 Years', qty: 1 }] },
 ]
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  if (!isAdminRequest(req)) return unauthorized()
   const sb = getServiceClient()
   if (!sb) return NextResponse.json({ error: 'Supabase not configured' }, { status: 500 })
 

@@ -2,14 +2,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCartStore } from '@/store/cart'
-import { formatPrice, STANDARD_SHIPPING_FEE } from '@/lib/utils'
+import { formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, subtotal } = useCartStore()
   const sub = subtotal()
-  const shippingFee = STANDARD_SHIPPING_FEE
-  const total = sub + shippingFee
 
   if (items.length === 0) {
     return (
@@ -125,11 +123,7 @@ export default function CartPage() {
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
-                  <span className="text-gray-900">{formatPrice(shippingFee)}</span>
-                </div>
-                <div className="border-t border-gray-200 pt-3 flex justify-between text-base">
-                  <span className="text-gray-900 font-bold">Total</span>
-                  <span style={{ fontFamily: "'Poppins', sans-serif", color: '#D9247A', fontSize: '1.1rem' }}>{formatPrice(total)}</span>
+                  <span className="text-gray-400 italic">Calculated at checkout</span>
                 </div>
               </div>
 
