@@ -16,7 +16,7 @@ export function ProductCard({ product, inventory = [] }: ProductCardProps) {
   const addItem = useCartStore((s) => s.addItem)
   const totalStock = inventory.reduce((sum, i) => sum + i.quantity, 0)
   const isOutOfStock = totalStock === 0
-  const slug = productSlug(product.sku, product.name)
+  const slug = `${productSlug(product.sku, product.name)}?g=${product.gender}`
   const mainImage = product.images?.[0]
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -46,7 +46,7 @@ export function ProductCard({ product, inventory = [] }: ProductCardProps) {
               src={mainImage}
               alt={product.name}
               fill
-              className="object-cover object-top group-hover:scale-103 transition-transform duration-300"
+              className="object-contain group-hover:scale-103 transition-transform duration-300"
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
           ) : (

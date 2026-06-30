@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ProductWithInventory, Product } from '@/types'
@@ -27,8 +27,10 @@ const COLOUR_MAP: Record<string, string> = {
 export default function ProductDetailPage() {
   const params = useParams()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const slug = params.slug as string
   const sku = slug.split('-')[0].toUpperCase()
+  const gender = searchParams.get('g')
 
   const [product, setProduct] = useState<ProductWithInventory | null>(null)
   const [related, setRelated] = useState<{ product: Product; inventory: ProductWithInventory['inventory'] }[]>([])
@@ -41,7 +43,8 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     async function load() {
-      const res = await fetch(`/api/products/by-sku/${encodeURIComponent(sku)}`)
+      const url = `/api/products/by-sku/${encodeURIComponent(sku)}${gender ? `?g=${gender}` : ''}`
+      const res = await fetch(url)
       if (!res.ok) { router.push('/shop'); return }
       const json = await res.json()
       if (!json?.product) { router.push('/shop'); return }
@@ -58,7 +61,7 @@ export default function ProductDetailPage() {
       setLoading(false)
     }
     load()
-  }, [sku, router])
+  }, [sku, gender, router])
 
   if (loading) {
     return (
@@ -118,13 +121,13 @@ export default function ProductDetailPage() {
           {/* ── Gallery ── */}
           <div className="min-w-0">
             {/* Main image — tall and prominent */}
-            <div className="relative w-full aspect-[4/5] rounded-3xl overflow-hidden bg-gray-50">
+            <div className="relative w-full aspect-square rounded-3xl overflow-hidden bg-gray-50">
               {product.images.length > 0 ? (
                 <Image
                   src={product.images[activeImage]}
                   alt={product.name}
                   fill
-                  className="object-cover object-top"
+                  className="object-contain"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   priority
                 />
@@ -151,7 +154,7 @@ export default function ProductDetailPage() {
                       idx === activeImage ? 'border-gray-900 opacity-100' : 'border-transparent opacity-60 hover:opacity-100'
                     }`}
                   >
-                    <Image src={img} alt="" width={80} height={80} className="object-cover object-top w-full h-full" />
+                    <Image src={img} alt="" width={80} height={80} className="object-contain w-full h-full" />
                   </button>
                 ))}
               </div>
@@ -270,9 +273,11 @@ export default function ProductDetailPage() {
                 <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2" style={{ fontFamily: "'Poppins', sans-serif" }}>
                   Description
                 </p>
-                <p className="text-sm text-gray-600 leading-relaxed" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700 }}>
-                  {product.description}
-                </p>
+                <div className="text-sm text-gray-600 leading-relaxed" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700 }}>
+                  {product.description.split('\n').map((line, i) => (
+                    <p key={i} className={i > 0 ? 'mt-1' : ''}>{line}</p>
+                  ))}
+                </div>
               </div>
             )}
 

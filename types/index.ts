@@ -6,6 +6,8 @@ export type ProductCategory =
   | 'girls-shoes'
   | 'girls-jumpsuits'
   | 'girls-leggings'
+  | 'girls-shorts'
+  | 'girls-jeans'
   | 'back-to-school-girls'
   | 'girls-baby'
   | 'boys-shirts'

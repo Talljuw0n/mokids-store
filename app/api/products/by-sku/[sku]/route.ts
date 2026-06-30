@@ -1,18 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServiceClient, isConfigured } from '@/lib/supabase'
 
-export async function GET(_req: NextRequest, { params }: { params: Promise<{ sku: string }> }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ sku: string }> }) {
   if (!isConfigured()) return NextResponse.json(null, { status: 503 })
 
   const { sku } = await params
+  const gender = req.nextUrl.searchParams.get('g')
   const sb = getServiceClient()
 
-  let { data: product } = await sb
-    .from('products')
-    .select('*, inventory(*)')
-    .ilike('sku', sku)
-    .single()
+  let query = sb.from('products').select('*, inventory(*)').ilike('sku', sku)
+  if (gender) query = query.eq('gender', gender)
 
+  const { data: rows } = await query
+  const product = rows?.[0] ?? null
   if (!product) return NextResponse.json(null, { status: 404 })
 
   const { data: related } = await sb

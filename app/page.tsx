@@ -4,13 +4,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getServiceClient, isConfigured } from '@/lib/supabase'
 import { ProductCard } from '@/components/ui/ProductCard'
-import { ProductWithInventory } from '@/types'
+import { BackToSchoolSlideshow } from '@/components/ui/BackToSchoolSlideshow'
+import { ProductWithInventory, Product } from '@/types'
 
 const FEATURED_CATEGORIES = [
-  { slug: 'girls-dresses', label: 'Girls Dresses', href: '/shop?category=girls-dresses', fallbackBg: '#fce7f3' },
-  { slug: 'boys-shirts',   label: 'Boys Shirts',   href: '/shop?category=boys-shirts',   fallbackBg: '#e0f2fe' },
-  { slug: 'girls-tops',    label: 'Girls Tops',    href: '/shop?category=girls-tops',    fallbackBg: '#f3e8ff' },
-  { slug: 'boys-pyjamas',  label: 'Boys Pyjamas',  href: '/shop?category=boys-pyjamas',  fallbackBg: '#dcfce7' },
+  { slug: 'girls-dresses',        label: 'Girls Dresses',          href: '/shop?category=girls-dresses',        fallbackBg: '#fce7f3', pinSku: 'MOKIDSD031' },
+  { slug: 'boys-shirts',          label: 'Boys Shirts',            href: '/shop?category=boys-shirts',          fallbackBg: '#e0f2fe' },
+  { slug: 'back-to-school-girls', label: 'Back to School (Girls)', href: '/shop?category=back-to-school-girls', fallbackBg: '#fef9c3', pinSku: 'MOKIDSB014' },
+  { slug: 'back-to-school-boys',  label: 'Back to School (Boys)',  href: '/shop?category=back-to-school-boys',  fallbackBg: '#dbeafe', pinSku: 'MOKIDSB003' },
 ]
 
 
@@ -18,19 +19,31 @@ async function getCategoryImages(): Promise<Record<string, string[]>> {
   try {
     if (!isConfigured()) return {}
     const sb = getServiceClient()
+
+    const pinnedSkus = FEATURED_CATEGORIES.flatMap(c => c.pinSku ? [c.pinSku] : [])
     const allSlugs = FEATURED_CATEGORIES.map(c => c.slug)
-    const { data } = await sb
-      .from('products')
-      .select('category, images')
-      .eq('is_active', true)
-      .in('category', allSlugs)
-      .not('images', 'is', null)
+
+    const [{ data: catData }, { data: pinnedData }] = await Promise.all([
+      sb.from('products').select('category, images').eq('is_active', true).in('category', allSlugs).not('images', 'is', null),
+      pinnedSkus.length
+        ? sb.from('products').select('sku, images').in('sku', pinnedSkus)
+        : Promise.resolve({ data: [] }),
+    ])
+
+    const pinnedBySkU: Record<string, string> = {}
+    for (const row of (pinnedData ?? [])) {
+      if (row.images?.[0]) pinnedBySkU[row.sku.toUpperCase()] = row.images[0]
+    }
 
     const result: Record<string, string[]> = {}
-    for (const row of (data ?? [])) {
+    for (const cat of FEATURED_CATEGORIES) {
+      if (cat.pinSku && pinnedBySkU[cat.pinSku]) {
+        result[cat.slug] = [pinnedBySkU[cat.pinSku]]
+      }
+    }
+    for (const row of (catData ?? [])) {
       if (row.images?.[0]) {
         if (!result[row.category]) result[row.category] = []
-        // collect up to 3 images per category
         if (result[row.category].length < 3) result[row.category].push(row.images[0])
       }
     }
@@ -40,15 +53,46 @@ async function getCategoryImages(): Promise<Record<string, string[]>> {
   }
 }
 
-const FEATURED_SKUS = [
-  'MOKIDSD043',        // 1. Girls Dress 043
-  'MOKIDSDRESSSHOE001',// 2. Girls Dress Shoe 001
-  'MOKIDSSL007',       // 3. Boys Short Sleeve Shirt 007
-  'MOKIDSLS021',       // 4. Boys Christmas Shirt (latest)
-  'MOKIDSD042',        // 5. Girls Dress 042
-  'MOKIDSDRESSSHOE002',// 6. Girls Dress Shoe 002
-  'MOKIDSLS004',       // 7. Boys Long Sleeve Shirt 004
-  'MOKIDSJP001',       // 8. Girls Jumpsuit 001
+const HERO_SLIDES = [
+  { sku: 'MOKIDSB001',         gender: 'boys',  heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782824907/mokids/hero/MOKIDSB001-boys.png' },
+  { sku: 'MOKIDSB003',         gender: 'boys',  heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782824916/mokids/hero/MOKIDSB003-boys.png' },
+  { sku: 'MOKIDSB004',         gender: 'boys',  heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782824935/mokids/hero/MOKIDSB004-boys.png' },
+  { sku: 'MOKIDSB005',         gender: 'boys',  heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782824946/mokids/hero/MOKIDSB005-boys.png' },
+  { sku: 'MOKIDSSC004',        gender: 'boys',  heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782824957/mokids/hero/MOKIDSSC004-boys.png' },
+  { sku: 'MOKIDSB014',         gender: 'girls', heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782824976/mokids/hero/MOKIDSB014-girls.png' },
+  { sku: 'MOKIDSB015',         gender: 'girls', heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782825006/mokids/hero/MOKIDSB015-girls.png' },
+  { sku: 'MOKIDSDRESSSHOE005', gender: 'girls', heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782825027/mokids/hero/MOKIDSDRESSSHOE005-girls.png' },
+  { sku: 'MOKIDSDRESSSHOE010', gender: 'girls', heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782825042/mokids/hero/MOKIDSDRESSSHOE010-girls.png' },
+  { sku: 'MOKIDSSC011',        gender: 'girls', heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782825066/mokids/hero/MOKIDSSC011-girls.png' },
+]
+
+async function getHeroSlides() {
+  try {
+    if (!isConfigured()) return []
+    const sb = getServiceClient()
+    const skus = HERO_SLIDES.map(s => s.sku)
+    const { data } = await sb.from('products').select('*').in('sku', skus).eq('is_active', true)
+    const byKey = Object.fromEntries(((data ?? []) as Product[]).map(p => [`${p.sku}|${p.gender}`, p]))
+    return HERO_SLIDES
+      .map(s => {
+        const product = byKey[`${s.sku}|${s.gender}`]
+        return product ? { product, heroImage: s.heroImage } : null
+      })
+      .filter(Boolean) as { product: Product; heroImage: string }[]
+  } catch {
+    return []
+  }
+}
+
+const FEATURED_ITEMS: { sku: string; gender?: string }[] = [
+  { sku: 'MOKIDSD043' },
+  { sku: 'MOKIDSDRESSSHOE018' },
+  { sku: 'MOKIDSSL011' },
+  { sku: 'MOKIDSP003' },
+  { sku: 'MOKIDSD042' },
+  { sku: 'MOKIDSSC004', gender: 'boys' },
+  { sku: 'MOKIDSLS004' },
+  { sku: 'MOKIDSSH006' },
 ]
 
 async function getFeaturedProducts() {
@@ -56,27 +100,39 @@ async function getFeaturedProducts() {
     if (!isConfigured()) return []
     const sb = getServiceClient()
 
+    const skus = FEATURED_ITEMS.map(i => i.sku)
     const { data } = await sb
       .from('products')
       .select('*, inventory(*)')
-      .in('sku', FEATURED_SKUS)
+      .in('sku', skus)
       .eq('is_active', true)
 
-    // Re-order to match the curated slot order above
-    const bySkU = Object.fromEntries(((data ?? []) as ProductWithInventory[]).map(p => [p.sku, p]))
-    return FEATURED_SKUS
-      .map(sku => bySkU[sku])
-      .filter(Boolean)
-      .map(p => ({ product: p, inventory: p.inventory || [] }))
+    // Build lookup keyed by "sku" or "sku|gender" for gender-specific slots
+    const byKey = Object.fromEntries(
+      ((data ?? []) as ProductWithInventory[]).map(p => [`${p.sku}|${p.gender}`, p])
+    )
+    const bySku = Object.fromEntries(
+      ((data ?? []) as ProductWithInventory[]).map(p => [p.sku, p])
+    )
+
+    return FEATURED_ITEMS
+      .map(item => {
+        const p = item.gender
+          ? byKey[`${item.sku}|${item.gender}`]
+          : bySku[item.sku]
+        return p ? { product: p, inventory: p.inventory || [] } : null
+      })
+      .filter(Boolean) as { product: ProductWithInventory; inventory: ProductWithInventory['inventory'] }[]
   } catch {
     return []
   }
 }
 
 export default async function Home() {
-  const [featured, categoryImages] = await Promise.all([
+  const [featured, categoryImages, heroSlides] = await Promise.all([
     getFeaturedProducts(),
     getCategoryImages(),
+    getHeroSlides(),
   ])
 
 
@@ -138,6 +194,11 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* Back to School Slideshow */}
+      {heroSlides.length > 0 && (
+        <BackToSchoolSlideshow slides={heroSlides} />
+      )}
 
       {/* Category Grid — product images */}
       <section className="max-w-7xl mx-auto px-4 py-14">

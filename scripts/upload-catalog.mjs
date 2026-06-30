@@ -1,22 +1,22 @@
 /**
  * Bulk upload product images to Cloudinary and upsert products in Supabase.
- * Run: node scripts/upload-catalog.mjs
+ * Run from project root: node --use-system-ca scripts/upload-catalog.mjs
  *
- * Scans C:\Users\Superuser\Downloads\mokids-images for SKU-named folders,
- * uploads all images inside each to Cloudinary, then upserts the product
- * in Supabase with the resulting image URLs.
+ * Scans BOYS_NEW/BOYS and GIRLS_NEW/GIRLS for SKU-named folders,
+ * uploads all images to Cloudinary, then upserts the product in Supabase.
+ * Existing products (matched by SKU + gender) get new images merged in.
+ * New products are created as inactive (price = 0) until set in admin.
  */
 
-// Required on this machine due to corporate SSL certificate
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 import { readFileSync, readdirSync, statSync } from 'fs'
-import { join, extname, basename, dirname } from 'path'
+import { join, extname, basename } from 'path'
 import { createClient } from '@supabase/supabase-js'
 import { v2 as cloudinary } from 'cloudinary'
 
 // ── Load .env.local ─────────────────────────────────────────────────────────
-const envFile = readFileSync('C:/Users/Superuser/Momo/mokids-store/.env.local', 'utf8')
+const envFile = readFileSync('C:/Users/Superuser/mokids-store/.env.local', 'utf8')
 const env = Object.fromEntries(
   envFile.split('\n')
     .filter(l => l && !l.startsWith('#') && l.includes('='))
@@ -34,54 +34,104 @@ const supabase = createClient(
   env.SUPABASE_SERVICE_ROLE_KEY
 )
 
-const IMAGES_ROOT = 'C:/Users/Superuser/Downloads/mokids-images'
-const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif'])
+// Scan both new catalog folders
+const ROOTS = [
+  'C:/Users/Superuser/Downloads/BOYS_NEW2/BOYS',
+  'C:/Users/Superuser/Downloads/GIRLS_NEW2/GIRLS',
+]
+
+const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif', '.heic', '.heif'])
+
+// ── SKU normalisation ────────────────────────────────────────────────────────
+function normaliseSku(folderName) {
+  // Strip parenthesised suffixes like (1), remove spaces, then uppercase
+  let sku = folderName.replace(/\([^)]*\)/g, '').trim().replace(/\s+/g, '').toUpperCase()
+  // Fix known mis-spellings in folder names
+  sku = sku.replace(/^MOKIDBSET/, 'MOKIDSBSET')   // MOKIDBSET → MOKIDSBSET
+  return sku
+}
 
 // ── Category / gender inference from path ───────────────────────────────────
 function inferMeta(folderPath) {
   const p = folderPath.toLowerCase().replace(/\\/g, '/')
-  const gender = p.includes('/boys/') ? 'boys' : 'girls'
+  const gender = p.includes('/boys/') || p.includes('/boys_new/') ? 'boys' : 'girls'
 
-  if (p.includes('/dresses/'))               return { gender: 'girls', category: 'girls-dresses' }
-  if (p.includes('/graphic tees/birthday'))  return { gender, category: 'girls-graphic-tees' }
-  if (p.includes('/graphic tees/') && gender === 'girls') return { gender: 'girls', category: 'girls-graphic-tees' }
-  if (p.includes('/graphic tees/') && gender === 'boys')  return { gender: 'boys',  category: 'boys-graphic-tees' }
-  if (p.includes('/jumpsuit/'))              return { gender: 'girls', category: 'girls-jumpsuits' }
-  if (p.includes('/tops/'))                  return { gender: 'girls', category: 'girls-tops' }
-  if (p.includes('/shoes/') || p.includes('/sandals/')) return { gender, category: `${gender}-shoes` }
-  if (p.includes('/shirt/long sleeves/'))    return { gender: 'boys',  category: 'boys-shirts' }
-  if (p.includes('/shirt/short sleeves/'))   return { gender: 'boys',  category: 'boys-shirts' }
-  if (p.includes('/pajamas') || p.includes('/night gowns')) return { gender, category: `${gender}-pyjamas` }
-  if (p.includes('/polo/'))                  return { gender: 'boys',  category: 'boys-polo' }
-  if (p.includes('/shorts/'))                return { gender, category: `${gender}-shorts` }
-  if (p.includes('/trousers/'))              return { gender: 'boys',  category: 'boys-trousers' }
-  if (p.includes('/legging'))                return { gender: 'girls', category: 'girls-leggings' }
-  if (p.includes('/skirts'))                 return { gender: 'girls', category: 'girls-skirts' }
-  if (p.includes('/underwear'))              return { gender, category: `${gender}-underwear` }
-  if (p.includes('/jeans') || p.includes('/chinos')) return { gender, category: `${gender}-jeans` }
-  if (p.includes('/jacket'))                 return { gender: 'girls', category: 'girls-jackets' }
+  // Birthday tees — must come before general graphic-tees check
+  if (p.includes('/birthday tees/'))   return { gender, category: 'birthday-tees' }
+
+  // Girls clothing
+  if (p.includes('/dresses/'))         return { gender: 'girls', category: 'girls-dresses' }
+  if (p.includes('/jumpsuit/'))        return { gender: 'girls', category: 'girls-jumpsuits' }
+  if (p.includes('/legging'))          return { gender: 'girls', category: 'girls-leggings' }
+  if (p.includes('/tops/'))            return { gender: 'girls', category: 'girls-tops' }
+  if (p.includes('/underwear'))        return { gender, category: `${gender}-underwear` }
+  if (p.includes('/pajamas') || p.includes('/night gown') || p.includes('/2-piece set'))
+                                       return { gender, category: `${gender}-pyjamas` }
+
+  // Graphic tees (after birthday check)
+  if (p.includes('/graphic tees/'))    return { gender, category: gender === 'boys' ? 'boys-shirts' : 'girls-graphic-tees' }
+
+  // Boys clothing
+  if (p.includes('/shirt/'))           return { gender: 'boys', category: 'boys-shirts' }
+  if (p.includes('/polo/'))            return { gender: 'boys', category: 'boys-polo' }
+  if (p.includes('/2pcs set/'))        return { gender: 'boys', category: 'boys-sets' }
+  if (p.includes('/trousers/'))        return { gender: 'boys', category: 'boys-trousers' }
+
+  // Shorts (girls or boys depending on path gender)
+  if (p.includes('/shorts/'))          return { gender, category: `${gender}-shorts` }
+
+  // Jeans & chinos — girls only (boys jeans are in /trousers/ or /shorts/)
+  if (p.includes('/jeans') || p.includes('/chinos'))
+                                       return { gender: 'girls', category: 'girls-jeans' }
+
+  // Shoes — all types map to shoes category
+  if (p.includes('/dress shoe/') || p.includes('/sandals/') || p.includes('/school shoe') ||
+      p.includes('/sneakers') || p.includes('/slippers') || p.includes('/slides') ||
+      p.includes('/outing') || p.includes('/casual') || p.includes('/shoes/'))
+                                       return { gender, category: `${gender}-shoes` }
+
+  // Backpacks → back-to-school (no leading-slash check — folder names have spaces before "backpack")
+  if (p.includes('backpack') || p.includes('trolley') || p.includes('school bag'))
+                                       return { gender, category: gender === 'boys' ? 'back-to-school-boys' : 'back-to-school-girls' }
 
   return { gender, category: `${gender}-misc` }
 }
 
 // ── Human-readable name from SKU ─────────────────────────────────────────────
 function skuToName(sku, category) {
-  const num = sku.match(/\d+/)?.[0] || '000'
+  const num = sku.match(/\d+$/)?.[0] || sku.match(/\d+/)?.[0] || '000'
   const n = parseInt(num, 10).toString().padStart(3, '0')
+  const u = sku.toUpperCase()
+
   const map = {
-    'girls-dresses': `Girls Dress ${n}`,
-    'girls-graphic-tees': sku.toUpperCase().includes('BD') ? `Birthday Tee ${n}` : `Girls Graphic Tee ${n}`,
-    'girls-jumpsuits': `Girls Jumpsuit ${n}`,
-    'girls-tops': `Girls Top ${n}`,
-    'girls-shoes': `Girls Shoes ${n}`,
-    'girls-pyjamas': `Girls Pyjamas ${n}`,
-    'boys-shirts': sku.toUpperCase().includes('LS') ? `Boys Long Sleeve Shirt ${n}` : `Boys Short Sleeve Shirt ${n}`,
-    'boys-polo': `Boys Polo ${n}`,
-    'boys-pyjamas': `Boys Pyjamas ${n}`,
-    'boys-shoes': `Boys Shoes ${n}`,
-    'boys-shorts': `Boys Shorts ${n}`,
-    'boys-trousers': `Boys Trousers ${n}`,
-    'boys-graphic-tees': `Boys Graphic Tee ${n}`,
+    'girls-dresses':      `Girls Dress ${n}`,
+    'girls-graphic-tees': u.includes('BD') ? `Girls Birthday Tee ${n}` : `Girls Graphic Tee ${n}`,
+    'birthday-tees':      u.includes('BD') ? `Girls Birthday Tee ${n}` : `Boys Birthday Tee ${n}`,
+    'girls-jumpsuits':    `Girls Jumpsuit ${n}`,
+    'girls-leggings':     `Girls Leggings ${n}`,
+    'girls-shorts':       `Girls Shorts ${n}`,
+    'girls-jeans':        `Girls Jeans ${n}`,
+    'back-to-school-girls': `Girls School Bag ${n}`,
+    'girls-tops':         u.includes('MOKIDLS') ? `Girls Long Sleeve Top ${n}` :
+                          u.includes('MOKIDSSL') ? `Girls Short Sleeve Top ${n}` :
+                          u.includes('MOKIDSTC') ? `Girls Camisole ${n}` :
+                          u.includes('MOKIDSSS') ? `Girls Sweatshirt ${n}` :
+                          `Girls Top ${n}`,
+    'girls-shoes':        u.includes('DRESSSHOE') ? `Girls Dress Shoe ${n}` :
+                          u.includes('SANDALS')   ? `Girls Sandals ${n}` :
+                          u.includes('SC')        ? `Girls School Shoe ${n}` :
+                          `Girls Shoes ${n}`,
+    'girls-underwear':    `Girls Underwear ${n}`,
+    'girls-pyjamas':      `Girls Pyjamas ${n}`,
+    'boys-shirts':        u.includes('LS') ? `Boys Long Sleeve Shirt ${n}` : `Boys Short Sleeve Shirt ${n}`,
+    'boys-polo':          `Boys Polo ${n}`,
+    'boys-sets':          `Boys 2PCS Set ${n}`,
+    'boys-pyjamas':       `Boys Pyjamas ${n}`,
+    'boys-shoes':         u.includes('SC') ? `Boys School Shoe ${n}` : `Boys Shoes ${n}`,
+    'boys-shorts':        `Boys Shorts ${n}`,
+    'boys-trousers':      `Boys Trousers ${n}`,
+    'back-to-school-boys': `Boys School Bag ${n}`,
+    'boys-underwear':     `Boys Underwear ${n}`,
   }
   return map[category] || `${sku} Product`
 }
@@ -91,12 +141,11 @@ function findSkuFolders(dir, results = []) {
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry)
     if (statSync(full).isDirectory()) {
-      // SKU folder names start with "Mokids" (case-insensitive)
-      if (/^mokids/i.test(entry)) {
+      if (/^mokids?/i.test(entry)) {
         results.push(full)
-      } else {
-        findSkuFolders(full, results)
       }
+      // Always recurse — Mokids folders may contain nested SKU sub-folders
+      findSkuFolders(full, results)
     }
   }
   return results
@@ -114,26 +163,29 @@ async function uploadImage(filePath, sku) {
 }
 
 // ── Main ─────────────────────────────────────────────────────────────────────
-const skuFolders = findSkuFolders(IMAGES_ROOT)
-console.log(`Found ${skuFolders.length} SKU folders\n`)
+const skuFolders = []
+for (const root of ROOTS) {
+  findSkuFolders(root, skuFolders)
+}
+console.log(`Found ${skuFolders.length} SKU folders across both catalogs\n`)
 
-let seeded = 0, updated = 0, errors = 0
+let seeded = 0, updated = 0, skipped = 0, errors = 0
 
 for (const folder of skuFolders) {
-  const sku = basename(folder).toUpperCase()
+  const sku = normaliseSku(basename(folder))
   const { gender, category } = inferMeta(folder)
 
-  // Collect image files (skip thumbs/hidden files)
   const files = readdirSync(folder)
     .filter(f => IMAGE_EXTS.has(extname(f).toLowerCase()) && !f.startsWith('.'))
     .map(f => join(folder, f))
 
   if (files.length === 0) {
     console.log(`  ⚠ ${sku} — no images, skipping`)
+    skipped++
     continue
   }
 
-  process.stdout.write(`  ${sku} (${category}) — uploading ${files.length} image(s)...`)
+  process.stdout.write(`  ${sku} (${gender}/${category}) — uploading ${files.length} image(s)...`)
 
   try {
     const urls = []
@@ -142,15 +194,15 @@ for (const folder of skuFolders) {
       urls.push(url)
     }
 
-    // Check if product exists
+    // Look up by SKU + gender to avoid conflicts where same SKU exists for boys and girls
     const { data: existing } = await supabase
       .from('products')
       .select('id, images')
       .ilike('sku', sku)
-      .single()
+      .eq('gender', gender)
+      .maybeSingle()
 
     if (existing) {
-      // Merge new URLs with existing (dedup)
       const merged = [...new Set([...(existing.images || []), ...urls])]
       await supabase.from('products').update({ images: merged }).eq('id', existing.id)
       console.log(` updated (${merged.length} images total)`)
@@ -166,10 +218,10 @@ for (const folder of skuFolders) {
         gender,
         colour: '',
         images: urls,
-        is_active: false, // inactive until price is set
+        is_active: false,
       })
       if (error) throw error
-      console.log(` created "${name}" (inactive, set price in admin)`)
+      console.log(` created "${name}" (inactive)`)
       seeded++
     }
   } catch (err) {
@@ -178,4 +230,4 @@ for (const folder of skuFolders) {
   }
 }
 
-console.log(`\nDone. Created: ${seeded}  Updated: ${updated}  Errors: ${errors}`)
+console.log(`\nDone. Created: ${seeded}  Updated: ${updated}  Skipped (no images): ${skipped}  Errors: ${errors}`)
