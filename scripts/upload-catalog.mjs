@@ -2,9 +2,14 @@
  * Bulk upload product images to Cloudinary and upsert products in Supabase.
  * Run from project root: node --use-system-ca scripts/upload-catalog.mjs
  *
- * Scans BOYS_NEW/BOYS and GIRLS_NEW/GIRLS for SKU-named folders,
- * uploads all images to Cloudinary, then upserts the product in Supabase.
- * Existing products (matched by SKU + gender) get new images merged in.
+ * Scans the folders in ROOTS for SKU-named folders, uploads all images to
+ * Cloudinary, then upserts the product in Supabase.
+ * Existing products (matched by SKU + gender) have their images REPLACED —
+ * not merged — since every run generates fresh Cloudinary URLs even for
+ * files uploaded before; merging would silently pile up duplicates.
+ * Folders that normalise to the same SKU (e.g. Drive-sync copies named
+ * "MokidsD001" and "MokidsD001(1)") are combined and deduped by file content
+ * before upload, so identical photos are never uploaded twice.
  * New products are created as inactive (price = 0) until set in admin.
  */
 
@@ -12,6 +17,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 import { readFileSync, readdirSync, statSync } from 'fs'
 import { join, extname, basename } from 'path'
+import { createHash } from 'crypto'
 import { createClient } from '@supabase/supabase-js'
 import { v2 as cloudinary } from 'cloudinary'
 
@@ -36,8 +42,8 @@ const supabase = createClient(
 
 // Scan both new catalog folders
 const ROOTS = [
-  'C:/Users/Superuser/Downloads/BOYS_NEW2/BOYS',
-  'C:/Users/Superuser/Downloads/GIRLS_NEW2/GIRLS',
+  'C:/Users/Superuser/Downloads/BOYS_JUL7/BOYS',
+  'C:/Users/Superuser/Downloads/GIRLS_JUL7/GIRLS',
 ]
 
 const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif', '.heic', '.heif'])
@@ -169,15 +175,26 @@ for (const root of ROOTS) {
 }
 console.log(`Found ${skuFolders.length} SKU folders across both catalogs\n`)
 
-let seeded = 0, updated = 0, skipped = 0, errors = 0
-
+// Group folders by normalised SKU + gender — combines Drive-sync duplicate
+// folders (e.g. "MokidsD001" and "MokidsD001(1)") into a single product
+const groups = new Map()
 for (const folder of skuFolders) {
   const sku = normaliseSku(basename(folder))
   const { gender, category } = inferMeta(folder)
+  const key = `${sku}|${gender}`
+  if (!groups.has(key)) groups.set(key, { sku, gender, category, folders: [] })
+  groups.get(key).folders.push(folder)
+}
+console.log(`Grouped into ${groups.size} unique SKU/gender product(s)\n`)
 
-  const files = readdirSync(folder)
-    .filter(f => IMAGE_EXTS.has(extname(f).toLowerCase()) && !f.startsWith('.'))
-    .map(f => join(folder, f))
+let seeded = 0, updated = 0, skipped = 0, errors = 0
+
+for (const { sku, gender, category, folders } of groups.values()) {
+  const files = folders.flatMap(folder =>
+    readdirSync(folder)
+      .filter(f => IMAGE_EXTS.has(extname(f).toLowerCase()) && !f.startsWith('.'))
+      .map(f => join(folder, f))
+  )
 
   if (files.length === 0) {
     console.log(`  ⚠ ${sku} — no images, skipping`)
@@ -185,11 +202,22 @@ for (const folder of skuFolders) {
     continue
   }
 
-  process.stdout.write(`  ${sku} (${gender}/${category}) — uploading ${files.length} image(s)...`)
+  // Dedupe identical photos by content hash (catches Drive-sync duplicate folders)
+  const seenHashes = new Set()
+  const uniqueFiles = []
+  for (const file of files) {
+    const hash = createHash('md5').update(readFileSync(file)).digest('hex')
+    if (seenHashes.has(hash)) continue
+    seenHashes.add(hash)
+    uniqueFiles.push(file)
+  }
+  const dupNote = uniqueFiles.length < files.length ? ` (${files.length - uniqueFiles.length} dup skipped)` : ''
+
+  process.stdout.write(`  ${sku} (${gender}/${category}) — uploading ${uniqueFiles.length} image(s)${dupNote}...`)
 
   try {
     const urls = []
-    for (const file of files) {
+    for (const file of uniqueFiles) {
       const url = await uploadImage(file, sku)
       urls.push(url)
     }
@@ -197,15 +225,15 @@ for (const folder of skuFolders) {
     // Look up by SKU + gender to avoid conflicts where same SKU exists for boys and girls
     const { data: existing } = await supabase
       .from('products')
-      .select('id, images')
+      .select('id')
       .ilike('sku', sku)
       .eq('gender', gender)
       .maybeSingle()
 
     if (existing) {
-      const merged = [...new Set([...(existing.images || []), ...urls])]
-      await supabase.from('products').update({ images: merged }).eq('id', existing.id)
-      console.log(` updated (${merged.length} images total)`)
+      // Replace, not merge — this run's URLs are the full current photo set for this SKU
+      await supabase.from('products').update({ images: urls }).eq('id', existing.id)
+      console.log(` updated (${urls.length} images total)`)
       updated++
     } else {
       const name = skuToName(sku, category)

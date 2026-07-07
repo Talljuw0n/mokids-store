@@ -4,8 +4,43 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getServiceClient, isConfigured } from '@/lib/supabase'
 import { ProductCard } from '@/components/ui/ProductCard'
-import { BackToSchoolSlideshow } from '@/components/ui/BackToSchoolSlideshow'
-import { ProductWithInventory, Product } from '@/types'
+import { HeroSlideshow } from '@/components/ui/HeroSlideshow'
+import { ProductWithInventory } from '@/types'
+
+const HERO_SLIDES = [
+  {
+    image: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1783441283/mokids/hero/hero-bg-1.jpg',
+    alt: 'Kids at school with backpacks',
+    headline: ['Back to', 'School 2026'],
+    subtitle: "Everything your kids need for the new term — backpacks, shoes, uniforms and more.",
+    ctaHref: '/shop',
+    ctaLabel: 'Shop Now',
+    ctaHref2: '/shop',
+    ctaLabel2: 'View all',
+  },
+  {
+    image: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1783441284/mokids/hero/hero-bg-2.jpg',
+    alt: 'Girl walking in school hallway',
+    headline: ['Style Meets', 'School'],
+    subtitle: "Bold backpacks and chic shoes — every girl deserves to walk into school with confidence.",
+    ctaHref: '/shop?category=back-to-school-girls',
+    ctaLabel: 'Shop Girls',
+    ctaHref2: '/shop',
+    ctaLabel2: 'View all',
+    imagePosition: '60% 15%',
+  },
+  {
+    image: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1783441286/mokids/hero/hero-bg-3.jpg',
+    alt: 'Boy walking in school hallway',
+    headline: ['Gear Up for', 'the New Term'],
+    subtitle: "Tough backpacks, sharp shoes and cool sets — built for boys who mean business.",
+    ctaHref: '/shop?category=back-to-school-boys',
+    ctaLabel: 'Shop Boys',
+    ctaHref2: '/shop',
+    ctaLabel2: 'View all',
+    imagePosition: '60% 15%',
+  },
+]
 
 const FEATURED_CATEGORIES = [
   { slug: 'girls-dresses',        label: 'Girls Dresses',          href: '/shop?category=girls-dresses',        fallbackBg: '#fce7f3', pinSku: 'MOKIDSD031' },
@@ -53,36 +88,6 @@ async function getCategoryImages(): Promise<Record<string, string[]>> {
   }
 }
 
-const HERO_SLIDES = [
-  { sku: 'MOKIDSB001',         gender: 'boys',  heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782824907/mokids/hero/MOKIDSB001-boys.png' },
-  { sku: 'MOKIDSB003',         gender: 'boys',  heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782824916/mokids/hero/MOKIDSB003-boys.png' },
-  { sku: 'MOKIDSB004',         gender: 'boys',  heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782824935/mokids/hero/MOKIDSB004-boys.png' },
-  { sku: 'MOKIDSB005',         gender: 'boys',  heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782824946/mokids/hero/MOKIDSB005-boys.png' },
-  { sku: 'MOKIDSSC004',        gender: 'boys',  heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782824957/mokids/hero/MOKIDSSC004-boys.png' },
-  { sku: 'MOKIDSB014',         gender: 'girls', heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782824976/mokids/hero/MOKIDSB014-girls.png' },
-  { sku: 'MOKIDSB015',         gender: 'girls', heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782825006/mokids/hero/MOKIDSB015-girls.png' },
-  { sku: 'MOKIDSDRESSSHOE005', gender: 'girls', heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782825027/mokids/hero/MOKIDSDRESSSHOE005-girls.png' },
-  { sku: 'MOKIDSDRESSSHOE010', gender: 'girls', heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782825042/mokids/hero/MOKIDSDRESSSHOE010-girls.png' },
-  { sku: 'MOKIDSSC011',        gender: 'girls', heroImage: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1782825066/mokids/hero/MOKIDSSC011-girls.png' },
-]
-
-async function getHeroSlides() {
-  try {
-    if (!isConfigured()) return []
-    const sb = getServiceClient()
-    const skus = HERO_SLIDES.map(s => s.sku)
-    const { data } = await sb.from('products').select('*').in('sku', skus).eq('is_active', true)
-    const byKey = Object.fromEntries(((data ?? []) as Product[]).map(p => [`${p.sku}|${p.gender}`, p]))
-    return HERO_SLIDES
-      .map(s => {
-        const product = byKey[`${s.sku}|${s.gender}`]
-        return product ? { product, heroImage: s.heroImage } : null
-      })
-      .filter(Boolean) as { product: Product; heroImage: string }[]
-  } catch {
-    return []
-  }
-}
 
 const FEATURED_ITEMS: { sku: string; gender?: string }[] = [
   { sku: 'MOKIDSD043' },
@@ -129,76 +134,23 @@ async function getFeaturedProducts() {
 }
 
 export default async function Home() {
-  const [featured, categoryImages, heroSlides] = await Promise.all([
+  const [featured, categoryImages] = await Promise.all([
     getFeaturedProducts(),
     getCategoryImages(),
-    getHeroSlides(),
   ])
 
 
   return (
     <div className="bg-white">
 
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        {/* Container: natural aspect ratio on mobile, fixed height on desktop */}
-        <div className="relative aspect-[3/4] sm:aspect-auto sm:min-h-[600px]">
-          <Image
-            src="/hero-bg.JPG"
-            alt="Kids clothing"
-            fill
-            className="object-cover object-center sm:object-top"
-            priority
-            sizes="100vw"
-          />
+      {/* Announcement bar */}
+      <div className="w-full py-2.5 text-center text-sm font-bold text-white" style={{ background: '#D9247A', fontFamily: "'Poppins', sans-serif", letterSpacing: '0.05em' }}>
+        Ships Nationwide!
+      </div>
 
-          {/* Gradient: bottom-up on mobile (text sits at bottom), left-right on desktop */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 sm:bg-gradient-to-r sm:from-black/55 sm:via-black/25 sm:to-transparent" />
+      {/* Hero slideshow */}
+      <HeroSlideshow slides={HERO_SLIDES} />
 
-          {/* Content: bottom of image on mobile, vertically centred on desktop */}
-          <div className="absolute inset-0 flex items-end sm:items-center">
-            <div className="max-w-7xl mx-auto px-5 sm:px-6 pb-8 sm:pb-0 sm:py-20 w-full">
-              <div className="max-w-lg">
-                <span
-                  className="inline-block px-3 py-1 bg-[#E55A1C] text-white text-xs font-bold rounded-full mb-4"
-                  style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 800 }}
-                >
-                  Ships Nationwide
-                </span>
-                <h1 className="text-4xl sm:text-5xl md:text-6xl leading-tight mb-3 text-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                  Dress Them<br />
-                  <span style={{ color: '#F5C000' }}>in Pure</span>{' '}
-                  <span style={{ color: '#f87171' }}>Joy</span>
-                </h1>
-                <p className="text-sm sm:text-base text-white/80 mb-6 max-w-md leading-relaxed" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700 }}>
-                  Premium children&apos;s clothing for Nigerian kids. Bold styles, vibrant colours, and quality that lasts.
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  <Link
-                    href="/shop"
-                    className="px-7 py-3 text-white font-bold rounded-full shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all inline-block"
-                    style={{ fontFamily: "'Poppins', sans-serif", fontSize: '1rem', backgroundColor: '#D9247A' }}
-                  >
-                    Shop Now
-                  </Link>
-                  <Link
-                    href="/shop?gender=girls"
-                    className="px-7 py-3 bg-white text-gray-900 font-bold rounded-full shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all inline-block"
-                    style={{ fontFamily: "'Poppins', sans-serif", fontSize: '1rem' }}
-                  >
-                    View Girls
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Back to School Slideshow */}
-      {heroSlides.length > 0 && (
-        <BackToSchoolSlideshow slides={heroSlides} />
-      )}
 
       {/* Category Grid — product images */}
       <section className="max-w-7xl mx-auto px-4 py-14">
