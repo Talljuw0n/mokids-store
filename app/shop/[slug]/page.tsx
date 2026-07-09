@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ProductWithInventory, Product } from '@/types'
+import { ProductWithInventory, Product, ProductVariant } from '@/types'
 import { formatPrice, CATEGORY_LABELS } from '@/lib/utils'
 import { SizeSelector } from '@/components/ui/SizeSelector'
 import { Button } from '@/components/ui/Button'
@@ -34,6 +34,8 @@ export default function ProductDetailPage() {
 
   const [product, setProduct] = useState<ProductWithInventory | null>(null)
   const [related, setRelated] = useState<{ product: Product; inventory: ProductWithInventory['inventory'] }[]>([])
+  const [variants, setVariants] = useState<ProductVariant[] | null>(null)
+  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null)
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
   const [activeImage, setActiveImage] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -58,6 +60,11 @@ export default function ProductDetailPage() {
           inventory: r.inventory || [],
         })))
       }
+
+      const v = (json.variants as ProductVariant[] | null) ?? null
+      setVariants(v)
+      setSelectedVariantId(v ? p.id : null)
+      setSelectedSize(null)
       setLoading(false)
     }
     load()
@@ -74,23 +81,40 @@ export default function ProductDetailPage() {
 
   if (!product) return null
 
-  const inStockInventory = product.inventory.filter(i => i.quantity > 0)
-  const totalStock = product.inventory.reduce((sum, i) => sum + i.quantity, 0)
-  const selectedInv = product.inventory.find(i => i.size === selectedSize)
+  // When this product belongs to a variant group, the selected dropdown option
+  // supplies its own sku/name/price/inventory; everything else (images,
+  // description, category, gender, colour) always comes from the base product
+  const activeVariant = variants?.find(v => v.id === selectedVariantId) ?? null
+  const effective = {
+    id: activeVariant?.id ?? product.id,
+    sku: activeVariant?.sku ?? product.sku,
+    name: activeVariant?.name ?? product.name,
+    price: activeVariant?.price ?? product.price,
+    inventory: activeVariant?.inventory ?? product.inventory,
+  }
+
+  const inStockInventory = effective.inventory.filter(i => i.quantity > 0)
+  const totalStock = effective.inventory.reduce((sum, i) => sum + i.quantity, 0)
+  const selectedInv = effective.inventory.find(i => i.size === selectedSize)
   const selectedQty = selectedInv?.quantity ?? 0
   const canAddToCart = selectedSize !== null && selectedQty > 0
 
   const colourKey = product.colour?.toLowerCase().replace(/\s+/g, '') ?? ''
   const swatchBg = COLOUR_MAP[colourKey]
 
+  const handleVariantChange = (id: string) => {
+    setSelectedVariantId(id)
+    setSelectedSize(null)
+  }
+
   const handleAddToCart = () => {
     if (!canAddToCart) return
     addItem({
-      product_id: product.id,
-      sku: product.sku,
-      name: product.name,
+      product_id: effective.id,
+      sku: effective.sku,
+      name: effective.name,
       size: selectedSize!,
-      price: product.price,
+      price: effective.price,
       quantity: 1,
       image: product.images?.[0] || '',
       maxQuantity: selectedQty,
@@ -175,14 +199,35 @@ export default function ProductDetailPage() {
             </div>
 
             <h1 className="text-3xl md:text-4xl lg:text-5xl leading-tight text-gray-900 mb-3" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              {product.name}
+              {effective.name}
             </h1>
 
             <p className="text-3xl font-bold mb-8" style={{ fontFamily: "'Poppins', sans-serif" }}>
               <span style={{ color: '#D9247A' }}>
-                {product.price > 0 ? formatPrice(product.price) : 'Price TBD'}
+                {effective.price > 0 ? formatPrice(effective.price) : 'Price TBD'}
               </span>
             </p>
+
+            {/* Options — switches price/name/sizes between variants (e.g. pack sizes) */}
+            {variants && variants.length > 1 && (
+              <div className="mb-6">
+                <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2.5" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                  Options
+                </p>
+                <select
+                  value={selectedVariantId ?? ''}
+                  onChange={(e) => handleVariantChange(e.target.value)}
+                  className="w-full px-4 py-2.5 text-sm font-bold border border-gray-200 rounded-xl bg-white focus:outline-none focus:border-[#D9247A]"
+                  style={{ fontFamily: "'Poppins', sans-serif" }}
+                >
+                  {variants.map(v => (
+                    <option key={v.id} value={v.id}>
+                      {v.variant_label || v.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             {/* Colour swatch */}
             {product.colour && (
@@ -217,10 +262,10 @@ export default function ProductDetailPage() {
                 )}
               </div>
 
-              {product.inventory.length > 0 ? (
+              {effective.inventory.length > 0 ? (
                 <>
                   <SizeSelector
-                    inventory={product.inventory}
+                    inventory={effective.inventory}
                     selectedSize={selectedSize}
                     onSelect={setSelectedSize}
                   />
@@ -288,7 +333,6 @@ export default function ProductDetailPage() {
               </p>
               <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm" style={{ fontFamily: "'Poppins', sans-serif" }}>
                 {[
-                  { label: 'SKU',      value: product.sku },
                   { label: 'Gender',   value: product.gender.charAt(0).toUpperCase() + product.gender.slice(1) },
                   { label: 'Category', value: CATEGORY_LABELS[product.category] },
                   ...(inStockInventory.length ? [{ label: 'In Stock Sizes', value: inStockInventory.map(i => i.size).join(', ') }] : []),

@@ -63,9 +63,8 @@ export function ProductCard({ product, inventory = [] }: ProductCardProps) {
 
         {/* Info — flex-col so price/button always sits at the bottom */}
         <div className="p-3 flex flex-col flex-1">
-          <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">{product.sku}</p>
           <h3
-            className="text-sm font-bold leading-tight mt-0.5 line-clamp-2 text-gray-900"
+            className="text-sm font-bold leading-tight line-clamp-2 text-gray-900"
             style={{ fontFamily: "'Poppins', sans-serif" }}
           >
             {product.name}

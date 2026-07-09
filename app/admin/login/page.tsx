@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image'
 import { useState } from 'react'
 
 export default function AdminLoginPage() {
@@ -30,11 +31,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-[#FFFBEF] flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-6">
-          <h1 className="text-4xl" style={{ fontFamily: "'Fredoka One', cursive" }}>
-            <span className="text-black">Mo</span>
-            <span className="text-[#D9247A]">Kids</span>
-            <span className="text-[#F5C000]"> Admin</span>
-          </h1>
+          <Image src="/logo.jpeg" alt="Mo Kids Place" width={72} height={72} className="rounded-2xl mx-auto mb-2" />
           <p className="text-sm text-gray-500 font-bold mt-1" style={{ fontFamily: "'Nunito', sans-serif" }}>
             Store Management Dashboard
           </p>

@@ -1,0 +1,3602 @@
+[
+  {
+    "id": "f6a222e3-c82d-479e-b8c7-ffbd516291e6",
+    "sku": "MOKIDSBD001",
+    "gender": "girls",
+    "name": "Girls Birthday Tee 001",
+    "description": "Girls Birthday Tee 001",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "ed62bce4-1e2e-492e-baa2-baa4e4b89eb5",
+    "sku": "MOKIDSLS019",
+    "gender": "boys",
+    "name": "Boys christmas shirt",
+    "description": "Boys christmas shirt",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "3c420eb4-fdb9-4848-9e26-bd95afe3cbb9",
+    "sku": "MOKIDSBD003",
+    "gender": "girls",
+    "name": "Girls Birthday Tee 003",
+    "description": "Girls Birthday Tee 003",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "bb5d2078-342f-4a09-bca2-f829eea83f36",
+    "sku": "MOKIDSBD005",
+    "gender": "girls",
+    "name": "Girls Birthday Tee 005",
+    "description": "Girls Birthday Tee 005",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "03699049-0a6c-4bea-a9dd-85bbd497680f",
+    "sku": "MOKIDSDRESSSHOE019",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 019",
+    "description": "Girls Dress Shoe 019",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "1de42f77-ed27-4e2e-a71f-097aea88db61",
+    "sku": "MOKIDSSL011",
+    "gender": "boys",
+    "name": "Boys Adventure shirt",
+    "description": "Boys Adventure shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "15e70551-1d2e-4e1b-a6f2-1b11c16c642b",
+    "sku": "MOKIDSBD007",
+    "gender": "girls",
+    "name": "Girls Birthday Tee 007",
+    "description": "Girls Birthday Tee 007",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "9e6cb0e4-de94-4dba-a194-266f7b7710ff",
+    "sku": "MOKIDSBG001",
+    "gender": "girls",
+    "name": "Girls Jeans 001",
+    "description": "Girls Jeans 001",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "2fa46749-235a-47c9-953b-74aa06072c0e",
+    "sku": "MOKIDSCS001",
+    "gender": "girls",
+    "name": "Girls Jeans 001",
+    "description": "Girls Jeans 001",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "5f758199-b836-4196-8cee-f729fb676817",
+    "sku": "MOKIDSCS003",
+    "gender": "girls",
+    "name": "Girls Jeans 003",
+    "description": "Girls Jeans 003",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "1791dc34-048b-4e1f-a0fe-2c6458395fb0",
+    "sku": "MOKIDSDJ003",
+    "gender": "girls",
+    "name": "Girls Jeans 003",
+    "description": "Girls Jeans 003",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "8e391b45-6ca8-49fa-ade3-44246b7517cc",
+    "sku": "MOKIDSJ005",
+    "gender": "girls",
+    "name": "Girls Jeans 005",
+    "description": "Girls Jeans 005",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "5e797568-5c10-40bc-b0ec-0a9d4ad45d17",
+    "sku": "MOKIDSJ007",
+    "gender": "girls",
+    "name": "Girls Jeans 007",
+    "description": "Girls Jeans 007",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "7c37ce04-5f19-472e-9cbc-652cb09ddf4b",
+    "sku": "MOKIDSLS002",
+    "gender": "boys",
+    "name": "Boys Astronaut shirt",
+    "description": "Boys Astronaut shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "1c2f926f-9c42-4683-9f0a-540630409cb6",
+    "sku": "MOKIDSL017",
+    "gender": "girls",
+    "name": "OLD NAVY LEGGINGS",
+    "description": "OLD NAVY LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "12fa8c99-893b-4a48-b900-3fc5dfacef35",
+    "sku": "MOKIDSBD002",
+    "gender": "girls",
+    "name": "Girls Birthday Tee 002",
+    "description": "Girls Birthday Tee 002",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "22df025e-da3a-4f5e-8066-bf87eb44227d",
+    "sku": "MOKIDSDRESSSHOE021",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 021",
+    "description": "Girls Dress Shoe 021",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "d2284de9-b457-41c6-b23f-d7bf1d266f3e",
+    "sku": "MOKIDST003",
+    "gender": "boys",
+    "name": "Boys Birthday Tee 003",
+    "description": "Boys Birthday Tee 003",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "01fd5f09-7fde-446d-8bba-f81e80a38c7e",
+    "sku": "MOKIDST001",
+    "gender": "boys",
+    "name": "Boys Birthday Tee 001",
+    "description": "Boys Birthday Tee 001",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "fe83020d-3bc9-4546-b142-4bc4033fc499",
+    "sku": "MOKIDSSS002",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 002",
+    "description": "Boys Short Sleeve Shirt 002",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "db7d3a01-6325-4323-8033-bd23001ebe66",
+    "sku": "MOKIDSSS004",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 004",
+    "description": "Boys Short Sleeve Shirt 004",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "70f10733-f769-418e-9b04-9064b3efc57a",
+    "sku": "MOKIDST005",
+    "gender": "boys",
+    "name": "Boys Birthday Tee 005",
+    "description": "Boys Birthday Tee 005",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "7f4f651f-2c07-49be-8894-ad5c75e0fada",
+    "sku": "MOKIDSSS006",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 006",
+    "description": "Boys Short Sleeve Shirt 006",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "04e68431-3cd8-42fe-81d7-74dbc59d2ff7",
+    "sku": "MOKIDSSS008",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 008",
+    "description": "Boys Short Sleeve Shirt 008",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "0e7b3a44-1920-46c5-b8f5-c560a074d3be",
+    "sku": "MOKIDSSS010",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 010",
+    "description": "Boys Short Sleeve Shirt 010",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "876bafdd-caec-4610-b9f7-56b0cfbe69fa",
+    "sku": "MOKIDSSS012",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 012",
+    "description": "Boys Short Sleeve Shirt 012",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "04ec331b-c652-4161-9290-c9cc431d69a6",
+    "sku": "MOKIDSSS014",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 014",
+    "description": "Boys Short Sleeve Shirt 014",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "9a33e2a8-1723-4144-871a-224bdae9914a",
+    "sku": "MOKIDSSS016",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 016",
+    "description": "Boys Short Sleeve Shirt 016",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "b943bdf0-bdb4-4803-b85a-3122f05d79dd",
+    "sku": "MOKIDSSS018",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 018",
+    "description": "Boys Short Sleeve Shirt 018",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "a3101934-1bc2-4ed2-908b-117f32f6bbba",
+    "sku": "MOKIDSSS020",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 020",
+    "description": "Boys Short Sleeve Shirt 020",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "faf15c69-6103-4b80-afdf-18092e25e496",
+    "sku": "MOKIDSSS022",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 022",
+    "description": "Boys Short Sleeve Shirt 022",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "0ec4deda-0a78-419f-a71e-251f9cc258b6",
+    "sku": "MOKIDSSS024",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 024",
+    "description": "Boys Short Sleeve Shirt 024",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "6cd09187-d52d-4394-8620-7a247751de9c",
+    "sku": "MOKIDST007",
+    "gender": "boys",
+    "name": "Boys Birthday Tee 007",
+    "description": "Boys Birthday Tee 007",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "c1acb67e-c057-46f3-874d-105c02494fc4",
+    "sku": "MOKIDSSS023",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 023",
+    "description": "Boys Short Sleeve Shirt 023",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "b64e9385-a69a-434a-8eab-66219fc792c9",
+    "sku": "MOKIDSBD004",
+    "gender": "girls",
+    "name": "Girls Birthday Tee 004",
+    "description": "Girls Birthday Tee 004",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "ecde1f53-e5b9-4217-97b5-98e7d0fe155f",
+    "sku": "MOKIDSSL002",
+    "gender": "girls",
+    "name": "Girls Short Sleeve Top 002",
+    "description": "Girls Short Sleeve Top 002",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "8b3bfbe5-c546-4653-a76a-b46226ca18b2",
+    "sku": "MOKIDSBSET011",
+    "gender": "boys",
+    "name": "2PCS TH LOGO",
+    "description": "2PCS TH LOGO",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "692ea1e6-e7a0-410b-8b5d-f3b3a287d452",
+    "sku": "MOKIDSBD006",
+    "gender": "girls",
+    "name": "Girls Birthday Tee 006",
+    "description": "Girls Birthday Tee 006",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "0e7e99cb-fb2d-4876-aedc-0353f3ca9248",
+    "sku": "MOKIDST002",
+    "gender": "boys",
+    "name": "Boys Birthday Tee 002",
+    "description": "Boys Birthday Tee 002",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "0daafd30-4302-4548-8d46-f2b275dd24d2",
+    "sku": "MOKIDST004",
+    "gender": "boys",
+    "name": "Boys Birthday Tee 004",
+    "description": "Boys Birthday Tee 004",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "5c26fa21-2114-4494-8cf6-534486669563",
+    "sku": "MOKIDSSS001",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 001",
+    "description": "Boys Short Sleeve Shirt 001",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "ae6967e2-aea6-4029-8fbd-2d468dcef84c",
+    "sku": "MOKIDST006",
+    "gender": "boys",
+    "name": "Boys Birthday Tee 006",
+    "description": "Boys Birthday Tee 006",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "40d749ae-0391-440f-8101-61749943b49b",
+    "sku": "MOKIDSSS003",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 003",
+    "description": "Boys Short Sleeve Shirt 003",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "920a6eee-45c9-4f6f-b780-3d8afa4ba2f1",
+    "sku": "MOKIDSSS005",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 005",
+    "description": "Boys Short Sleeve Shirt 005",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "359eba52-abd4-40eb-83bb-254fa3a5db76",
+    "sku": "MOKIDSSS007",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 007",
+    "description": "Boys Short Sleeve Shirt 007",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "2bec1080-ab41-4d7f-9fc6-50011c76a9da",
+    "sku": "MOKIDSSS009",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 009",
+    "description": "Boys Short Sleeve Shirt 009",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "1e175360-594f-4d81-9778-b3a71115860f",
+    "sku": "MOKIDSSS011",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 011",
+    "description": "Boys Short Sleeve Shirt 011",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "f831aaa0-d92c-4c4d-a9cf-59cca32d6b1d",
+    "sku": "MOKIDSSS013",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 013",
+    "description": "Boys Short Sleeve Shirt 013",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "b09d8048-92ce-4433-a07b-bc01e49f704b",
+    "sku": "MOKIDSSS015",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 015",
+    "description": "Boys Short Sleeve Shirt 015",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "070cb683-ef27-4162-94c0-c3ece3554bd2",
+    "sku": "MOKIDSSS017",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 017",
+    "description": "Boys Short Sleeve Shirt 017",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "316fc2e4-f907-4082-928e-be685c7e1404",
+    "sku": "MOKIDSSS019",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 019",
+    "description": "Boys Short Sleeve Shirt 019",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "da817906-5809-4c05-a0d1-607c103f20b1",
+    "sku": "MOKIDSSS021",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 021",
+    "description": "Boys Short Sleeve Shirt 021",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "18578b85-10f3-4065-80a8-d32c2164c288",
+    "sku": "MOKIDSSS025",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 025",
+    "description": "Boys Short Sleeve Shirt 025",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "7d1eb5ad-90f6-403b-a9a9-0eecfbc006e0",
+    "sku": "MOKIDSSS027",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 027",
+    "description": "Boys Short Sleeve Shirt 027",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "5e824a0d-b758-4bf7-a82e-2d3c73f59d9c",
+    "sku": "MOKIDSSS029",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 029",
+    "description": "Boys Short Sleeve Shirt 029",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "08508821-4209-4bbe-a475-81f8ea25324f",
+    "sku": "MOKIDSSS026",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 026",
+    "description": "Boys Short Sleeve Shirt 026",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "357aeccf-b376-4c1f-87c9-8dd826417e0d",
+    "sku": "MOKIDSSS028",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 028",
+    "description": "Boys Short Sleeve Shirt 028",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "06233142-ff94-4509-8d58-80abc2377a62",
+    "sku": "MOKIDSSS030",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 030",
+    "description": "Boys Short Sleeve Shirt 030",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "f50b07d7-861d-4d9e-be73-c8e51ba34d76",
+    "sku": "MOKIDSBD008",
+    "gender": "girls",
+    "name": "Girls Birthday Tee 008",
+    "description": "Girls Birthday Tee 008",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "67951139-f891-4c38-aee6-6754326213a4",
+    "sku": "MOKIDSSS032",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 032",
+    "description": "Boys Short Sleeve Shirt 032",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "e5fec66c-8b00-42d3-882d-70944daf46a5",
+    "sku": "MOKIDSBG002",
+    "gender": "girls",
+    "name": "Girls Jeans 002",
+    "description": "Girls Jeans 002",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "dd46b97c-5d44-4f01-8c11-c3a49c8da34b",
+    "sku": "MOKIDSCS002",
+    "gender": "girls",
+    "name": "Girls Jeans 002",
+    "description": "Girls Jeans 002",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "937c92bf-e9b0-45f6-9943-0e71435e4eed",
+    "sku": "MOKIDSSS034",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 034",
+    "description": "Boys Short Sleeve Shirt 034",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "1c085390-4059-4bb8-a1a6-1513b51e953b",
+    "sku": "MOKIDSSS036",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 036",
+    "description": "Boys Short Sleeve Shirt 036",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "46512a43-7779-4dab-be21-59bc08ae35bb",
+    "sku": "MOKIDSSS038",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 038",
+    "description": "Boys Short Sleeve Shirt 038",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "77ba4483-0269-4040-a481-90690ba2c8bc",
+    "sku": "MOKIDSSS040",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 040",
+    "description": "Boys Short Sleeve Shirt 040",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "b08f2f02-21af-4520-807c-47fea22dbfe9",
+    "sku": "MOKIDSSS043",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 043",
+    "description": "Boys Short Sleeve Shirt 043",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "271f1742-e179-4ba0-aea9-f0f4b0580b42",
+    "sku": "MOKIDSSS045",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 045",
+    "description": "Boys Short Sleeve Shirt 045",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "eed418e3-d1f4-40ce-922e-27e1832f266d",
+    "sku": "MOKIDSSS047",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 047",
+    "description": "Boys Short Sleeve Shirt 047",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "4bff3e2f-55b1-4e88-8615-d9337bb1754c",
+    "sku": "MOKIDSSS049",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 049",
+    "description": "Boys Short Sleeve Shirt 049",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "cac8f4a7-07d5-4b23-b971-609a8acf1160",
+    "sku": "MOKIDSSS051",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 051",
+    "description": "Boys Short Sleeve Shirt 051",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "6a690fde-4593-464a-bf00-957d8785003d",
+    "sku": "MOKIDSSS055",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 055",
+    "description": "Boys Short Sleeve Shirt 055",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "dd29af59-c06c-483d-aca0-924d7c9a1d79",
+    "sku": "MOKIDSSANDALS003",
+    "gender": "girls",
+    "name": "Girls Shoes 003",
+    "description": "Girls Shoes 003",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "2c532080-cb48-45ae-8c4b-b1e991f7acfd",
+    "sku": "MOKIDSSL001",
+    "gender": "boys",
+    "name": "Boys Stripe shirt",
+    "description": "Boys Stripe shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "3ecff963-a3e5-40c1-bc18-de6e13f730c3",
+    "sku": "MOKIDSSL002",
+    "gender": "boys",
+    "name": "Vintage Animal Pattern shirt",
+    "description": "Vintage Animal Pattern shirt",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "a84f4186-6a1f-4a8a-9140-e6b036a1ba18",
+    "sku": "MOKIDSD040",
+    "gender": "girls",
+    "name": "Casual Black Dress",
+    "description": "Casual black dress",
+    "price": 8000,
+    "is_active": true
+  },
+  {
+    "id": "0d33ba6e-3470-4b71-b401-8cfd6c75537b",
+    "sku": "MOKIDSDJ002",
+    "gender": "girls",
+    "name": "Girls Jeans 002",
+    "description": "Girls Jeans 002",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "7e70a6a8-8f02-4fca-bd8b-d3ded25961e0",
+    "sku": "MOKIDSSL026",
+    "gender": "boys",
+    "name": "Boy shirt",
+    "description": "Boy shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "0aaefa0b-37e2-4367-98a7-2595e68b8442",
+    "sku": "MOKIDSSS031",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 031",
+    "description": "Boys Short Sleeve Shirt 031",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "3c1614c9-1c37-4965-bfcb-e6ea5cbf1ca4",
+    "sku": "MOKIDSSS033",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 033",
+    "description": "Boys Short Sleeve Shirt 033",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "437d3446-53e1-465b-b9e7-24990a77c0ec",
+    "sku": "MOKIDSSS035",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 035",
+    "description": "Boys Short Sleeve Shirt 035",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "a7ad7866-1008-4ccf-9c0e-f4207acbb9bc",
+    "sku": "MOKIDSLS017",
+    "gender": "boys",
+    "name": "Boys pocadot shirt",
+    "description": "Boys pocadot shirt",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "bd306f7f-0a9a-482b-a2f3-24eb81b24c3f",
+    "sku": "MOKIDSSS037",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 037",
+    "description": "Boys Short Sleeve Shirt 037",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "f849e19b-4499-4009-853c-e7348ae841b0",
+    "sku": "MOKIDSSS039",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 039",
+    "description": "Boys Short Sleeve Shirt 039",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "412f9314-ded5-4c43-9794-d37e4b9b7d1c",
+    "sku": "MOKIDSLS021",
+    "gender": "boys",
+    "name": "Boys christmas shirt",
+    "description": "Boys christmas shirt",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "2ae373a1-5065-4a17-a327-e6b65ffeb87e",
+    "sku": "MOKIDSSL022",
+    "gender": "boys",
+    "name": "Boys pocadot bowed shirt",
+    "description": "Boys pocadot bowed shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "0cde6076-1953-4995-a4d6-95cb9f2898e5",
+    "sku": "MOKIDSSL024",
+    "gender": "boys",
+    "name": "Boy palm designed shirt",
+    "description": "Boy palm designed shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "60eb689f-2e2d-4c11-bc7c-608662aefeee",
+    "sku": "MOKIDSJJ001",
+    "gender": "girls",
+    "name": "Girls Jeans 001",
+    "description": "Girls Jeans 001",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "1e281692-bcf8-40e2-b33e-1074fcb43804",
+    "sku": "MOKIDSD045",
+    "gender": "girls",
+    "name": "Girls Dress 045",
+    "description": "Lace embroidy dress",
+    "price": 8000,
+    "is_active": true
+  },
+  {
+    "id": "4f85af39-b3a1-43a7-8bb0-bd3b8d556f48",
+    "sku": "MOKIDSJ004",
+    "gender": "girls",
+    "name": "Girls Jeans 004",
+    "description": "Girls Jeans 004",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "b8a658d9-f467-4023-b3b4-fbfebde7d626",
+    "sku": "MOKIDSSJ001",
+    "gender": "girls",
+    "name": "Girls Jeans 001",
+    "description": "Girls Jeans 001",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "b8e978cd-143d-4d2f-b7ca-c23dc3a98601",
+    "sku": "MOKIDSSS041",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 041",
+    "description": "Boys Short Sleeve Shirt 041",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "119dc435-7c35-4ba3-acbd-0d270db9ca1f",
+    "sku": "MOKIDSSS044",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 044",
+    "description": "Boys Short Sleeve Shirt 044",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "a47886ec-cfb6-4663-a214-cb21af1bec39",
+    "sku": "MOKIDSSS046",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 046",
+    "description": "Boys Short Sleeve Shirt 046",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "dabf430d-7771-4256-8c91-2d3a342f076a",
+    "sku": "MOKIDSSS048",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 048",
+    "description": "Boys Short Sleeve Shirt 048",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "2a5a0fa1-4e44-4791-b449-b9cece3070c1",
+    "sku": "MOKIDSSS050",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 050",
+    "description": "Boys Short Sleeve Shirt 050",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "c7f5c171-673e-4acf-9021-cfe145b617fd",
+    "sku": "MOKIDSSS054",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 054",
+    "description": "Boys Short Sleeve Shirt 054",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "c320434b-c26e-4cb7-9bb8-203059fa88d8",
+    "sku": "MOKIDSSS056",
+    "gender": "boys",
+    "name": "Boys Short Sleeve Shirt 056",
+    "description": "Boys Short Sleeve Shirt 056",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "a876bd81-4b00-47e9-aec3-c6c1e5c3747c",
+    "sku": "MOKIDSLS015",
+    "gender": "boys",
+    "name": "Boys checkers shirt",
+    "description": "Boys checkers shirt",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "b6f35333-7ef4-4be5-b4df-f4af882ed93a",
+    "sku": "MOKIDSSL004",
+    "gender": "boys",
+    "name": "Boys stripe shirt",
+    "description": "Boys stripe shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "227e4f07-952f-43c5-a49e-6ed2eb0c0565",
+    "sku": "MOKIDSJ006",
+    "gender": "girls",
+    "name": "Girls Jeans 006",
+    "description": "Girls Jeans 006",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "fddd0ec1-f2d5-478c-9ad2-6f1ab7dd5544",
+    "sku": "MOKIDSBS016",
+    "gender": "boys",
+    "name": "Boys Shorts 016",
+    "description": "Boys Shorts 016",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "3f213725-9c46-4979-87c8-e00bff5c91eb",
+    "sku": "MOKIDSBSET004",
+    "gender": "boys",
+    "name": "2PCS POLO RALPH  SET",
+    "description": "2PCS POLO RALPH SET",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "c38f5298-2f98-4b4f-ac92-27525951b970",
+    "sku": "MOKIDSJ008",
+    "gender": "girls",
+    "name": "Girls Jeans 008",
+    "description": "Girls Jeans 008",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "25dba739-5b47-47f7-8545-29a5074c8bdd",
+    "sku": "MOKIDSSANDALS002",
+    "gender": "girls",
+    "name": "Girls Shoes 002",
+    "description": "Girls Shoes 002",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "cd88f2f7-48e2-4a20-978a-88d2a08f1b9e",
+    "sku": "MOKIDSSANDALS004",
+    "gender": "girls",
+    "name": "Girls Sandals 004",
+    "description": "Girls Sandals 004",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "42e85d4e-60fe-4f69-bc19-883ab249cd4f",
+    "sku": "MOKIDSP008",
+    "gender": "boys",
+    "name": "Boys Polo 008",
+    "description": "Boys Polo 008",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "d921ef18-0ee4-4dc4-bb71-7d983ebe7a7c",
+    "sku": "MOKIDSSL006",
+    "gender": "boys",
+    "name": "Boys whirl wind multicolor shirt",
+    "description": "Boys whirl wind multicolor shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "20de4aa8-1a3d-40f0-8576-93f862cc31bf",
+    "sku": "MOKIDSSL007",
+    "gender": "boys",
+    "name": "Boys white short sleeve shirt",
+    "description": "Boys white short sleeve shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "95e629ea-4443-4ab1-a7a5-7d392344e56e",
+    "sku": "MOKIDSSL020",
+    "gender": "boys",
+    "name": "Boys stripe shirt",
+    "description": "Boys stripe shirt",
+    "price": 21000,
+    "is_active": true
+  },
+  {
+    "id": "8ad75c6e-4134-4093-a5cf-96279e25ab70",
+    "sku": "MOKIDSBS002",
+    "gender": "boys",
+    "name": "Boys Shorts 002",
+    "description": "Boys Shorts 002",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "a804b616-a7c5-4212-aeb5-8d9f9e6fa838",
+    "sku": "MOKIDSBS004",
+    "gender": "boys",
+    "name": "Boys Shorts 004",
+    "description": "Boys Shorts 004",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "08fb795d-5914-4f66-bfa3-67af4449ce2d",
+    "sku": "MOKIDSBS006",
+    "gender": "boys",
+    "name": "Boys Shorts 006",
+    "description": "Boys Shorts 006",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "544f6814-7ec2-47d5-9a72-e3c45eccd00f",
+    "sku": "MOKIDSBS008",
+    "gender": "boys",
+    "name": "Boys Shorts 008",
+    "description": "Boys Shorts 008",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "ff09a724-0d36-4476-97b6-19945e10cb5f",
+    "sku": "MOKIDSBS010",
+    "gender": "boys",
+    "name": "Boys Shorts 010",
+    "description": "Boys Shorts 010",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "fa72db28-6f16-433e-bad5-20b0cfbaae7e",
+    "sku": "MOKIDSBS012",
+    "gender": "boys",
+    "name": "Boys Shorts 012",
+    "description": "Boys Shorts 012",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "0cee2ae4-2c18-4da1-b362-2801d85c43c4",
+    "sku": "MOKIDSBS014",
+    "gender": "boys",
+    "name": "Boys Shorts 014",
+    "description": "Boys Shorts 014",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "a89db3f3-5b5d-4568-b68d-a0cdc033f142",
+    "sku": "MOKIDD010",
+    "gender": "girls",
+    "name": "Sparkle all night in this elegant, comfy show-stopper dress with a cross bag",
+    "description": "Sparkle all night in this elegant, comfy show-stopper dress with a cross bag",
+    "price": 48500,
+    "is_active": true
+  },
+  {
+    "id": "f68643f9-6c6c-4b11-bfef-ccfc66960bca",
+    "sku": "MOKIDSD012/MOKIDSD013",
+    "gender": "girls",
+    "name": "Side Ruffle bow dress",
+    "description": "Side Ruffle bow dress",
+    "price": 38000,
+    "is_active": true
+  },
+  {
+    "id": "75a0a13f-b024-426b-a06e-7aaf60cf27a7",
+    "sku": "MOKIDD040",
+    "gender": "girls",
+    "name": "Causual black dress",
+    "description": "Causual black dress",
+    "price": 8000,
+    "is_active": true
+  },
+  {
+    "id": "a7244121-0bc1-432f-82dd-45f45cc550f8",
+    "sku": "MOKIDSP009",
+    "gender": "boys",
+    "name": "Boys Polo 009",
+    "description": "Boys Polo 009",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "8d8aa9dc-25ac-4594-a4d6-6246560e8915",
+    "sku": "MOKIDSP011",
+    "gender": "boys",
+    "name": "Boys Polo 011",
+    "description": "Boys Polo 011",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "52412a49-6761-418c-b8b1-4130dc32bb99",
+    "sku": "MOKIDSL002",
+    "gender": "girls",
+    "name": "OLD NAVY LEGGINGS",
+    "description": "OLD NAVY LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "55763a2d-12f0-4b1d-9e09-01b852b1b214",
+    "sku": "MOKIDSP013",
+    "gender": "boys",
+    "name": "Boys Polo 013",
+    "description": "Boys Polo 013",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "35739b64-4aae-434a-8a39-9b2eb9010210",
+    "sku": "MOKIDSL008",
+    "gender": "girls",
+    "name": "PLACE CAPRI LEGGINGS",
+    "description": "PLACE CAPRI LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "b05486cc-66a4-4e5e-9884-a04a80663680",
+    "sku": "MOKIDSP015",
+    "gender": "boys",
+    "name": "Boys Polo 015",
+    "description": "Boys Polo 015",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "a03ab004-2211-4fe8-becd-8e4cf90828db",
+    "sku": "MOKIDSSL008",
+    "gender": "boys",
+    "name": "Boys checker shirt",
+    "description": "Boys checker shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "44d86214-98d2-4c49-8d98-cb60a12e640d",
+    "sku": "MOKIDSSL010",
+    "gender": "boys",
+    "name": "Boys checkers shirt",
+    "description": "Boys checkers shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "2eadcaf4-fd3e-4357-b226-eb80fd4d9621",
+    "sku": "MOKIDSL010",
+    "gender": "girls",
+    "name": "OLD NAVY LEGGINGS",
+    "description": "OLD NAVY LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "1838a204-21d6-4102-bfa7-d8bfd34f1e14",
+    "sku": "MOKIDSL012",
+    "gender": "girls",
+    "name": "OLD NAVY LEGGINGS",
+    "description": "OLD NAVY LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "3bbc9e3c-f50c-4a60-ac5e-12b6966da0c3",
+    "sku": "MOKIDSL014",
+    "gender": "girls",
+    "name": "OLD NAVY LEGGINGS",
+    "description": "OLD NAVY LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "cd0b2029-edf7-4230-a3b1-d959a326a1f2",
+    "sku": "MOKIDSL016",
+    "gender": "girls",
+    "name": "OLD NAVY LEGGINGS",
+    "description": "OLD NAVY LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "732671bd-2455-4d29-8542-3d29c063a794",
+    "sku": "MOKIDSL023",
+    "gender": "girls",
+    "name": "GEORGE LEGGINGS",
+    "description": "GEORGE LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "d1a19289-145e-454e-9015-3a37306ff199",
+    "sku": "MOKIDSB001",
+    "gender": "girls",
+    "name": "Tween Girls Icon Cargo Backpack Set",
+    "description": "Tween Girls Icon Cargo Backpack Set\nMade from eco-friendly 100% recycled nylon\nSecure zipper closure for easy access\nAdjustable padded shoulder straps for all-day comfort\nLocker loop for convenience\n3 front-zip & hook-and-loop flap pockets for perfect organization\nSide mesh pockets for bottles or gadgets\nMatching lunch bag & water bottle for a complete look\nFor age 9-16years\nApprox. 17”(H) x 12”(W) x 5”(D)",
+    "price": 65000,
+    "is_active": true
+  },
+  {
+    "id": "3358704e-8c4f-45ba-b316-94b7a5877848",
+    "sku": "MOKIDSB012",
+    "gender": "girls",
+    "name": "Smiggle backpack Classic Bundle Set",
+    "description": "Smiggle backpack Classic Bundle Set\nMake school days fun and organised with this matching Smiggle School trailblazer set.\nmeal and snack storage. Featuring a colourful character-themed design, this practical set\nincludes a backpack, insulated lunchbox, drink bottle, and snack containers for easy\nSet Includes:\n* Backpack\n* Insulated Lunchbox\n* Drink Bottle\nFeatures:\nage 7-11 years\n* Spacious backpack with comfortable padded straps\n* Insulated lunchbox to help keep food fresh\n* Reusable drink bottle for hydration on the go",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "926066bb-558f-4ccc-9b89-d0bdf4c337da",
+    "sku": "MOKIDSB003",
+    "gender": "girls",
+    "name": "Tween Girls tye dye Backpack Set",
+    "description": "Tween Girls tye dye Backpack Set\nMade from eco-friendly 100% recycled nylon\nSecure zipper closure for easy access\nAdjustable padded shoulder straps for all-day comfort\nLocker loop for convenience\n3 front-zip & hook-and-loop flap pockets for perfect organization\nSide mesh pockets for bottles or gadgets\nMatching lunch bag & water bottle for a complete look\nFor age 9-16years\nApprox. 17”(H) x 12”(W) x 5”(D)",
+    "price": 65000,
+    "is_active": true
+  },
+  {
+    "id": "db9e11a3-ff78-4d8b-a27b-26c2e0c000cb",
+    "sku": "MOKIDSB003",
+    "gender": "boys",
+    "name": "PAWPAW Strol Junior Character Backpack",
+    "description": "PAWPAW Strol Junior Character Backpack\nSmiggles teeny tiny Smigglers can bring along cuddly otters, adventurous dinosaurs,\nsweet bunnies & bears on playful escapades! Smiggles Out & About Junior\nCharacter backpack is the perfect pick for school, travel, and so much more!\nEach character backpack features an adorable 3-D character applique and unique design sleeves.\ndetails ranging from specialised plush, embroidery details, and iridescent finishes. features\nApplique detailing\nHood with velcro tab for adjustable fit\n3 zipped compartments; main compartment with double zip\nDual Drink bottle sleeves\nPadded adjustable shoulder straps\nAdjustable chest strap\nCarry handle\nInternal name label\nApprox 14.8L\nHeight 4cm\nWidth 2.5cm\nDepth 1cm\n100% Other fibres.",
+    "price": 35000,
+    "is_active": true
+  },
+  {
+    "id": "2c786b85-113d-456d-92f2-4e54ab9c9054",
+    "sku": "MOKIDSP010",
+    "gender": "boys",
+    "name": "Boys Polo 010",
+    "description": "Boys Polo 010",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "06a8dcf0-9f22-4ac9-806d-2862cf155bac",
+    "sku": "MOKIDSP016",
+    "gender": "boys",
+    "name": "Boys Polo 016",
+    "description": "Boys Polo 016",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "854924b8-b75c-41bc-9fe5-9c973e034e39",
+    "sku": "MOKIDSBS001",
+    "gender": "boys",
+    "name": "Boys Shorts 001",
+    "description": "Boys Shorts 001",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "21ee7dfd-0a88-43b5-a3b3-8f65344bdb75",
+    "sku": "MOKIDSSH009",
+    "gender": "girls",
+    "name": "Girls Shorts 009",
+    "description": "Girls Shorts 009",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "1bc0f28d-0194-426d-9490-e4cdb7b1b0f5",
+    "sku": "MOKIDSP012",
+    "gender": "boys",
+    "name": "Boys Polo 012",
+    "description": "Boys Polo 012",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "d0065b0f-0a54-4303-8f4d-f0f21a757235",
+    "sku": "MOKIDSP014",
+    "gender": "boys",
+    "name": "Boys Polo 014",
+    "description": "Boys Polo 014",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "2ad1afd9-4751-44ce-8119-925d0359f87e",
+    "sku": "MOKIDSD013",
+    "gender": "girls",
+    "name": "Girls Dress 013",
+    "description": "Girls Dress 013",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "5dee7744-7244-4635-abf4-d63eda3fe127",
+    "sku": "MOKIDSB005",
+    "gender": "girls",
+    "name": "Girls Sequence unicorn  Backpack & Lunch Box Set!",
+    "description": "Girls Sequence unicorn Backpack & Lunch Box Set!\nfor Age 6-10years\nFeatures:\nMade from durable 100% polyester canvas\nFull zip closure for secure storage\nFront zip pocket for easy access\nSide mesh pockets for water bottles & gadgets\nLocker loop for convenience\nAdjustable padded shoulder straps for comfort\nMeasures approx.16 inches\nImported quality",
+    "price": 38000,
+    "is_active": true
+  },
+  {
+    "id": "7521a8a1-2831-411b-b08c-be5bf85cd01f",
+    "sku": "MOKIDSB006",
+    "gender": "girls",
+    "name": "Toddler Unicorn Backpack & Lunch Box Set",
+    "description": "Toddler Unicorn Backpack & Lunch Box Set\nage 2-5years\nFeatures:\nMade from durable 100% polyester canvas\nFull zip closure for secure storage\nFront zip pocket for easy access\nSide mesh pockets for bottles & gadgets\nLocker loop for convenience\nAdjustable padded shoulder straps for comfort\nImported quality",
+    "price": 42500,
+    "is_active": true
+  },
+  {
+    "id": "dd7b286c-1672-4c7d-9413-8281e37d6f59",
+    "sku": "MOKIDSB007",
+    "gender": "girls",
+    "name": "Girls Embroidered Apple Backpack",
+    "description": "Girls Embroidered Apple Backpack\nAge 2-5years\nMade from durable, high-quality fabric\nFull zip closure for secure storage\nFront zip pocket with adorable apple embroidery\nSide mesh pockets for bottles & gadgets\nAdjustable padded shoulder straps with chest buckle for extra support\nLocker loop for easy hanging\nSize : 15 inches",
+    "price": 35000,
+    "is_active": true
+  },
+  {
+    "id": "0dc1d4f0-06d7-4b4d-95cb-4fbd0aa3fc9c",
+    "sku": "MOKIDSBS015",
+    "gender": "boys",
+    "name": "Boys Shorts 015",
+    "description": "Boys Shorts 015",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "493cc01b-c2bc-4088-b5dd-d572bf72997a",
+    "sku": "MOKIDSSJ002",
+    "gender": "girls",
+    "name": "Girls Jeans 002",
+    "description": "Girls Jeans 002",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "a07f0bcf-6a7c-4bff-9eb4-ad22d0a23bd6",
+    "sku": "MOKIDSBSET003",
+    "gender": "boys",
+    "name": "2PCS TH LOGO SET",
+    "description": "2PCS TH LOGO SET",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "8f1d4911-b86b-41ca-a3b3-515ba1d788b3",
+    "sku": "MOKIDSBSET012",
+    "gender": "boys",
+    "name": "2PCS TOMMY SET",
+    "description": "2PCS TOMMY SET",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "186f227e-fea2-4b57-9ddd-adcbac82798e",
+    "sku": "MOKIDSSSC10",
+    "gender": "boys",
+    "name": "PEAK VALLEY",
+    "description": "PEAK VALLEY",
+    "price": 43960,
+    "is_active": true
+  },
+  {
+    "id": "4e7db6e2-828a-4125-9ffc-24e6f9eb78bd",
+    "sku": "MOKIDSB004",
+    "gender": "girls",
+    "name": "Girls Desert Backpack & Lunch Box Set!",
+    "description": "Girls Desert Backpack & Lunch Box Set!\nfor Age 6-10years\nFeatures:\nMade from durable 100% polyester canvas\nFull zip closure for secure storage\nFront zip pocket for easy access\nSide mesh pockets for water bottles & gadgets\nLocker loop for convenience\nAdjustable padded shoulder straps for comfort\nMeasures approx.16 inches\nImported quality",
+    "price": 38000,
+    "is_active": true
+  },
+  {
+    "id": "f3a0df20-d75a-489d-b039-0a3e6be03a15",
+    "sku": "MOKIDSB009",
+    "gender": "girls",
+    "name": "Girls backpack",
+    "description": "Girls backpack\nAge 7-16years\nFeatures:\nMade from durable 100% polyester canvas\nDouble-zip closure for easy access\nAdjustable padded shoulder straps for comfort all day\nLocker loop for hanging\nFront-zip pocket with pencil holders, calculator pocket & clip\nSide pockets for bottles or gadgets\nInner catch-all sleeve & name tag for personalization\nPretty floral print that adds charm to every outfit\nApprox. 16.5”(H) x 12”(W) x 6”(D)",
+    "price": 38000,
+    "is_active": true
+  },
+  {
+    "id": "6ce70ee4-d1c1-49b8-abfb-859b1e4d327f",
+    "sku": "MOKIDSB008",
+    "gender": "boys",
+    "name": "JWorld backpack",
+    "description": "JWorld backpack\nAge 9 - 16years\nEye-catching design that stands out\nPadded shoulder straps & back cushion for all-day comfort\nPadded laptop sleeve (fits up to 15.6”)\nStrong top grip handle & multiple compartments for easy organization\nSize: 19 x 12.5 x 8 inches (H x W x D)",
+    "price": 60000,
+    "is_active": true
+  },
+  {
+    "id": "43cb939b-39cd-4a67-9131-cb470e37940d",
+    "sku": "MOKIDSLS005",
+    "gender": "boys",
+    "name": "Boy stripe shirt",
+    "description": "Boy stripe shirt",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "beb9feef-e2c8-4d6f-b2fe-b00e3cd57750",
+    "sku": "MOKIDSLS008",
+    "gender": "boys",
+    "name": "Boys stripe shirt",
+    "description": "Boys stripe shirt",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "829372f8-3eff-40e5-9120-94037a2deb8c",
+    "sku": "MOKIDSBS003",
+    "gender": "boys",
+    "name": "Boys Shorts 003",
+    "description": "Boys Shorts 003",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "79d0c1a9-6cf5-448e-836f-25d185065740",
+    "sku": "MOKIDSBS005",
+    "gender": "boys",
+    "name": "Boys Shorts 005",
+    "description": "Boys Shorts 005",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "02e7ec25-37f0-4a14-bec2-5860cfc32ae7",
+    "sku": "MOKIDSBS007",
+    "gender": "boys",
+    "name": "Boys Shorts 007",
+    "description": "Boys Shorts 007",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "540aac06-64e2-4099-b5bc-fa6cecb4631e",
+    "sku": "MOKIDSBS009",
+    "gender": "boys",
+    "name": "Boys Shorts 009",
+    "description": "Boys Shorts 009",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "72805e9b-e9f3-4bd7-ba7e-6d2b0f7bc82d",
+    "sku": "MOKIDSBS011",
+    "gender": "boys",
+    "name": "Boys Shorts 011",
+    "description": "Boys Shorts 011",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "ae168bea-6833-429c-a35e-819a46e1613c",
+    "sku": "MOKIDSBS013",
+    "gender": "boys",
+    "name": "Boys Shorts 013",
+    "description": "Boys Shorts 013",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "4032bb87-e23d-48ff-83e8-dc019574a904",
+    "sku": "MOKIDSP003",
+    "gender": "boys",
+    "name": "Boys Polo 003",
+    "description": "Boys Polo 003",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "c7c40b5e-e9ab-421c-b44e-9f036b2c13b4",
+    "sku": "MOKIDSSH005",
+    "gender": "girls",
+    "name": "Girls Shorts 005",
+    "description": "Girls Shorts 005",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "0d787a3f-b389-422f-8231-0a0759ed6305",
+    "sku": "MOKIDSBS017",
+    "gender": "boys",
+    "name": "Boys Shorts 017",
+    "description": "Boys Shorts 017",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "7ff733dd-788f-4a04-b304-899abaed2aa1",
+    "sku": "MOKIDSBT018",
+    "gender": "boys",
+    "name": "Boys Trousers 018",
+    "description": "Boys Trousers 018",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "678f4eed-92ac-493d-87b5-b8bd65441114",
+    "sku": "MOKIDSBS019",
+    "gender": "boys",
+    "name": "Boys Shorts 019",
+    "description": "Boys Shorts 019",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "6805821f-dc59-4a87-873a-f83bf124cf5d",
+    "sku": "MOKIDSBS021",
+    "gender": "boys",
+    "name": "Boys Shorts 021",
+    "description": "Boys Shorts 021",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "15676b38-4f06-49b2-a251-8467f1945fe0",
+    "sku": "MOKIDSBT001",
+    "gender": "boys",
+    "name": "Boys Trousers 001",
+    "description": "Boys Trousers 001",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "03568858-5713-4c04-b9e8-40b719e6d755",
+    "sku": "MOKIDSBT003",
+    "gender": "boys",
+    "name": "Boys Trousers 003",
+    "description": "Boys Trousers 003",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "5468b813-75db-4425-8b75-32cf76b6b0d0",
+    "sku": "MOKIDSBT005",
+    "gender": "boys",
+    "name": "Boys Trousers 005",
+    "description": "Boys Trousers 005",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "1caa9618-9abb-4e7c-8abb-1b71aae4e49b",
+    "sku": "MOKIDSBT010",
+    "gender": "boys",
+    "name": "Boys Trousers 010",
+    "description": "Boys Trousers 010",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "30c29ea7-f01d-4e91-9a55-88875d86f833",
+    "sku": "MOKIDSBT012",
+    "gender": "boys",
+    "name": "Boys Trousers 012",
+    "description": "Boys Trousers 012",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "c44456f6-28b9-4119-b5d1-2664358b990c",
+    "sku": "MOKIDSBT014",
+    "gender": "boys",
+    "name": "Boys Trousers 014",
+    "description": "Boys Trousers 014",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "0a811327-698b-4d3b-a441-805df539cc4c",
+    "sku": "MOKIDSBT016",
+    "gender": "boys",
+    "name": "Boys Trousers 016",
+    "description": "Boys Trousers 016",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "d2f26c78-a246-4948-9715-d739fd4ca41f",
+    "sku": "MOKIDSBT020",
+    "gender": "boys",
+    "name": "Boys Trousers 020",
+    "description": "Boys Trousers 020",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "7e7ff0a2-eb93-4fde-bedc-a8e390b6e94f",
+    "sku": "MOKIDSBT022",
+    "gender": "boys",
+    "name": "Boys Trousers 022",
+    "description": "Boys Trousers 022",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "a6375bd8-65ff-4082-bd4e-b573e7f05bc4",
+    "sku": "MOKIDSB015",
+    "gender": "boys",
+    "name": "Giggle by Smiggle School Bundle Set",
+    "description": "Giggle by Smiggle School Bundle Set\nThe Giggle by Smiggle School Bundle Set includes all the essentials your child\nneeds in one matching collection., this set combines style, comfort,\nFeaturing a backpack, lunchbox, drink bottle, and pencil case\nSet Includes:\nBackpack\nInsulated Lunchbox\n450ml Drink Bottle\nPencil Case\nKey Features:\nSpacious backpack with adjustable padded straps\nInsulated lunchbox to help keep meals fresh\nBPA-free drink bottle with flip-top straw\nHandy zippered pencil case\nMatching colourful Giggle design\nBackpack Size: 37.5cm × 26cm × 11cm",
+    "price": 68000,
+    "is_active": true
+  },
+  {
+    "id": "97fcdc01-7af4-42e8-8d1d-9fa0740bdf61",
+    "sku": "MOKIDSP007",
+    "gender": "boys",
+    "name": "Boys Polo 007",
+    "description": "Boys Polo 007",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "ce9a537d-d204-4fea-a314-062d39f2ab12",
+    "sku": "MOKIDSLS011",
+    "gender": "boys",
+    "name": "Boys Checkers shirt",
+    "description": "Boys Checkers shirt",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "9e80b3d3-a4ff-43d0-9881-baecab08725d",
+    "sku": "MOKIDSLS016",
+    "gender": "boys",
+    "name": "Boys Long Sleeve Shirt 016",
+    "description": "Boys Long Sleeve Shirt 016",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "2366ef68-824d-4edc-8881-eb40796cd1e2",
+    "sku": "MOKIDSBT019",
+    "gender": "boys",
+    "name": "Boys Trousers 019",
+    "description": "Boys Trousers 019",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "7a369aa3-f92e-4cbc-9be6-12d2fa7f85ab",
+    "sku": "MOKIDSBT021",
+    "gender": "boys",
+    "name": "Boys Trousers 021",
+    "description": "Boys Trousers 021",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "18ab9883-b2ff-44a0-910c-97679c3098f0",
+    "sku": "MOKIDSLS020",
+    "gender": "boys",
+    "name": "Boys Long Sleeve Shirt 020",
+    "description": "Boys Long Sleeve Shirt 020",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "021073bb-b49f-439f-b98b-0e5a68acd1f6",
+    "sku": "MOKIDSBT023",
+    "gender": "boys",
+    "name": "Boys Trousers 023",
+    "description": "Boys Trousers 023",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "47fcfa46-4f18-4c20-825f-1b70295bb1a3",
+    "sku": "MOKIDSSL015",
+    "gender": "boys",
+    "name": "Boys Oxford shirt",
+    "description": "Boys Oxford shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "0ba97519-0391-4110-8490-69924611d96f",
+    "sku": "MOKIDSD027",
+    "gender": "girls",
+    "name": "Green Polo dress",
+    "description": "Green Polo dress",
+    "price": 18000,
+    "is_active": true
+  },
+  {
+    "id": "c6ca4b85-fbd9-4c17-8976-372ef5bfda23",
+    "sku": "MOKIDSD044",
+    "gender": "girls",
+    "name": "Lace embroidy dress",
+    "description": "Lace embroidy dress",
+    "price": 8000,
+    "is_active": true
+  },
+  {
+    "id": "2f44d7a7-2851-42b8-b626-f530c6fef293",
+    "sku": "MOKIDSBS018",
+    "gender": "boys",
+    "name": "Boys Shorts 018",
+    "description": "Boys Shorts 018",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "18569d88-f647-4918-9019-9a93164bb96e",
+    "sku": "MOKIDSBS020",
+    "gender": "boys",
+    "name": "Boys Shorts 020",
+    "description": "Boys Shorts 020",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "ea2d3bd7-ad92-40c1-944a-1bf15d6e838d",
+    "sku": "MOKIDSBS022",
+    "gender": "boys",
+    "name": "Boys Shorts 022",
+    "description": "Boys Shorts 022",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "c23c5d75-dd0b-4ce5-9e91-e3708ff3eb80",
+    "sku": "MOKIDSBT002",
+    "gender": "boys",
+    "name": "Boys Trousers 002",
+    "description": "Boys Trousers 002",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "8ebbb0a1-7e83-45ce-adca-aef967c2ac3a",
+    "sku": "MOKIDSBT004",
+    "gender": "boys",
+    "name": "Boys Trousers 004",
+    "description": "Boys Trousers 004",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "5b7e1065-9cbe-4d89-a9bb-c4f0321a5084",
+    "sku": "MOKIDSBT009",
+    "gender": "boys",
+    "name": "Boys Trousers 009",
+    "description": "Boys Trousers 009",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "66edbdc2-3888-4d4e-9b1b-5b4ba64ef7e0",
+    "sku": "MOKIDSBT011",
+    "gender": "boys",
+    "name": "Boys Trousers 011",
+    "description": "Boys Trousers 011",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "e23254c7-6782-4881-a753-1052be518c16",
+    "sku": "MOKIDSBT013",
+    "gender": "boys",
+    "name": "Boys Trousers 013",
+    "description": "Boys Trousers 013",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "ee5e78dd-89cf-440c-98ef-5d876a7ffda9",
+    "sku": "MOKIDSBT015",
+    "gender": "boys",
+    "name": "Boys Trousers 015",
+    "description": "Boys Trousers 015",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "ef6cca57-a3ff-4867-997f-22eb95e5ed03",
+    "sku": "MOKIDSBT017",
+    "gender": "boys",
+    "name": "Boys Trousers 017",
+    "description": "Boys Trousers 017",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "f590e9ea-5170-4202-a4e9-a13d94514e04",
+    "sku": "MOKIDSSC007",
+    "gender": "boys",
+    "name": "US BRASS DOUBLE STRAP HARRY",
+    "description": "US BRASS DOUBLE STRAP HARRY",
+    "price": 39960,
+    "is_active": true
+  },
+  {
+    "id": "4d260eca-88bf-4f85-a522-4490bde437b0",
+    "sku": "MOKIDSJP001",
+    "gender": "girls",
+    "name": "Girls Jumpsuit 001",
+    "description": "Girls Jumpsuit 001",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "ff4b0c20-e367-42c8-a6ef-72046a568085",
+    "sku": "MOKIDSBT006",
+    "gender": "boys",
+    "name": "Boys Trousers 006",
+    "description": "Boys Trousers 006",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "2456b88f-fdc0-479a-be56-f80e2c78bd6e",
+    "sku": "MOKIDSBT008",
+    "gender": "boys",
+    "name": "Boys Trousers 008",
+    "description": "Boys Trousers 008",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "b8b48cbf-feae-4e60-b336-140c18892e9b",
+    "sku": "MOKIDSB013",
+    "gender": "girls",
+    "name": "Smiggle Purple Junior Character Hoodie Backpack",
+    "description": "Smiggle Purple Junior Character Hoodie Backpack\nHop into new, fun-filled memories with Smiggle s Out & About collection!\nSmiggles teeny tiny Smigglers can bring along cuddly otters, adventurous dinosaurs,\nsweet bunnies & bears on playful escapades! Smiggles Out & About Junior\nCharacter backpack is the perfect pick for school, travel, and so much more!\nEach character backpack features an adorable 3-D character applique and unique design sleeves.\ndetails ranging from specialised plush, embroidery details, and iridescent finishes. features\nPull out the hood from the zipped compartment\nApplique detailing\nHood with velcro tab for adjustable fit\n3 zipped compartments; main compartment with double zip\nDual Drink bottle sleeves\nPadded adjustable shoulder straps\nAdjustable chest strap\nCarry handle\nInternal name label\nApprox 14.8L\nHeight 4cm\nWidth 2.5cm\nDepth 1cm\n100% Other fibres.",
+    "price": 64500,
+    "is_active": true
+  },
+  {
+    "id": "30935c35-16b3-4f5a-9444-f7220b8ca2a9",
+    "sku": "MOKIDSB015",
+    "gender": "girls",
+    "name": "Giggle by Smiggle School Bundle Set",
+    "description": "Giggle by Smiggle School Bundle Set\nThe Giggle by Smiggle School Bundle Set includes all the essentials your child\nneeds in one matching collection., this set combines style, comfort,\nFeaturing a backpack, lunchbox, drink bottle, and pencil case\nSet Includes:\nBackpack\nInsulated Lunchbox\n450ml Drink Bottle\nPencil Case\nKey Features:\nSpacious backpack with adjustable padded straps\nInsulated lunchbox to help keep meals fresh\nBPA-free drink bottle with flip-top straw\nHandy zippered pencil case\nMatching colourful Giggle design\nBackpack Size: 37.5cm × 26cm × 11cm",
+    "price": 68000,
+    "is_active": true
+  },
+  {
+    "id": "5b4ebc9a-fa26-4fd0-a617-ad032f8d08a0",
+    "sku": "MOKIDSDRESSSHOE016",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 016",
+    "description": "Girls Dress Shoe 016",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "f8253ee1-572c-442b-8379-9ad8a1da23ac",
+    "sku": "MOKIDSSL001",
+    "gender": "girls",
+    "name": "Girls Short Sleeve Top 001",
+    "description": "Girls Short Sleeve Top 001",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "06561e1c-921f-473f-b480-f0e29937e920",
+    "sku": "MOKIDSBT007",
+    "gender": "boys",
+    "name": "Boys Trousers 007",
+    "description": "Boys Trousers 007",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "34fb9e45-9c56-4b87-bd20-413a96e32ba7",
+    "sku": "MOKIDSD034",
+    "gender": "girls",
+    "name": "Dreamy unicorn dress",
+    "description": "Dreamy unicorn dress",
+    "price": 30000,
+    "is_active": true
+  },
+  {
+    "id": "36249383-0df9-4f38-a038-2b4290fce49a",
+    "sku": "MOKIDSD036",
+    "gender": "girls",
+    "name": "Checkers causual dress",
+    "description": "Checkers causual dress",
+    "price": 18000,
+    "is_active": true
+  },
+  {
+    "id": "3c51a3e0-4dd7-417e-89a7-5ed873b28f61",
+    "sku": "MOKIDSB002",
+    "gender": "girls",
+    "name": "Tween Girls Icon Cargo Backpack Set",
+    "description": "Tween Girls Icon Cargo Backpack Set\nfor age 9-16years\nMade from eco-friendly 100% recycled nylon\nSecure zipper closure for easy access\nAdjustable padded shoulder straps for all-day comfort\nLocker loop for convenience\n3 front-zip & hook-and-loop flap pockets for perfect organization\nSide mesh pockets for bottles or gadgets\nApprox. 17”(H) x 12”(W) x 5”(D)",
+    "price": 45000,
+    "is_active": true
+  },
+  {
+    "id": "7ec40349-75d1-40b6-82cc-e78f7728403d",
+    "sku": "MOKIDSDRESSSHOE018",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 018",
+    "description": "Girls Dress Shoe 018",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "1817d907-7bc5-4740-9cb3-f381b62ccb8f",
+    "sku": "MOKIDSSANDALS001",
+    "gender": "girls",
+    "name": "Girls Shoes 001",
+    "description": "Girls Shoes 001",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "58a2a2d5-19c0-499c-98c1-66330ebd7058",
+    "sku": "MOKIDSSC001",
+    "gender": "girls",
+    "name": "GIRLS SCALA GEM YOUTH LEATHER",
+    "description": "GIRLS SCALA GEM YOUTH LEATHER",
+    "price": 64000,
+    "is_active": true
+  },
+  {
+    "id": "f1212053-2e9e-4223-9bd8-d153bac3d280",
+    "sku": "MOKIDSUW002",
+    "gender": "girls",
+    "name": "Girls Underwear 002",
+    "description": "Girls Underwear 002",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "46faa172-e620-49a3-9718-91dc3d28cbc2",
+    "sku": "MOKIDSUW004",
+    "gender": "girls",
+    "name": "Girls Underwear 004",
+    "description": "Girls Underwear 004",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "c3a5478c-2658-4e52-ba7d-0c7e212c699b",
+    "sku": "MOKIDSUW007",
+    "gender": "girls",
+    "name": "Girls Underwear 007",
+    "description": "Girls Underwear 007",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "981a9dd2-c70f-4615-becf-701d718ff023",
+    "sku": "MOKIDSBT24",
+    "gender": "boys",
+    "name": "Boys Trousers 024",
+    "description": "Boys Trousers 024",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "645822c0-f029-49ef-81b5-940f4797b12f",
+    "sku": "MOKIDSD028",
+    "gender": "girls",
+    "name": "satin bodice red lace dress",
+    "description": "satin bodice red lace dress",
+    "price": 42500,
+    "is_active": true
+  },
+  {
+    "id": "1d22c5e3-a089-40ba-93b7-81cdd1c9d33f",
+    "sku": "MOKIDSUW009",
+    "gender": "girls",
+    "name": "Girls Underwear 009",
+    "description": "Girls Underwear 009",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "7ac7951a-7a88-4433-9a64-e784b52af299",
+    "sku": "MOKIDSD035",
+    "gender": "girls",
+    "name": "Jackered floral embroidry dress",
+    "description": "Jackered floral embroidry dress",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "3c2bf8f1-ee22-4e30-99d8-ec9fef15d8b4",
+    "sku": "MOKIDSL004",
+    "gender": "girls",
+    "name": "PLACE LEGGINGS",
+    "description": "PLACE LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "af00e813-c952-4532-acdb-f7933ff0f8e3",
+    "sku": "MOKIDSL005",
+    "gender": "girls",
+    "name": "Girls Leggings 005",
+    "description": "Girls Leggings 005",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "0ea211fd-5b92-44f3-bbcc-f14ddc9480ca",
+    "sku": "MOKIDSL007",
+    "gender": "girls",
+    "name": "OLD NAVY LEGGINGS",
+    "description": "OLD NAVY LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "6048b1fc-3a9c-4dfa-aca1-dd31d6ee151f",
+    "sku": "MOKIDSL009",
+    "gender": "girls",
+    "name": "PLACE CAPRI LEGGINGS",
+    "description": "PLACE CAPRI LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "521c5a03-2852-4d1c-91f7-d1495acd6ed6",
+    "sku": "MOKIDSL013",
+    "gender": "girls",
+    "name": "OLD NAVY LEGGINGS",
+    "description": "OLD NAVY LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "59b32626-51a6-48ed-91d5-a53ddac187a0",
+    "sku": "MOKIDSL015",
+    "gender": "girls",
+    "name": "PLACE LEGGINGS",
+    "description": "PLACE LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "8e7229d1-522d-4497-89f0-84f02c8461e2",
+    "sku": "MOKIDSL018",
+    "gender": "girls",
+    "name": "OLD NAVY LEGGINGS",
+    "description": "OLD NAVY LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "2deb293d-0e6b-44d3-97aa-0bfc274d9bc2",
+    "sku": "MOKIDSL022",
+    "gender": "girls",
+    "name": "GEORGE LEGGINGS",
+    "description": "GEORGE LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "a7def371-f056-4aea-8fab-aea31a1728ea",
+    "sku": "MOKIDSSH008",
+    "gender": "girls",
+    "name": "Girls Shorts 008",
+    "description": "Girls Shorts 008",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "e8888926-ba8b-49e7-8c95-50231b942314",
+    "sku": "MOKIDSSH010",
+    "gender": "girls",
+    "name": "Girls Shorts 010",
+    "description": "Girls Shorts 010",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "ead22a83-8002-4139-b685-eca2eb31c519",
+    "sku": "MOKIDSDRESSSHOE012",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 012",
+    "description": "Girls Dress Shoe 012",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "9ca1a2f3-a59b-407f-9515-cafabb12bfe8",
+    "sku": "MOKIDSP002",
+    "gender": "boys",
+    "name": "Boys Polo 002",
+    "description": "Boys Polo 002",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "ffc12a66-9995-40e6-9c16-4788b8828f97",
+    "sku": "MOKIDSUW001",
+    "gender": "girls",
+    "name": "Girls Underwear 001",
+    "description": "Girls Underwear 001",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "f4cf6b04-6e6e-4278-b73d-e7e47ed86f64",
+    "sku": "MOKIDSUW003",
+    "gender": "girls",
+    "name": "Girls Underwear 003",
+    "description": "Girls Underwear 003",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "8ef08b59-e9f8-423c-bf3b-5d194d72a94f",
+    "sku": "MOKIDSD003",
+    "gender": "girls",
+    "name": "Beautiful lace mesh red dress",
+    "description": "Beautiful lace mesh red dress",
+    "price": 35000,
+    "is_active": true
+  },
+  {
+    "id": "f1a4848c-34b6-4285-91a5-b27e83284eb6",
+    "sku": "MOKIDSD022",
+    "gender": "girls",
+    "name": "Navy & Gold one hand Shoulder dress",
+    "description": "Navy & Gold one hand Shoulder dress",
+    "price": 55000,
+    "is_active": true
+  },
+  {
+    "id": "5480df4c-bd53-4a80-94c3-977b11d25a8e",
+    "sku": "MOKIDSUW005",
+    "gender": "girls",
+    "name": "Girls Underwear 005",
+    "description": "Girls Underwear 005",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "c62ffebb-ef05-4536-8b8c-f03bba2aeda6",
+    "sku": "MOKIDSUW008",
+    "gender": "girls",
+    "name": "Girls Underwear 008",
+    "description": "Girls Underwear 008",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "08eae737-0236-4324-91e4-41631c7520f4",
+    "sku": "MOKIDSUW010",
+    "gender": "girls",
+    "name": "Girls Underwear 010",
+    "description": "Girls Underwear 010",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "cbf16f01-6017-47e6-82c7-65aa492a78af",
+    "sku": "MOKIDSBSET008",
+    "gender": "boys",
+    "name": "2PC POLO TENNIS SET",
+    "description": "2PC POLO TENNIS SET",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "7145703b-e2de-4aa8-a2f6-d18c3a85936e",
+    "sku": "MOKIDSDRESSSHOE003",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 003",
+    "description": "Girls Dress Shoe 003",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "48bfed5f-92a5-4246-a6ab-32e0d442e663",
+    "sku": "MOKIDSDRESSSHOE006",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 006",
+    "description": "Girls Dress Shoe 006",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "8c8b5a1b-0ce4-47be-88ab-5c064abbb88b",
+    "sku": "MOKIDSDRESSSHOE008",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 008",
+    "description": "Girls Dress Shoe 008",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "d7ea55f3-603b-41c0-889b-b20c7449b0fe",
+    "sku": "MOKIDSUW019",
+    "gender": "girls",
+    "name": "Girls Underwear 019",
+    "description": "Girls Underwear 019",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "cfe78218-a0de-4a55-a71e-b0f1e491cc37",
+    "sku": "MOKIDSDRESSSHOE010",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 010",
+    "description": "Girls Dress Shoe 010",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "6b47c662-1c16-4fae-8f36-c1d432542da9",
+    "sku": "MOKIDSUW011",
+    "gender": "girls",
+    "name": "Girls Underwear 011",
+    "description": "Girls Underwear 011",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "48e6502c-b18f-44ae-87ea-bbbaae3811e9",
+    "sku": "MOKIDSUW013",
+    "gender": "girls",
+    "name": "Girls Underwear 013",
+    "description": "Girls Underwear 013",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "bf7c2ca8-d45a-4e9b-b952-3f2928b15f8d",
+    "sku": "MOKIDSUW015",
+    "gender": "girls",
+    "name": "Girls Underwear 015",
+    "description": "Girls Underwear 015",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "fe7a3198-8557-4ba1-8cc7-64c882229348",
+    "sku": "MOKIDSUW017",
+    "gender": "girls",
+    "name": "Girls Underwear 017",
+    "description": "Girls Underwear 017",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "3e246ef5-546c-4db8-82bb-fe32bf6461fe",
+    "sku": "MOKIDSDRESSSHOE020",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 020",
+    "description": "Girls Dress Shoe 020",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "7388a18c-249f-4946-ad0c-2d82d98540d6",
+    "sku": "MOKIDSB009",
+    "gender": "boys",
+    "name": "smiggle element backpack set",
+    "description": "smiggle element backpack set\nSmiggle backpack ELEMENT Bundle Set\nMake school days fun and organised with this matching Smiggle School trailblazer set.\nmeal and snack storage. Featuring a colourful character-themed design, this practical set\nincludes a backpack, insulated lunchbox, drink bottle, and snack containers for easy\nSet Includes:\n* Backpack\n* Insulated Lunchbox\n* Drink Bottle\nFeatures:\nage 7-11 years\n* Spacious backpack with comfortable padded straps\n* Insulated lunchbox to help keep food fresh\n* Reusable drink bottle for hydration on the go",
+    "price": 130000,
+    "is_active": true
+  },
+  {
+    "id": "3870573b-d9b0-46bf-af86-40fe2f262db1",
+    "sku": "MOKIDSSANDALS006",
+    "gender": "girls",
+    "name": "Girls Sandals 006",
+    "description": "Girls Sandals 006",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "7a427828-e933-401e-be82-f74fceca54ff",
+    "sku": "MOKIDSUW012",
+    "gender": "girls",
+    "name": "Girls Underwear 012",
+    "description": "Girls Underwear 012",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "dd84e198-5b1c-47ed-94e8-c3dde4f8b25d",
+    "sku": "MOKIDSLS009",
+    "gender": "boys",
+    "name": "Boys checkers shirt",
+    "description": "Boys checkers shirt",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "e2dd09e7-15d0-459f-a99c-f80046b509b5",
+    "sku": "MOKIDSLS012",
+    "gender": "boys",
+    "name": "Boys checker shirt",
+    "description": "Boys checker shirt",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "0b24db20-3fe1-4d44-bc13-c0784f7825bf",
+    "sku": "MOKIDSUW014",
+    "gender": "girls",
+    "name": "Girls Underwear 014",
+    "description": "Girls Underwear 014",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "cc45776a-21a1-4b6b-9a04-692f882e0284",
+    "sku": "MOKIDSUW016",
+    "gender": "girls",
+    "name": "Girls Underwear 016",
+    "description": "Girls Underwear 016",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "36f14bdf-e3cb-4371-b4c4-f68b7a0cbc6a",
+    "sku": "MOKIDSUW018",
+    "gender": "girls",
+    "name": "Girls Underwear 018",
+    "description": "Girls Underwear 018",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "63d2222f-288d-453a-9567-1d704d91382b",
+    "sku": "MOKIDSSC012",
+    "gender": "girls",
+    "name": "PLACE GIRLS LEATHER SHOE(LOW HEEL )",
+    "description": "PLACE GIRLS LEATHER SHOE(LOW HEEL )",
+    "price": 38000,
+    "is_active": true
+  },
+  {
+    "id": "c4e627c6-a381-4fc5-a077-e43aa87a4793",
+    "sku": "MOKIDSB010",
+    "gender": "boys",
+    "name": "JWorld backpack",
+    "description": "JWorld backpack\r\nAge 9 - 16years\r\nEye-catching design that stands out\r\nPadded shoulder straps & back cushion for all-day comfort\r\nPadded laptop sleeve (fits up to 15.6”)\r\nStrong top grip handle & multiple compartments for easy organization\r\nSize: 19 x 12.5 x 8 inches (H x W x D)",
+    "price": 60000,
+    "is_active": true
+  },
+  {
+    "id": "0c154906-8ac6-49b3-ac49-067bd99b54d2",
+    "sku": "MOKIDSSH001",
+    "gender": "girls",
+    "name": "Girls Shorts 001",
+    "description": "Girls Shorts 001",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "61cb6950-734c-4f85-8071-53b0b70cf381",
+    "sku": "MOKIDSSH006",
+    "gender": "girls",
+    "name": "Girls Shorts 006",
+    "description": "Girls Shorts 006",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "0ce61483-ad7b-44db-b3f8-38dd6f9331b6",
+    "sku": "MOKIDSSH007",
+    "gender": "girls",
+    "name": "Girls Shorts 007",
+    "description": "Girls Shorts 007",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "8d5877f8-c673-44cd-bd4b-2be75efef9d7",
+    "sku": "MOKIDSUW020",
+    "gender": "girls",
+    "name": "Girls Underwear 020",
+    "description": "Girls Underwear 020",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "975d480c-c2a8-4142-abaa-e198e64dc67c",
+    "sku": "MOKIDSUW022",
+    "gender": "girls",
+    "name": "Girls Underwear 022",
+    "description": "Girls Underwear 022",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "7eba1afc-e7da-4602-817a-84fd6d06d208",
+    "sku": "MOKIDSUW024",
+    "gender": "girls",
+    "name": "Girls Underwear 024",
+    "description": "Girls Underwear 024",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "8f1bff94-477d-43cc-b182-9084dfe979b1",
+    "sku": "MOKIDSUW026",
+    "gender": "girls",
+    "name": "Girls Underwear 026",
+    "description": "Girls Underwear 026",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "9c240422-2a25-4ea4-bf59-ea223f55de25",
+    "sku": "MOKIDSUW028",
+    "gender": "girls",
+    "name": "Girls Underwear 028",
+    "description": "Girls Underwear 028",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "96126927-b78c-457e-aa1c-a1458c9d5085",
+    "sku": "MOKIDSD046",
+    "gender": "girls",
+    "name": "Girls Dress 046",
+    "description": "Girls Dress 046",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "3f133c52-9f92-4caf-bbbd-30eb278c345d",
+    "sku": "MOKIDSDRESSSHOE011",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 011",
+    "description": "Girls Dress Shoe 011",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "c1d7ffe8-6a66-4195-8ce5-4441534b852a",
+    "sku": "MOKIDSSC005",
+    "gender": "boys",
+    "name": "BOYSBTS ANTWERP LACE SHOE",
+    "description": "BOYSBTS ANTWERP LACE SHOE",
+    "price": 40000,
+    "is_active": true
+  },
+  {
+    "id": "29e98d5d-b645-4d00-b176-040bc28f0fe9",
+    "sku": "MOKIDSSC012",
+    "gender": "boys",
+    "name": "EASY FIT SHOE",
+    "description": "EASY FIT SHOE",
+    "price": 43960,
+    "is_active": true
+  },
+  {
+    "id": "d74613e1-31ff-4cbd-8644-3d58892bbc3d",
+    "sku": "MOKIDSSC003",
+    "gender": "girls",
+    "name": "GIRLS SCALA TAP KID BLACK LEATHER",
+    "description": "GIRLS SCALA TAP KID BLACK LEATHER",
+    "price": 56000,
+    "is_active": true
+  },
+  {
+    "id": "511cf5d3-f331-4e1d-9c12-025743ef9ae2",
+    "sku": "MOKIDSUW021",
+    "gender": "girls",
+    "name": "Girls Underwear 021",
+    "description": "Girls Underwear 021",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "20af109f-d9b4-4196-9993-22870912fbb6",
+    "sku": "MOKIDSUW023",
+    "gender": "girls",
+    "name": "Girls Underwear 023",
+    "description": "Girls Underwear 023",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "dd8cfafc-593e-4267-be9a-631b18058905",
+    "sku": "MOKIDSUW025",
+    "gender": "girls",
+    "name": "Girls Underwear 025",
+    "description": "Girls Underwear 025",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "b33b9e1f-5a5a-45a2-b627-f645b299c4f7",
+    "sku": "MOKIDSUW027",
+    "gender": "girls",
+    "name": "Girls Underwear 027",
+    "description": "Girls Underwear 027",
+    "price": 0,
+    "is_active": false
+  },
+  {
+    "id": "901b0936-e1df-4ac4-8750-fc071436aab3",
+    "sku": "MOKIDSD005",
+    "gender": "girls",
+    "name": "Green Lace Mesh Ball dress",
+    "description": "Green Lace Mesh Ball dress",
+    "price": 38000,
+    "is_active": true
+  },
+  {
+    "id": "5c948df8-c9cf-428b-ad8f-8b4574aa6d40",
+    "sku": "MOKIDSGLS001",
+    "gender": "boys",
+    "name": "The children place 3D print  (BLUESSTONE)",
+    "description": "The children place 3D print  (BLUESSTONE)",
+    "price": 13000,
+    "is_active": true
+  },
+  {
+    "id": "e742ca00-5b77-46cc-8da8-75c09bee7a2f",
+    "sku": "MOKIDSD007",
+    "gender": "girls",
+    "name": "emerald-green layered ball dress",
+    "description": "emerald-green layered ball dress",
+    "price": 68000,
+    "is_active": true
+  },
+  {
+    "id": "7a8da50f-43b4-4228-85d8-835e31536d04",
+    "sku": "MOKIDSGLS003",
+    "gender": "boys",
+    "name": "The crazy 8 brand graphic tees",
+    "description": "The crazy 8 brand graphic tees",
+    "price": 13000,
+    "is_active": true
+  },
+  {
+    "id": "08d70a0d-6c7a-4b67-a4bc-b6a780291654",
+    "sku": "MOKIDSD031",
+    "gender": "girls",
+    "name": "Multicolor lace  dress",
+    "description": "Multicolor lace dress",
+    "price": 30000,
+    "is_active": true
+  },
+  {
+    "id": "36a2ec85-8857-4401-b373-25000071afb9",
+    "sku": "MOKIDSSL009",
+    "gender": "boys",
+    "name": "Boys checkers shirt",
+    "description": "Boys checkers shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "046ace7a-a299-4d05-a12b-270518ed1361",
+    "sku": "MOKIDSGLS002",
+    "gender": "boys",
+    "name": "The Carter's Kids",
+    "description": "The Carter's Kids",
+    "price": 13000,
+    "is_active": true
+  },
+  {
+    "id": "06ee5159-3a0e-402d-90d1-3762d21aa678",
+    "sku": "MOKIDSD004",
+    "gender": "girls",
+    "name": "A sparkling show-stopper dress",
+    "description": "A sparkling show-stopper dress",
+    "price": 40500,
+    "is_active": true
+  },
+  {
+    "id": "062b8b50-9183-409c-b43c-1d61bb3b0210",
+    "sku": "MOKIDSD041",
+    "gender": "girls",
+    "name": "Green Causual dress",
+    "description": "Green Causual dress",
+    "price": 8000,
+    "is_active": true
+  },
+  {
+    "id": "23cbdfd4-2c90-45a2-adf9-0f9f11a724dc",
+    "sku": "MOKIDSSANDALS005",
+    "gender": "girls",
+    "name": "Girls Sandals 005",
+    "description": "Girls Sandals 005",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "53c71aef-1d26-4cd4-98c0-8c4efa5ee6a0",
+    "sku": "MOKIDSLS018",
+    "gender": "boys",
+    "name": "Boys shirt with Ace shape design",
+    "description": "Boys shirt with Ace shape design",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "930e9048-b67b-4007-8a4e-d571f779d644",
+    "sku": "MOKIDSD014",
+    "gender": "girls",
+    "name": "Emerald Layered Bow Dress",
+    "description": "Emerald Layered Bow Dress",
+    "price": 55000,
+    "is_active": true
+  },
+  {
+    "id": "2455c908-99ed-412f-88c2-71388a3b9782",
+    "sku": "MOKIDSD018",
+    "gender": "girls",
+    "name": "shimmer pleated party dress",
+    "description": "shimmer pleated party dress",
+    "price": 60000,
+    "is_active": true
+  },
+  {
+    "id": "ccf334c8-bfc5-4411-85b7-29cd4b95e603",
+    "sku": "MOKIDSSC003",
+    "gender": "boys",
+    "name": "BOYS LEATHER ASTRO SCHOOL TRAINNERS",
+    "description": "BOYS LEATHER ASTRO SCHOOL TRAINNERS",
+    "price": 40000,
+    "is_active": true
+  },
+  {
+    "id": "db8228c1-927f-4e57-b7a2-cd5f06919a70",
+    "sku": "MOKIDSD001",
+    "gender": "girls",
+    "name": "Stunning turquoise layered dress",
+    "description": "Stunning turquoise layered dress",
+    "price": 54999,
+    "is_active": true
+  },
+  {
+    "id": "50ce4980-6acb-40d4-b5d1-32f4ce621451",
+    "sku": "MOKIDSJ003",
+    "gender": "girls",
+    "name": "Girls Jeans 003",
+    "description": "Girls Jeans 003",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "22e5602f-5d67-4210-871e-3219ec9f81e7",
+    "sku": "MOKIDSSC010",
+    "gender": "girls",
+    "name": "MINISO GIRLS FLAT LSCHOOL SHOE",
+    "description": "MINISO GIRLS FLAT LSCHOOL SHOE",
+    "price": 38000,
+    "is_active": true
+  },
+  {
+    "id": "0e7ef606-e7f2-4083-8869-cb0494f46517",
+    "sku": "MOKIDSSJ003",
+    "gender": "girls",
+    "name": "Girls Jeans 003",
+    "description": "Girls Jeans 003",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "dc66b065-3e9f-47d6-a583-7f1f76f5df00",
+    "sku": "MOKIDSSJ004",
+    "gender": "girls",
+    "name": "Girls Jeans 004",
+    "description": "Girls Jeans 004",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "230b3831-9a94-4b52-b10c-07b081155cbb",
+    "sku": "MOKIDSDRESSSHOE014",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 014",
+    "description": "Girls Dress Shoe 014",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "0513be54-c64b-4ca6-84c5-eb26f1bece21",
+    "sku": "MOKIDSD019",
+    "gender": "girls",
+    "name": "Double straple crystal brooch, side drape ball dress",
+    "description": "Double straple crystal brooch, side drape ball dress",
+    "price": 60000,
+    "is_active": true
+  },
+  {
+    "id": "d2cf3c38-8afd-40d9-8c2f-7a857c8aa6d8",
+    "sku": "MOKIDSD021",
+    "gender": "girls",
+    "name": "Girls Dress 021",
+    "description": "Girls Dress 021",
+    "price": 55000,
+    "is_active": true
+  },
+  {
+    "id": "4db7078c-8196-4b2e-b750-649962669207",
+    "sku": "MOKIDSDRESSSHOE007",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 007",
+    "description": "Girls Dress Shoe 007",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "26abc27f-b1ce-48f5-bd22-f5483d710f0d",
+    "sku": "MOKIDSD023",
+    "gender": "girls",
+    "name": "Stain resistance polo dress",
+    "description": "Stain resistance polo dress",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "b72fc693-566b-44be-b465-acfd0a30a341",
+    "sku": "MOKIDSDRESSSHOE009",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 009",
+    "description": "Girls Dress Shoe 009",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "62e25405-a8f6-4396-84e5-676a79930030",
+    "sku": "MOKIDSD025",
+    "gender": "girls",
+    "name": "Sequences bow dress gown",
+    "description": "Sequences bow dress gown",
+    "price": 42000,
+    "is_active": true
+  },
+  {
+    "id": "f8ea2842-4ad6-4afe-b74b-0cc1c0a4bad4",
+    "sku": "MOKIDSLS003",
+    "gender": "boys",
+    "name": "Boys stripe shirt",
+    "description": "Boys stripe shirt",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "b25b8a42-00a6-45fd-b67d-f6892bcdd9b5",
+    "sku": "MOKIDSSL016",
+    "gender": "boys",
+    "name": "Boy shirt with asterick marks",
+    "description": "Boy shirt with asterick marks",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "6eead36d-4b2d-44f9-b7e4-26f74ac85554",
+    "sku": "MOKIDSSL018",
+    "gender": "boys",
+    "name": "Boys Graphic illustration shirt",
+    "description": "Boys Graphic illustration shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "6ab2078a-395a-47ac-9fa9-bdce6ff630a5",
+    "sku": "MOKIDSD037",
+    "gender": "girls",
+    "name": "Stunning mettalic flare dress",
+    "description": "Stunning mettalic flare dress",
+    "price": 30000,
+    "is_active": true
+  },
+  {
+    "id": "01330a09-153c-4ce2-872e-885953bb34b8",
+    "sku": "MOKIDSSH002",
+    "gender": "girls",
+    "name": "Girls Shorts 002",
+    "description": "Girls Shorts 002",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "2134da70-0989-4e82-956a-b241c4c7e77a",
+    "sku": "MOKIDSBSET009",
+    "gender": "boys",
+    "name": "2PCS POLO RALPH SET",
+    "description": "2PCS POLO RALPH SET",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "88aaaa93-f311-4eaf-9137-51e2ddf19907",
+    "sku": "MOKIDSB004",
+    "gender": "boys",
+    "name": "Surreal Access BackpackCamouflag",
+    "description": "Surreal Access BackpackCamouflag\nis the perfect pick for school, sports, travel and more.It features 3 zipped compartments,\ndual drink bottle sleeves and a padded tech pocket for all essentials,\nTop down access to the main compartment makes packing for each and every\nPadded adjustable shoulder straps\nAdjustable chest strap\nCarry Handle\nReflective Trims\n3 zipped compartments; main compartment with double zip\nDual drink bottle sleeves\n15 inch laptop compartment\nInternal pen sleeves and slip pockets\nName label\nH 45cm x W 30cm x D 13cm\nApprox 0.70 kg / 16L capacity\nSet Includes:\nBackpack\nInsulated Lunchbox\n450ml Drink Bottle\nPencil Case",
+    "price": 110000,
+    "is_active": true
+  },
+  {
+    "id": "e10d19f0-eea8-4991-9ed7-7bf2955ba7c8",
+    "sku": "MOKIDSD038",
+    "gender": "girls",
+    "name": "Brown Coton  Dress",
+    "description": "Brown Coton Dress",
+    "price": 30000,
+    "is_active": true
+  },
+  {
+    "id": "bf867480-e847-4663-8827-8a0c7934939d",
+    "sku": "MOKIDSD043",
+    "gender": "girls",
+    "name": "Yellow lace dress",
+    "description": "Yellow lace dress",
+    "price": 8000,
+    "is_active": true
+  },
+  {
+    "id": "55963c60-328e-4098-b916-13fd77c2fd72",
+    "sku": "MOKIDSL001",
+    "gender": "girls",
+    "name": "PLACE LEGGINGS",
+    "description": "PLACE LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "98f2e81b-ea82-4a27-b9ca-b221caa3caba",
+    "sku": "MOKIDSL003",
+    "gender": "girls",
+    "name": "OLD NAVY LEGGINGS",
+    "description": "OLD NAVY LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "6bc981db-a416-4104-af08-abceef8eff4b",
+    "sku": "MOKIDSB005",
+    "gender": "boys",
+    "name": "Surreal Access BackpackCamouflag",
+    "description": "Surreal Access BackpackCamouflag\nis the perfect pick for school, sports, travel and more.It features 3 zipped compartments,\ndual drink bottle sleeves and a padded tech pocket for all essentials,\nTop down access to the main compartment makes packing for each and every\nPadded adjustable shoulder straps\nAdjustable chest strap\nCarry Handle\nReflective Trims\n3 zipped compartments; main compartment with double zip\nDual drink bottle sleeves\n15 inch laptop compartment\nInternal pen sleeves and slip pockets\nName label\nH 45cm x W 30cm x D 13cm\nApprox 0.70 kg / 16L capacity\nSet Includes:\nBackpack\nInsulated Lunchbox\n450ml Drink Bottle\nPencil Case",
+    "price": 110000,
+    "is_active": true
+  },
+  {
+    "id": "6c75eca0-dcec-4980-950b-80f723d075f2",
+    "sku": "MOKIDSP006",
+    "gender": "boys",
+    "name": "Boys Polo 006",
+    "description": "Boys Polo 006",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "4e4c3fe4-e1af-4a7c-bc6d-c038a0564831",
+    "sku": "MOKIDSSL005",
+    "gender": "boys",
+    "name": "Boys Multicolor stripe shirt",
+    "description": "Boys Multicolor stripe shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "6fb679dd-d0ef-4111-848f-f308ec3028ca",
+    "sku": "MOKIDSL011",
+    "gender": "girls",
+    "name": "OLD NAVY LEGGINGS",
+    "description": "OLD NAVY LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "b5539fb4-7a81-4b62-96f8-d4effdea2cb6",
+    "sku": "MOKIDSLS001",
+    "gender": "boys",
+    "name": "Boys checkers shirt",
+    "description": "Boys checkers shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "b0a22b21-e3fb-488b-ad1c-0406d94d4bba",
+    "sku": "MOKIDSLS004",
+    "gender": "boys",
+    "name": "Boys dianosur shirt",
+    "description": "Boys dianosur shirt",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "20b625dc-852c-4d3b-bdd3-7e18bed3a022",
+    "sku": "MOKIDSP005",
+    "gender": "boys",
+    "name": "Boys Polo 005",
+    "description": "Boys Polo 005",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "2fc4caa2-e33b-48c9-bc74-fe988446134f",
+    "sku": "MOKIDSSL013",
+    "gender": "boys",
+    "name": "Boys beach shirt",
+    "description": "Boys beach shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "653b864c-a471-4b33-937f-d20456d9d6cf",
+    "sku": "MOKIDSSL003",
+    "gender": "boys",
+    "name": "Boys poplin shirt",
+    "description": "Boys poplin shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "b9efaafa-2bea-4150-969a-28f96ba30c2c",
+    "sku": "MOKIDSSL012",
+    "gender": "boys",
+    "name": "Boys plain shirt",
+    "description": "Boys plain shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "aa6a454b-af3a-41fb-8fb8-84d6e970162c",
+    "sku": "MOKIDSSL021",
+    "gender": "boys",
+    "name": "Boys beyond shirt",
+    "description": "Boys beyond shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "dc4484df-8436-403a-a116-232d0ee64c46",
+    "sku": "MOKIDSSH003",
+    "gender": "girls",
+    "name": "Girls Shorts 003",
+    "description": "Girls Shorts 003",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "1f3ec19a-ab7c-4b60-8b96-fdc673cf6d52",
+    "sku": "MOKIDSLS007",
+    "gender": "boys",
+    "name": "Boys Floral Sheet",
+    "description": "Boys Floral Sheet",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "71bf443d-ec6f-4cc3-97d6-a72a19dad8cf",
+    "sku": "MOKIDSLS014",
+    "gender": "boys",
+    "name": "Boys shirt with Ace design",
+    "description": "Boys shirt with Ace design",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "c714e442-3c33-41ec-84bd-c69dcc9fe95e",
+    "sku": "MOKIDSL019",
+    "gender": "girls",
+    "name": "CARTERS",
+    "description": "CARTERS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "94c6cb75-eb14-4dc4-8d03-8482c299bdb3",
+    "sku": "MOKIDSL020",
+    "gender": "girls",
+    "name": "OLD NAVY LEGGINGS",
+    "description": "OLD NAVY LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "d61f1ce3-4100-4966-a7a2-127c00e4e374",
+    "sku": "MOKIDSSC010",
+    "gender": "boys",
+    "name": "Boys School Shoe 010",
+    "description": "Boys School Shoe 010",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "6b63e37c-50b0-4d16-a6aa-79e2da60d321",
+    "sku": "MOKIDSD002",
+    "gender": "girls",
+    "name": "black and red checkered dress",
+    "description": "black and red checkered dress",
+    "price": 38000,
+    "is_active": true
+  },
+  {
+    "id": "3cee1216-1d0d-4f50-b7b6-1f739dcef48e",
+    "sku": "MOKIDSL024",
+    "gender": "girls",
+    "name": "PLACE JOGGERS",
+    "description": "PLACE JOGGERS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "ff535eaf-eaa5-40d6-a647-55391ce328af",
+    "sku": "MOKIDSSC002",
+    "gender": "girls",
+    "name": "GIRLS SELSEY FUDGE BLACK PATENT",
+    "description": "GIRLS SELSEY FUDGE BLACK PATENT",
+    "price": 64000,
+    "is_active": true
+  },
+  {
+    "id": "89eab1a0-95c6-4da8-ab30-573153a9e6c8",
+    "sku": "MOKIDSD011",
+    "gender": "girls",
+    "name": "Champagne Gold Ball Dress",
+    "description": "Champagne gold ball dress",
+    "price": 57500,
+    "is_active": true
+  },
+  {
+    "id": "96e52638-c8ce-484d-bef3-290256b7e1e5",
+    "sku": "MOKIDSD017",
+    "gender": "girls",
+    "name": "Triple Straped Statement shoulder bow scuba dress",
+    "description": "Triple Straped Statement shoulder bow scuba dress",
+    "price": 28000,
+    "is_active": true
+  },
+  {
+    "id": "65e9de51-0830-4087-83e6-bd592cee131f",
+    "sku": "MOKIDSD029",
+    "gender": "girls",
+    "name": "Pink Causual dress",
+    "description": "Pink Causual dress",
+    "price": 15000,
+    "is_active": true
+  },
+  {
+    "id": "27c9f704-0a0c-4548-a185-aea7f10060ae",
+    "sku": "MOKIDSD012",
+    "gender": "girls",
+    "name": "Side Ruffle Bow Dress",
+    "description": "Side ruffle bow dress",
+    "price": 38000,
+    "is_active": true
+  },
+  {
+    "id": "09d3ecff-e61b-40cc-9d24-3ad7d5a8f723",
+    "sku": "MOKIDSD015",
+    "gender": "girls",
+    "name": "Elegant Floral High-low dress",
+    "description": "Elegant Floral High-low dress",
+    "price": 55000,
+    "is_active": true
+  },
+  {
+    "id": "674f748b-1e8c-4e59-bdb6-a1896e359faf",
+    "sku": "MOKIDSD030",
+    "gender": "girls",
+    "name": "Pink causual dress with reine stone",
+    "description": "Pink causual dress with reine stone",
+    "price": 15000,
+    "is_active": true
+  },
+  {
+    "id": "82bf6d0c-dd62-4a23-8776-be80a68bc9ff",
+    "sku": "MOKIDSD016",
+    "gender": "girls",
+    "name": "Black purple- bow dress",
+    "description": "Black purple- bow dress",
+    "price": 38000,
+    "is_active": true
+  },
+  {
+    "id": "2b6cd1a7-0ef2-4134-a46d-0de183a504b4",
+    "sku": "MOKIDSSC004",
+    "gender": "girls",
+    "name": "GIRLS SCALA TEEN YOUTH",
+    "description": "GIRLS SCALA TEEN YOUTH",
+    "price": 55000,
+    "is_active": true
+  },
+  {
+    "id": "771d3733-0f96-492d-96d9-9ef3ef5dd040",
+    "sku": "MOKIDSSC005",
+    "gender": "girls",
+    "name": "SQUEAKIEKIDS SHOES",
+    "description": "SQUEAKIEKIDS SHOES",
+    "price": 32300,
+    "is_active": true
+  },
+  {
+    "id": "614d5382-24ea-46d5-86a3-d798f80356e6",
+    "sku": "MOKIDSSH004",
+    "gender": "girls",
+    "name": "Girls Shorts 004",
+    "description": "Girls Shorts 004",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "560bff25-d11b-4f31-8713-ce91577c692d",
+    "sku": "MOKIDSSC006",
+    "gender": "girls",
+    "name": "PRIMARK WHITE SNEAKERS",
+    "description": "PRIMARK WHITE SNEAKERS",
+    "price": 28000,
+    "is_active": true
+  },
+  {
+    "id": "c6c21158-7ef6-4fe5-8990-565133c5e6a6",
+    "sku": "MOKIDSBSET007",
+    "gender": "boys",
+    "name": "2PCS TH LOGO SET",
+    "description": "2PCS TH LOGO SET",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "10347ee4-a813-4730-b01e-46b7ef84d5fb",
+    "sku": "MOKIDSJP004",
+    "gender": "girls",
+    "name": "Girls Jumpsuit 004",
+    "description": "Girls Jumpsuit 004",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "acba995b-0be2-4c52-a592-93f27cc4a721",
+    "sku": "MOKIDSLS013",
+    "gender": "boys",
+    "name": "Boys plain shirt",
+    "description": "Boys plain shirt",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "a1b244f1-ce59-4da9-a5b8-278b003ed585",
+    "sku": "MOKIDSP004",
+    "gender": "boys",
+    "name": "Boys Polo 004",
+    "description": "Boys Polo 004",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "8a4a5d75-ba56-4911-b0d3-9311388687c9",
+    "sku": "MOKIDSSC007",
+    "gender": "girls",
+    "name": "NEXT SHOES",
+    "description": "NEXT SHOES",
+    "price": 40000,
+    "is_active": true
+  },
+  {
+    "id": "e9576494-cdee-4c2c-a9da-a765564355ef",
+    "sku": "MOKIDSBSET005",
+    "gender": "boys",
+    "name": "2PCS TH LOGO SET",
+    "description": "2PCS TH LOGO SET",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "b92d843e-fd44-4946-8900-c839819d9ad5",
+    "sku": "MOKIDSP001",
+    "gender": "boys",
+    "name": "Boys Polo 001",
+    "description": "Boys Polo 001",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "03d4bd8a-2a12-4af8-897b-3f2945c07b1f",
+    "sku": "MOKIDSSL019",
+    "gender": "boys",
+    "name": "Boys plain shirt",
+    "description": "Boys plain shirt",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "0a31973d-060c-4fba-bb09-0a07c4ac6a85",
+    "sku": "MOKIDSSC002",
+    "gender": "boys",
+    "name": "BOYS MARVEL SCHOOL SHOE",
+    "description": "BOYS MARVEL SCHOOL SHOE",
+    "price": 42000,
+    "is_active": true
+  },
+  {
+    "id": "13897822-0151-4f49-b062-30f809359ad5",
+    "sku": "MOKIDSJ002",
+    "gender": "girls",
+    "name": "Girls Jeans 002",
+    "description": "Girls Jeans 002",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "5323d556-848a-40cb-8889-4d1fd1ae78d3",
+    "sku": "MOKIDSSC001",
+    "gender": "boys",
+    "name": "ORTHOLITE BOYS SCHOOL SHOE ROP",
+    "description": "ORTHOLITE BOYS SCHOOL SHOE ROP",
+    "price": 58000,
+    "is_active": true
+  },
+  {
+    "id": "06980668-1fce-4371-93e5-3a1eed4b7278",
+    "sku": "MOKIDSSC004",
+    "gender": "boys",
+    "name": "Boys School Shoe 004",
+    "description": "Boys School Shoe 004",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "218aef37-24d4-45ec-81d7-c8d6b1f27772",
+    "sku": "MOKIDSSC011",
+    "gender": "boys",
+    "name": "Boys School Shoe 011",
+    "description": "Boys School Shoe 011",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "6846527d-b10c-4031-8041-f90214cc361f",
+    "sku": "MOKIDSSC008",
+    "gender": "girls",
+    "name": "GIRLS LEATHER SCHOOL SHOE",
+    "description": "GIRLS LEATHER SCHOOL SHOE",
+    "price": 44000,
+    "is_active": true
+  },
+  {
+    "id": "1fb5996d-568d-4ba8-ad2f-f2ec40a2e2af",
+    "sku": "MOKIDSSC009",
+    "gender": "girls",
+    "name": "FABRIC GIRLS LEATHER SHOE",
+    "description": "FABRIC GIRLS LEATHER SHOE",
+    "price": 36500,
+    "is_active": true
+  },
+  {
+    "id": "f14b96df-5909-469d-ae9f-2a290caa272a",
+    "sku": "MOKIDSD010",
+    "gender": "girls",
+    "name": "Show-Stopper Dress with Cross Bag",
+    "description": "Sparkle all night in this elegant, comfortable show-stopper dress — comes with a matching cross bag",
+    "price": 48500,
+    "is_active": true
+  },
+  {
+    "id": "95c7246d-c016-40ec-967b-3fa7e22e4d61",
+    "sku": "MOKIDSD033",
+    "gender": "girls",
+    "name": "Champagne Gold floral dress",
+    "description": "Champagne Gold floral dress",
+    "price": 39500,
+    "is_active": true
+  },
+  {
+    "id": "cc6ef4e3-c318-4c2d-8fc9-945f0e41841c",
+    "sku": "MOKIDSD006",
+    "gender": "girls",
+    "name": "Navy Blue pokadot white dress",
+    "description": "Navy Blue pokadot white dress",
+    "price": 40500,
+    "is_active": true
+  },
+  {
+    "id": "887636ad-af1c-4b09-9d44-3bde2dfbb4e6",
+    "sku": "MOKIDSD009",
+    "gender": "girls",
+    "name": "Sparkly bodice, statement side bow and twirl ready plaid skirt",
+    "description": "Sparkly bodice, statement side bow and twirl ready plaid skirt",
+    "price": 42500,
+    "is_active": true
+  },
+  {
+    "id": "b925f3cd-c6d5-4da0-a275-f7895e728a05",
+    "sku": "MOKIDSSC008",
+    "gender": "boys",
+    "name": "US BRASS SINGLE STRAP DOGEY 2",
+    "description": "US BRASS SINGLE STRAP DOGEY 2",
+    "price": 51960,
+    "is_active": true
+  },
+  {
+    "id": "54678a98-50fe-4313-b794-7572e710b88d",
+    "sku": "MOKIDSD008",
+    "gender": "girls",
+    "name": "Girls Dress 008",
+    "description": "Girls Dress 008",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "f470d8ea-2ad9-4505-b0c4-3f7b5ce3be67",
+    "sku": "MOKIDSD020",
+    "gender": "girls",
+    "name": "Elegant Floral High-low dress",
+    "description": "Elegant Floral High-low dress",
+    "price": 55000,
+    "is_active": true
+  },
+  {
+    "id": "43ed6b78-2eba-4c3a-a4a4-43c252bc3829",
+    "sku": "MOKIDSD026",
+    "gender": "girls",
+    "name": "Velour fit & Flare Dress",
+    "description": "Velour fit & Flare Dress",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "f87c2a66-00d7-41ef-9b9e-7681adcb9822",
+    "sku": "MOKIDSD024",
+    "gender": "girls",
+    "name": "Stunning Asymmetric layered dress with side rose",
+    "description": "Stunning Asymmetric layered dress with side rose",
+    "price": 42000,
+    "is_active": true
+  },
+  {
+    "id": "9b6138fa-14d3-4c95-a606-65b52f6a3c8f",
+    "sku": "MOKIDSD039",
+    "gender": "girls",
+    "name": "Causual purple floral dress",
+    "description": "Causual purple floral dress",
+    "price": 8000,
+    "is_active": true
+  },
+  {
+    "id": "8559607f-1385-42ee-bf4d-5ad8308de040",
+    "sku": "MOKIDSD042",
+    "gender": "girls",
+    "name": "Yellow floral causal dress",
+    "description": "Yellow floral causal dress",
+    "price": 8000,
+    "is_active": true
+  },
+  {
+    "id": "1d1cef60-81b4-4338-9b31-0b5eb77be683",
+    "sku": "MOKIDSJP002",
+    "gender": "girls",
+    "name": "Girls Jumpsuit 002",
+    "description": "Girls Jumpsuit 002",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "4ce92501-7eda-4e6b-ac12-010ebc7eaa3e",
+    "sku": "MOKIDSB010",
+    "gender": "girls",
+    "name": "Smiggle Trolley School Bundle Set, featuring a matching trolley",
+    "description": "Smiggle Trolley School Bundle Set, featuring a matching trolley\nbackpack, insulated lunchbox, drink bottle, and pencil case in a fun\nand colourful character print.\nSet Includes:\n* Trolley Backpack\n* Insulated Lunchbox\n* Water Bottle\n* Pencil Case\nFeatures:\nfor age 7-11years\n* Easy-roll trolley design\n* Spacious storage compartments\n* Matching lunchbox and pencil case\n* Reusable drink bottle\n* Fun character-themed print\n* Perfect for school, travel, and everyday adventures",
+    "price": 180000,
+    "is_active": true
+  },
+  {
+    "id": "f2d2bd9b-ede9-47e2-9ea5-b1b40ed687b0",
+    "sku": "MOKIDSB011",
+    "gender": "girls",
+    "name": "Smiggle backpack Trailblazer Bundle Set",
+    "description": "Smiggle backpack Trailblazer Bundle Set\nMake school days fun and organised with this matching Smiggle School trailblazer set.\nmeal and snack storage. Featuring a colourful character-themed design, this practical set\nincludes a backpack, insulated lunchbox, drink bottle, and snack containers for easy\nSet Includes:\n* Backpack\n* Insulated Lunchbox\n* Drink Bottle\n* Snack Containers\nFeatures:\nage 7-11 years\n* Spacious backpack with comfortable padded straps\n* Insulated lunchbox to help keep food fresh\n* Reusable drink bottle for hydration on the go\n* Snack containers for fruits, treats, and lunchbox organisation",
+    "price": 170000,
+    "is_active": true
+  },
+  {
+    "id": "df53c8e3-5cb6-421e-899d-7b0b12589c28",
+    "sku": "MOKIDSJ001",
+    "gender": "girls",
+    "name": "Girls Jeans 001",
+    "description": "Girls Jeans 001",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "a699a01f-3504-4ae2-a16a-7241290d865f",
+    "sku": "MOKIDSJP003",
+    "gender": "girls",
+    "name": "Girls Jumpsuit 003",
+    "description": "Girls Jumpsuit 003",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "87f50785-d4d9-40ad-8a19-e82660746f9e",
+    "sku": "MOKIDSB014",
+    "gender": "girls",
+    "name": "Giggle by Smiggle School Bundle Set",
+    "description": "Giggle by Smiggle School Bundle Set\nThe Giggle by Smiggle School Bundle Set includes all the essentials your child\nneeds in one matching collection., this set combines style, comfort,\nFeaturing a backpack, lunchbox, drink bottle, and pencil case\nSet Includes:\nBackpack\nInsulated Lunchbox\n450ml Drink Bottle\nPencil Case\nKey Features:\nSpacious backpack with adjustable padded straps\nInsulated lunchbox to help keep meals fresh\nBPA-free drink bottle with flip-top straw\nHandy zippered pencil case\nMatching colourful Giggle design\nBackpack Size: 37.5cm × 26cm × 11cm",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "684d3c2e-ee0f-4a50-b800-dbb0f231791a",
+    "sku": "MOKIDSDRESSSHOE015",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 015",
+    "description": "Girls Dress Shoe 015",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "40798ed0-f161-435c-8b56-f5895f2ab498",
+    "sku": "MOKIDSL006",
+    "gender": "girls",
+    "name": "OLD NAVY LEGGINGS",
+    "description": "OLD NAVY LEGGINGS",
+    "price": 8500,
+    "is_active": true
+  },
+  {
+    "id": "184b7749-671a-4387-ab18-95ffccfa6b21",
+    "sku": "MOKIDSDRESSSHOE004",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 004",
+    "description": "Girls Dress Shoe 004",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "ed4468de-3e61-419f-8844-38396deb7cc8",
+    "sku": "MOKIDSDRESSSHOE013",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 013",
+    "description": "Girls Dress Shoe 013",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "2308ca2e-8ed8-42ea-8b04-1e9ceb3f3b67",
+    "sku": "MOKIDSDRESSSHOE001",
+    "gender": "girls",
+    "name": "Girls Shoes 001",
+    "description": "Girls Shoes 001",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "ab92146e-41f3-4df3-af1b-e5767f58e64b",
+    "sku": "MOKIDSDRESSSHOE002",
+    "gender": "girls",
+    "name": "Girls Shoes 002",
+    "description": "Girls Shoes 002",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "04352866-b822-4afb-a518-b6ae02020c83",
+    "sku": "MOKIDSDRESSSHOE005",
+    "gender": "girls",
+    "name": "Girls Dress Shoe 005",
+    "description": "Girls Dress Shoe 005",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "10b74bbd-71db-44c0-bc88-1570912c5301",
+    "sku": "MOKIDSSC011",
+    "gender": "girls",
+    "name": "PLACE GIRLS LEATHER SHOE (BLK HEEL)",
+    "description": "PLACE GIRLS LEATHER SHOE (BLK HEEL)",
+    "price": 38000,
+    "is_active": true
+  },
+  {
+    "id": "09df2838-a2cf-43d5-b3ce-5ea904d64629",
+    "sku": "MOKIDSBSET006",
+    "gender": "boys",
+    "name": "2PCS POLO RALPH",
+    "description": "2PCS POLO RALPH",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "de1c639e-4ac6-4a49-a091-798ddcd08ebf",
+    "sku": "MOKIDSBSET010",
+    "gender": "boys",
+    "name": "2PCS RLVC",
+    "description": "2PCS RLVC",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "ffa72038-bad9-4661-aae6-3b5e07089d9c",
+    "sku": "MOKIDSBSET001",
+    "gender": "boys",
+    "name": "2PCS TH LOGO SET",
+    "description": "2PCS TH LOGO SET",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "0e5aa797-84ff-4b68-a7c2-38f02cd7813c",
+    "sku": "MOKIDSBSET002",
+    "gender": "boys",
+    "name": "2PCS TH LOGO SET",
+    "description": "2PCS TH LOGO SET",
+    "price": 25000,
+    "is_active": true
+  },
+  {
+    "id": "633bf1ff-4fef-47e8-b1d2-31a348cd3e3e",
+    "sku": "MOKIDSSL014",
+    "gender": "boys",
+    "name": "Boys Stripe shirt",
+    "description": "Boys Stripe shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "fa22fc5b-24f7-4043-bdea-01fcd0739a42",
+    "sku": "MOKIDSLS006",
+    "gender": "boys",
+    "name": "Boys stripe shirt with graphic train design",
+    "description": "Boys stripe shirt with graphic train design",
+    "price": 24500,
+    "is_active": true
+  },
+  {
+    "id": "23de6867-7f5f-4529-aa48-79e68b432761",
+    "sku": "MOKIDSSL017",
+    "gender": "boys",
+    "name": "Boys checkers shirt",
+    "description": "Boys checkers shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "c35aa17f-14cf-43b7-afcf-97c537e04c7c",
+    "sku": "MOKIDSSL023",
+    "gender": "boys",
+    "name": "Boys vintage beach wear",
+    "description": "Boys vintage beach wear",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "621e6c12-7b21-4da5-a106-dfb912d2d17d",
+    "sku": "MOKIDSSL025",
+    "gender": "boys",
+    "name": "Boy palm designed shirt",
+    "description": "Boy palm designed shirt",
+    "price": 21500,
+    "is_active": true
+  },
+  {
+    "id": "d3255c0e-5751-4f38-aed1-f0e24d272e71",
+    "sku": "MOKIDSSC006",
+    "gender": "boys",
+    "name": "ORTHOLITE BOYS SCHOOL SHOE",
+    "description": "ORTHOLITE BOYS SCHOOL SHOE",
+    "price": 40000,
+    "is_active": true
+  },
+  {
+    "id": "c34de208-f8b6-4614-bb69-bf235b71cb1e",
+    "sku": "MOKIDSB001",
+    "gender": "boys",
+    "name": "Giggle by Smiggle School Bundle Set",
+    "description": "Giggle by Smiggle School Bundle Set\nThe Giggle by Smiggle School Bundle Set includes all the essentials your child\nneeds in one matching collection., this set combines style, comfort,\nFeaturing a backpack, lunchbox, drink bottle, and pencil case\nSet Includes:\nBackpack\nInsulated Lunchbox\n450ml Drink Bottle\nPencil Case\nKey Features:\nSpacious backpack with adjustable padded straps\nInsulated lunchbox to help keep meals fresh\nBPA-free drink bottle with flip-top straw\nHandy zippered pencil case\nMatching colourful Giggle design\nBackpack Size: 37.5cm × 26cm × 11cm",
+    "price": 0,
+    "is_active": true
+  },
+  {
+    "id": "d308bb77-509a-4760-ac2b-b2e2433cbd62",
+    "sku": "MOKIDSB006",
+    "gender": "boys",
+    "name": "Giggle by Smiggle School Bundle Set",
+    "description": "Giggle by Smiggle School Bundle Set\nThe Giggle by Smiggle School Bundle Set includes all the essentials your child\nneeds in one matching collection., this set combines style, comfort,\nFeaturing a backpack, lunchbox, drink bottle, and pencil case\nSet Includes:\nBackpack\nInsulated Lunchbox\n450ml Drink Bottle\nPencil Case\nKey Features:\nSpacious backpack with adjustable padded straps\nInsulated lunchbox to help keep meals fresh\nBPA-free drink bottle with flip-top straw\nHandy zippered pencil case\nMatching colourful Giggle design\nBackpack Size: 37.5cm × 26cm × 11cm",
+    "price": 68000,
+    "is_active": true
+  },
+  {
+    "id": "27cef58e-58f9-4994-b3fc-9659522ef2da",
+    "sku": "MOKIDSB007",
+    "gender": "boys",
+    "name": "Surreal Trolley Set",
+    "description": "Surreal Trolley Set\nSmiggle Trolley School Bundle Set, featuring a matching trolley\nbackpack, insulated lunchbox, drink bottle, and pencil case in a fun\nand colourful character print.\nSet Includes:\n* Trolley Backpack\n* Insulated Lunchbox\n* Water Bottle\n* Pencil Case\nFeatures:\nfor age 7-11years\n* Easy-roll trolley design\n* Spacious storage compartments\n* Matching lunchbox and pencil case\n* Reusable drink bottle\n* Fun character-themed print\n* Perfect for school, travel, and everyday adventures",
+    "price": 150000,
+    "is_active": true
+  },
+  {
+    "id": "f9251fc4-459f-46fa-842a-2a0514d305af",
+    "sku": "MOKIDSB011",
+    "gender": "boys",
+    "name": "Boys Dinasour backpack",
+    "description": "Boys Dinasour backpack\nfor Age 6-10years\nFeatures:\nMade from durable 100% polyester canvas\nFull zip closure for secure storage\nFront zip pocket for easy access\nSide mesh pockets for water bottles & gadgets\nLocker loop for convenience\nAdjustable padded shoulder straps for comfort\nMeasures approx.16 inches\nImported quality",
+    "price": 35000,
+    "is_active": true
+  }
+]

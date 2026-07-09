@@ -70,12 +70,14 @@ function inferMeta(folderPath) {
   if (p.includes('/jumpsuit/'))        return { gender: 'girls', category: 'girls-jumpsuits' }
   if (p.includes('/legging'))          return { gender: 'girls', category: 'girls-leggings' }
   if (p.includes('/tops/'))            return { gender: 'girls', category: 'girls-tops' }
+  if (p.includes('/jackets/'))         return { gender: 'girls', category: 'girls-jackets' }
+  if (p.includes('/skirts'))           return { gender: 'girls', category: 'girls-skirts' }
   if (p.includes('/underwear'))        return { gender, category: `${gender}-underwear` }
   if (p.includes('/pajamas') || p.includes('/night gown') || p.includes('/2-piece set'))
                                        return { gender, category: `${gender}-pyjamas` }
 
-  // Graphic tees (after birthday check)
-  if (p.includes('/graphic tees/'))    return { gender, category: gender === 'boys' ? 'boys-shirts' : 'girls-graphic-tees' }
+  // Graphic tees (after birthday check) — own category per gender
+  if (p.includes('/graphic tees/'))    return { gender, category: gender === 'boys' ? 'boys-graphic-tees' : 'girls-graphic-tees' }
 
   // Boys clothing
   if (p.includes('/shirt/'))           return { gender: 'boys', category: 'boys-shirts' }
@@ -117,6 +119,8 @@ function skuToName(sku, category) {
     'girls-leggings':     `Girls Leggings ${n}`,
     'girls-shorts':       `Girls Shorts ${n}`,
     'girls-jeans':        `Girls Jeans ${n}`,
+    'girls-jackets':      `Girls Jacket ${n}`,
+    'girls-skirts':       `Girls Skirt ${n}`,
     'back-to-school-girls': `Girls School Bag ${n}`,
     'girls-tops':         u.includes('MOKIDLS') ? `Girls Long Sleeve Top ${n}` :
                           u.includes('MOKIDSSL') ? `Girls Short Sleeve Top ${n}` :
@@ -130,6 +134,7 @@ function skuToName(sku, category) {
     'girls-underwear':    `Girls Underwear ${n}`,
     'girls-pyjamas':      `Girls Pyjamas ${n}`,
     'boys-shirts':        u.includes('LS') ? `Boys Long Sleeve Shirt ${n}` : `Boys Short Sleeve Shirt ${n}`,
+    'boys-graphic-tees':  u.includes('GLS') ? `Boys Long Sleeve Graphic Tee ${n}` : `Boys Graphic Tee ${n}`,
     'boys-polo':          `Boys Polo ${n}`,
     'boys-sets':          `Boys 2PCS Set ${n}`,
     'boys-pyjamas':       `Boys Pyjamas ${n}`,

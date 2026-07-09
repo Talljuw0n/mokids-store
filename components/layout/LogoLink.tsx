@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRef } from 'react'
 import { useRouter } from 'next/navigation'
 
@@ -27,15 +28,15 @@ export function LogoLink() {
   }
 
   return (
-    <Link
-      href="/"
-      onClick={handleClick}
-      className="flex-shrink-0 text-xl font-bold leading-none"
-      style={{ fontFamily: "'Fredoka One', cursive" }}
-    >
-      <span className="text-black">Mo</span>
-      <span className="text-[#D9247A]">Kids</span>
-      <span className="text-[#F5C000]"> Place</span>
+    <Link href="/" onClick={handleClick} className="flex-shrink-0 flex items-center">
+      <Image
+        src="/logo.jpeg"
+        alt="Mo Kids Place"
+        width={72}
+        height={72}
+        className="rounded-xl"
+        priority
+      />
     </Link>
   )
 }

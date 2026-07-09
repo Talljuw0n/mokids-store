@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export function Footer() {
   const whatsappNumber = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2348000000000').replace(/^\+/, '')
@@ -10,11 +11,7 @@ export function Footer() {
 
           {/* Brand */}
           <div className="md:col-span-1">
-            <h2 className="text-2xl mb-1" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              <span className="text-white">Mo</span>
-              <span className="text-[#D9247A]">Kids</span>
-              <span className="text-[#F5C000]"> Place</span>
-            </h2>
+            <Image src="/logo.jpeg" alt="Mo Kids Place" width={56} height={56} className="rounded-xl mb-3" />
             <p className="text-gray-400 text-sm font-bold mb-4" style={{ fontFamily: "'Poppins', sans-serif" }}>
               Dress Them in Pure Joy
             </p>
@@ -53,9 +50,27 @@ export function Footer() {
                   WhatsApp Support
                 </a>
               </li>
-              <li><span className="cursor-default">Returns &amp; Exchanges</span></li>
-              <li><span className="cursor-default">Shipping Info</span></li>
-              <li><span className="cursor-default">Size Guide</span></li>
+              <li>
+                <a
+                  href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hi! I have a question about returns & exchanges.')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  Returns &amp; Exchanges
+                </a>
+              </li>
+              <li><Link href="/shipping-info" className="hover:text-white transition-colors">Shipping Info</Link></li>
+              <li>
+                <a
+                  href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hi! I have a question about sizing.')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  Size Guide
+                </a>
+              </li>
             </ul>
           </div>
 

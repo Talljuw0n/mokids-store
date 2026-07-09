@@ -34,6 +34,7 @@ async function getProducts(params: Awaited<ShopPageProps['searchParams']>) {
       .from('products')
       .select('*, inventory(*)', { count: 'exact' })
       .eq('is_active', true)
+      .eq('is_variant_child', false)
 
     if (params.category) query = query.eq('category', params.category as ProductCategory)
     if (params.gender)   query = query.eq('gender', params.gender as Gender)

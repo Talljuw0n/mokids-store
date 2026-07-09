@@ -11,33 +11,27 @@ const HERO_SLIDES = [
   {
     image: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1783441283/mokids/hero/hero-bg-1.jpg',
     alt: 'Kids at school with backpacks',
-    headline: ['Back to', 'School 2026'],
-    subtitle: "Everything your kids need for the new term — backpacks, shoes, uniforms and more.",
+    headline: ['Back to', 'School'],
+    subtitle: "Everything your kids need for the new term: backpacks, shoes, uniforms and more.",
     ctaHref: '/shop',
     ctaLabel: 'Shop Now',
-    ctaHref2: '/shop',
-    ctaLabel2: 'View all',
   },
   {
     image: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1783441284/mokids/hero/hero-bg-2.jpg',
     alt: 'Girl walking in school hallway',
     headline: ['Style Meets', 'School'],
-    subtitle: "Bold backpacks and chic shoes — every girl deserves to walk into school with confidence.",
+    subtitle: "Bold backpacks and chic shoes, because every girl deserves to walk into school with confidence.",
     ctaHref: '/shop?category=back-to-school-girls',
     ctaLabel: 'Shop Girls',
-    ctaHref2: '/shop',
-    ctaLabel2: 'View all',
     imagePosition: '60% 15%',
   },
   {
     image: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1783441286/mokids/hero/hero-bg-3.jpg',
     alt: 'Boy walking in school hallway',
     headline: ['Gear Up for', 'the New Term'],
-    subtitle: "Tough backpacks, sharp shoes and cool sets — built for boys who mean business.",
+    subtitle: "Tough backpacks, sharp shoes and cool sets, built for boys who mean business.",
     ctaHref: '/shop?category=back-to-school-boys',
     ctaLabel: 'Shop Boys',
-    ctaHref2: '/shop',
-    ctaLabel2: 'View all',
     imagePosition: '60% 15%',
   },
 ]
@@ -61,19 +55,23 @@ async function getCategoryImages(): Promise<Record<string, string[]>> {
     const [{ data: catData }, { data: pinnedData }] = await Promise.all([
       sb.from('products').select('category, images').eq('is_active', true).in('category', allSlugs).not('images', 'is', null),
       pinnedSkus.length
-        ? sb.from('products').select('sku, images').in('sku', pinnedSkus)
+        ? sb.from('products').select('sku, category, images').in('sku', pinnedSkus)
         : Promise.resolve({ data: [] }),
     ])
 
-    const pinnedBySkU: Record<string, string> = {}
+    // Key by sku+category, not sku alone — the same SKU string is sometimes reused
+    // across a boys and a girls product, which would otherwise let one silently
+    // overwrite the other here
+    const pinnedBySkuCategory: Record<string, string> = {}
     for (const row of (pinnedData ?? [])) {
-      if (row.images?.[0]) pinnedBySkU[row.sku.toUpperCase()] = row.images[0]
+      if (row.images?.[0]) pinnedBySkuCategory[`${row.sku.toUpperCase()}|${row.category}`] = row.images[0]
     }
 
     const result: Record<string, string[]> = {}
     for (const cat of FEATURED_CATEGORIES) {
-      if (cat.pinSku && pinnedBySkU[cat.pinSku]) {
-        result[cat.slug] = [pinnedBySkU[cat.pinSku]]
+      const key = cat.pinSku ? `${cat.pinSku}|${cat.slug}` : null
+      if (key && pinnedBySkuCategory[key]) {
+        result[cat.slug] = [pinnedBySkuCategory[key]]
       }
     }
     for (const row of (catData ?? [])) {

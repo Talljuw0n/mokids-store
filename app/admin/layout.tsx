@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
@@ -25,10 +26,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <header className="bg-black text-white border-b-[2.5px] border-[#F5C000] sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
           <div className="flex items-center gap-4">
-            <Link href="/admin" className="font-bold text-lg flex-shrink-0" style={{ fontFamily: "'Fredoka One', cursive" }}>
-              <span className="text-white">Mo</span>
-              <span className="text-[#D9247A]">Kids</span>
-              <span className="text-[#F5C000]"> Admin</span>
+            <Link href="/admin" className="flex items-center gap-2 flex-shrink-0">
+              <Image src="/logo.jpeg" alt="Mo Kids Place" width={36} height={36} className="rounded-lg" />
+              <span className="font-bold text-lg text-[#F5C000]" style={{ fontFamily: "'Fredoka One', cursive" }}>Admin</span>
             </Link>
             {/* Desktop nav */}
             <span className="text-gray-500 text-xs hidden sm:inline">|</span>

@@ -11,8 +11,6 @@ export interface HeroSlide {
   subtitle?: string
   ctaHref?: string
   ctaLabel?: string
-  ctaHref2?: string
-  ctaLabel2?: string
   imagePosition?: string
 }
 
@@ -121,13 +119,6 @@ export function HeroSlideshow({ slides }: Props) {
                 style={{ background: '#D9247A', color: '#fff', fontFamily: "'Poppins', sans-serif", fontSize: '0.95rem' }}
               >
                 {slide.ctaLabel ?? 'Shop now'} <span>→</span>
-              </Link>
-              <Link
-                href={slide.ctaHref2 ?? '/shop'}
-                className="px-7 py-3 rounded-full font-bold border-2 transition-all hover:-translate-y-0.5 inline-flex items-center gap-2"
-                style={{ borderColor: '#ffffff', color: '#ffffff', fontFamily: "'Poppins', sans-serif", fontSize: '0.95rem' }}
-              >
-                {slide.ctaLabel2 ?? 'View more'} <span>→</span>
               </Link>
             </div>
           </div>

@@ -20,8 +20,19 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ sku:
     .select('*, inventory(*)')
     .eq('category', product.category)
     .eq('is_active', true)
+    .eq('is_variant_child', false)
     .neq('id', product.id)
     .limit(4)
 
-  return NextResponse.json({ product, related: related || [] })
+  let variants = null
+  if (product.variant_group) {
+    const { data: siblings } = await sb
+      .from('products')
+      .select('id, sku, name, price, variant_label, inventory(*)')
+      .eq('variant_group', product.variant_group)
+      .eq('gender', product.gender)
+    variants = siblings && siblings.length > 1 ? siblings : null
+  }
+
+  return NextResponse.json({ product, related: related || [], variants })
 }

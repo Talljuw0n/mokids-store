@@ -37,9 +37,14 @@ function FilterSection({ title, children }: { title: string; children: React.Rea
   )
 }
 
+// Categories shared across both genders (no girls-/boys- prefix) — shown under whichever gender is active
+const NEUTRAL_CATEGORY_VALUES = ['birthday-tees', 'clearance']
+
 export function ShopSidebar({ params }: ShopSidebarProps) {
   const [open, setOpen] = useState(false)
   const categories = Object.entries(CATEGORY_LABELS)
+  const girlsCategories = categories.filter(([value]) => value.startsWith('girls-') || value === 'back-to-school-girls' || NEUTRAL_CATEGORY_VALUES.includes(value))
+  const boysCategories = categories.filter(([value]) => value.startsWith('boys-') || value === 'back-to-school-boys' || NEUTRAL_CATEGORY_VALUES.includes(value))
   const hasFilters = !!(params.category || params.gender || params.search)
 
   const close = () => setOpen(false)
@@ -49,38 +54,55 @@ export function ShopSidebar({ params }: ShopSidebarProps) {
       active ? 'bg-[#F5C000] text-gray-900' : 'text-gray-600 hover:bg-gray-50'
     }`
 
+  const categoryLinkCls = (active: boolean) =>
+    `block px-3 py-1 text-[13px] font-bold rounded-lg transition-all ${
+      active ? 'bg-[#D9247A] text-white' : 'text-gray-500 hover:bg-gray-50'
+    }`
+
+  const genderOptions = [
+    { value: 'girls', label: 'Girls', categories: girlsCategories },
+    { value: 'boys', label: 'Boys', categories: boysCategories },
+  ]
+
   const content = (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 lg:sticky lg:top-24">
       <h2 className="hidden lg:block text-base font-bold text-gray-900 mb-4" style={{ fontFamily: "'Poppins', sans-serif" }}>
         Filters
       </h2>
 
-      {/* Gender */}
+      {/* Gender + nested category dropdown */}
       <FilterSection title="Gender">
         <div className="flex flex-col gap-0.5">
-          {[{ value: '', label: 'All' }, { value: 'girls', label: 'Girls' }, { value: 'boys', label: 'Boys' }].map((g) => (
-            <Link key={g.value} href={buildHref(params, { gender: g.value || undefined, page: '1' })} onClick={close}
-              className={linkCls(params.gender === g.value || (!params.gender && !g.value))}
-              style={{ fontFamily: "'Poppins', sans-serif" }}>
-              {g.label}
-            </Link>
-          ))}
-        </div>
-      </FilterSection>
-
-      {/* Category */}
-      <FilterSection title="Category">
-        <div className="flex flex-col gap-0.5">
-          <Link href={buildHref(params, { category: undefined, page: '1' })} onClick={close}
-            className={linkCls(!params.category)} style={{ fontFamily: "'Poppins', sans-serif" }}>
-            All Categories
-          </Link>
-          {categories.map(([value, label]) => (
-            <Link key={value} href={buildHref(params, { category: value, page: '1' })} onClick={close}
-              className={linkCls(params.category === value)} style={{ fontFamily: "'Poppins', sans-serif" }}>
-              {label}
-            </Link>
-          ))}
+          {genderOptions.map((g) => {
+            const isActive = params.gender === g.value || (!params.gender && !g.value)
+            return (
+              <div key={g.value}>
+                <Link
+                  href={buildHref(params, { gender: g.value || undefined, category: undefined, page: '1' })}
+                  onClick={close}
+                  className={linkCls(isActive)}
+                  style={{ fontFamily: "'Poppins', sans-serif" }}
+                >
+                  {g.label}
+                </Link>
+                {isActive && g.categories && (
+                  <div className="flex flex-col gap-0.5 mt-1 mb-1 ml-3 pl-2 border-l-2 border-gray-100">
+                    {g.categories.map(([value, label]) => (
+                      <Link
+                        key={value}
+                        href={buildHref(params, { category: value, page: '1' })}
+                        onClick={close}
+                        className={categoryLinkCls(params.category === value)}
+                        style={{ fontFamily: "'Poppins', sans-serif" }}
+                      >
+                        {label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
       </FilterSection>
 

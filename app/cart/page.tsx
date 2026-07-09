@@ -71,7 +71,7 @@ export default function CartPage() {
                     </p>
                   </div>
                   <p className="text-xs text-gray-400 font-bold mt-0.5" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                    {item.sku} · Size: <span className="text-gray-700">{item.size}</span>
+                    Size: <span className="text-gray-700">{item.size}</span>
                   </p>
                   <p className="font-bold mt-1 text-[#D9247A] text-sm" style={{ fontFamily: "'Poppins', sans-serif" }}>
                     {formatPrice(item.price)} each

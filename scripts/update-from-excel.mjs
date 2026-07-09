@@ -19,7 +19,7 @@ import { createClient } from '@supabase/supabase-js'
 import XLSX from 'xlsx'
 
 // ── Config ───────────────────────────────────────────────────────────────────
-const EXCEL_PATH = 'C:/Users/Superuser/Downloads/Mokids Store Inventory (6).xlsx'
+const EXCEL_PATH = 'C:/Users/Superuser/Downloads/Mokids Store Inventory (7).xlsx'
 
 const envFile = readFileSync('C:/Users/Superuser/mokids-store/.env.local', 'utf8')
 const env = Object.fromEntries(
@@ -37,12 +37,12 @@ const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE
 // 'boys-sets' mapping). This file splits that into two real sheets — keep
 // them separate or price/name updates silently land on the wrong products.
 //
-// Excluded entirely: the jeans/chinos family (Skinny Jeans, Boot cut, Straight
-// jeans, Chinos, Short Jeans, Dungeon) — verified the sheets' "SJ"/"J" SKU
-// prefixes don't reliably match the real photo folders (e.g. "G - Skinny
-// Jeans" uses "SJ" codes that actually belong to the real "straight jeans"
-// photos). Needs manual reconciliation in the source file before syncing.
-// "B - Graphic Tees (Lng sleeve)" is excluded too — its SKUs collided with
+// Jeans/chinos family re-enabled as of v7: client fixed the SKU collision by
+// giving "Straight Jeans" its own SKU (MOKIDSJEAN001) instead of reusing
+// Skinny Jeans' SJ002 — verified every remaining SKU in this family matches
+// at most one real DB product now (see conversation history for the check).
+//
+// "B - Graphic Tees (Lng sleeve)" is still excluded — its SKUs collided with
 // real Long Sleeve Shirt SKUs; those 3 products were recreated separately
 // under new MOKIDSGLS001-003 SKUs.
 const SHEETS = [
@@ -51,6 +51,12 @@ const SHEETS = [
   ['GIRLS SCH SHOE',                 'girls', 'girls-shoes',          '__EMPTY',            'CLARKS SHOE','__EMPTY_3', 1, false],
   ['G- School Bags',                 'girls', 'back-to-school-girls', 'Girls  —  Underwear','__EMPTY',    '__EMPTY_3', 2, true],
   ['Copy of G - Underwear,Thight & ','girls', 'girls-underwear',      'Girls  —  Underwear','__EMPTY',    '__EMPTY_4', 1, false],
+  ['G - Skinny Jeans',               'girls', 'girls-jeans',          '__EMPTY_6',          '__EMPTY',    '__EMPTY_3', 1, false],
+  ['G - Boot cut',                   'girls', 'girls-jeans',          '__EMPTY_6',          '__EMPTY',    '__EMPTY_3', 1, false],
+  ['G- Straight jeans',              'girls', 'girls-jeans',          '__EMPTY_6',          '__EMPTY',    '__EMPTY_3', 1, false],
+  ['G- Chinos',                      'girls', 'girls-jeans',          '__EMPTY_6',          '__EMPTY',    '__EMPTY_3', 1, false],
+  ['G- Short Jeans',                 'girls', 'girls-jeans',          '__EMPTY_6',          '__EMPTY',    '__EMPTY_3', 1, false],
+  ['G- Dungeon',                     'girls', 'girls-jeans',          '__EMPTY_6',          '__EMPTY',    '__EMPTY_3', 1, false],
   ['G - Birthday Tees',              'girls', 'birthday-tees',        '1',                  '__EMPTY',    '__EMPTY_3', 1, false],
   ['B - Polo 2pc set',               'boys',  'boys-sets',            'Boys  —  2PCS SET',  '__EMPTY',    '__EMPTY_3', 1, false],
   ['B - Polo',                       'boys',  'boys-polo',            'Boys  —  Polo',      '__EMPTY',    '__EMPTY_3', 1, false],
@@ -60,7 +66,7 @@ const SHEETS = [
   ['Copy of B - School Backpack & T','boys',  'back-to-school-boys',  'Boys  —  Shoes',     '__EMPTY',    '__EMPTY_3', 1, true],
   ['B - Trousers',                   'boys',  'boys-trousers',        '__EMPTY_6',          '__EMPTY',    '__EMPTY_3', 1, false],
   ['B - Shorts',                     'boys',  'boys-shorts',          '__EMPTY_6',          '__EMPTY',    '__EMPTY_3', 1, false],
-  ['B - Graphic Tees',               'boys',  'boys-shirts',          '__EMPTY_6',          '__EMPTY',    '__EMPTY_3', 1, false],
+  ['B - Graphic Tees',               'boys',  'boys-graphic-tees',    '__EMPTY_6',          '__EMPTY',    '__EMPTY_3', 1, false],
   ['B - Birthday Tees',              'boys',  'birthday-tees',        '__EMPTY_6',          '__EMPTY',    '__EMPTY_3', 1, false],
 ]
 
@@ -145,6 +151,16 @@ for (const [sheetName, gender, category, skuCol, nameCol, priceCol, skipRows, mu
     .filter(p => p.name || p.price)
   console.log(`[${sheetName}] — ${products.length} usable row(s)`)
   for (const p of products) all.push({ ...p, sheetName, gender, category })
+}
+
+// Verified split: MOKIDSUW025 was claimed by two different products (a 4-pack and
+// a 5-pack M&S camisole). The real photo already on file for UW025 was inspected
+// and shows 5 layered camisoles, so UW025 stays the 5-pack; the 4-pack moves to
+// a fresh, unused SKU (no photo yet, will need one uploaded separately).
+for (const p of all) {
+  if (p.sku === 'MOKIDSUW025' && p.gender === 'girls' && /4\s*pack/i.test(p.name || '')) {
+    p.sku = 'MOKIDSUW029'
+  }
 }
 
 // Pass 2: find SKUs reused across rows with conflicting data — hold ALL of them back,

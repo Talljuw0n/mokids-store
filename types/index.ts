@@ -8,15 +8,19 @@ export type ProductCategory =
   | 'girls-leggings'
   | 'girls-shorts'
   | 'girls-jeans'
+  | 'girls-jackets'
+  | 'girls-skirts'
   | 'back-to-school-girls'
   | 'girls-baby'
   | 'boys-shirts'
+  | 'boys-graphic-tees'
   | 'boys-polo'
   | 'boys-sets'
   | 'boys-pyjamas'
   | 'boys-shoes'
   | 'boys-shorts'
   | 'boys-trousers'
+  | 'boys-underwear'
   | 'back-to-school-boys'
   | 'boys-baby'
   | 'birthday-tees'
@@ -38,6 +42,11 @@ export interface Product {
   images: string[]
   is_active: boolean
   created_at: string
+  // Variant grouping: two or more real product rows sharing a variant_group
+  // are shown as one listing with a dropdown that switches between them
+  variant_group?: string | null
+  variant_label?: string | null
+  is_variant_child?: boolean
 }
 
 export interface InventoryItem {
@@ -49,6 +58,16 @@ export interface InventoryItem {
 }
 
 export interface ProductWithInventory extends Product {
+  inventory: InventoryItem[]
+}
+
+// One sibling in a variant group, as returned by the by-sku API
+export interface ProductVariant {
+  id: string
+  sku: string
+  name: string
+  price: number
+  variant_label: string | null
   inventory: InventoryItem[]
 }
 
