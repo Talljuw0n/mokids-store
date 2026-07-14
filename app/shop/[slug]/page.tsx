@@ -4,25 +4,11 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ProductWithInventory, Product, ProductVariant } from '@/types'
-import { formatPrice, CATEGORY_LABELS } from '@/lib/utils'
+import { formatPrice, CATEGORY_LABELS, COLOUR_SWATCH_MAP } from '@/lib/utils'
 import { SizeSelector } from '@/components/ui/SizeSelector'
 import { Button } from '@/components/ui/Button'
 import { ProductCard } from '@/components/ui/ProductCard'
 import { useCartStore } from '@/store/cart'
-
-const COLOUR_MAP: Record<string, string> = {
-  red: '#ef4444', pink: '#ec4899', hotpink: '#f472b6', rose: '#fb7185',
-  purple: '#a855f7', violet: '#8b5cf6', lavender: '#c4b5fd',
-  blue: '#3b82f6', navy: '#1e3a8a', skyblue: '#38bdf8', lightblue: '#7dd3fc',
-  green: '#22c55e', mint: '#6ee7b7', olive: '#84cc16',
-  yellow: '#eab308', gold: '#f59e0b', orange: '#f97316', peach: '#fdba74',
-  white: '#ffffff', cream: '#fef9c3', beige: '#e5d3b3',
-  grey: '#9ca3af', gray: '#9ca3af', silver: '#d1d5db',
-  black: '#111827', brown: '#92400e', chocolate: '#7c3100',
-  teal: '#14b8a6', cyan: '#06b6d4', coral: '#f87171', lilac: '#d8b4fe',
-  multicolour: 'linear-gradient(135deg,#f472b6,#a78bfa,#38bdf8,#4ade80,#facc15)',
-  multicolor:  'linear-gradient(135deg,#f472b6,#a78bfa,#38bdf8,#4ade80,#facc15)',
-}
 
 export default function ProductDetailPage() {
   const params = useParams()
@@ -81,9 +67,9 @@ export default function ProductDetailPage() {
 
   if (!product) return null
 
-  // When this product belongs to a variant group, the selected dropdown option
-  // supplies its own sku/name/price/inventory; everything else (images,
-  // description, category, gender, colour) always comes from the base product
+  // When this product belongs to a variant group, the selected option supplies
+  // its own sku/name/price/inventory/images/colour; description, category and
+  // gender always come from the base product
   const activeVariant = variants?.find(v => v.id === selectedVariantId) ?? null
   const effective = {
     id: activeVariant?.id ?? product.id,
@@ -91,7 +77,14 @@ export default function ProductDetailPage() {
     name: activeVariant?.name ?? product.name,
     price: activeVariant?.price ?? product.price,
     inventory: activeVariant?.inventory ?? product.inventory,
+    images: (activeVariant?.images?.length ? activeVariant.images : product.images),
+    colour: activeVariant?.colour ?? product.colour,
   }
+
+  // A "colour group" is a variant group where every option represents a
+  // different colourway of the same item — shown as clickable swatches
+  // instead of the generic text dropdown used for e.g. pack-size options
+  const isColourGroup = !!variants && variants.length > 1 && variants.every(v => !!v.colour)
 
   const inStockInventory = effective.inventory.filter(i => i.quantity > 0)
   const totalStock = effective.inventory.reduce((sum, i) => sum + i.quantity, 0)
@@ -100,11 +93,12 @@ export default function ProductDetailPage() {
   const canAddToCart = selectedSize !== null && selectedQty > 0
 
   const colourKey = product.colour?.toLowerCase().replace(/\s+/g, '') ?? ''
-  const swatchBg = COLOUR_MAP[colourKey]
+  const swatchBg = COLOUR_SWATCH_MAP[colourKey]
 
   const handleVariantChange = (id: string) => {
     setSelectedVariantId(id)
     setSelectedSize(null)
+    setActiveImage(0)
   }
 
   const handleAddToCart = () => {
@@ -116,7 +110,7 @@ export default function ProductDetailPage() {
       size: selectedSize!,
       price: effective.price,
       quantity: 1,
-      image: product.images?.[0] || '',
+      image: effective.images?.[0] || '',
       maxQuantity: selectedQty,
     })
     setAdded(true)
@@ -146,10 +140,10 @@ export default function ProductDetailPage() {
           <div className="min-w-0">
             {/* Main image — tall and prominent */}
             <div className="relative w-full aspect-square rounded-3xl overflow-hidden bg-gray-50">
-              {product.images.length > 0 ? (
+              {effective.images.length > 0 ? (
                 <Image
-                  src={product.images[activeImage]}
-                  alt={product.name}
+                  src={effective.images[activeImage] ?? effective.images[0]}
+                  alt={effective.name}
                   fill
                   className="object-contain"
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -168,9 +162,9 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Thumbnail strip */}
-            {product.images.length > 1 && (
+            {effective.images.length > 1 && (
               <div className="flex gap-3 mt-4 overflow-x-auto pb-1">
-                {product.images.map((img, idx) => (
+                {effective.images.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => setActiveImage(idx)}
@@ -208,8 +202,45 @@ export default function ProductDetailPage() {
               </span>
             </p>
 
-            {/* Options — switches price/name/sizes between variants (e.g. pack sizes) */}
-            {variants && variants.length > 1 && (
+            {/* Colour swatches — click to switch between colourway siblings */}
+            {isColourGroup && variants && (
+              <div className="mb-6">
+                <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2.5" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                  Colour — <span className="normal-case text-gray-600">{effective.colour}</span>
+                </p>
+                <div className="flex items-center gap-3">
+                  {variants.map(v => {
+                    const vStock = v.inventory.reduce((sum, i) => sum + i.quantity, 0)
+                    const vSoldOut = vStock === 0
+                    const bg = COLOUR_SWATCH_MAP[v.colour!.toLowerCase().replace(/\s+/g, '')] ?? '#d1d5db'
+                    const isSelected = v.id === selectedVariantId
+                    return (
+                      <button
+                        key={v.id}
+                        type="button"
+                        title={vSoldOut ? `${v.colour} — Sold out` : v.colour!}
+                        disabled={vSoldOut}
+                        onClick={() => handleVariantChange(v.id)}
+                        className={`relative w-9 h-9 rounded-full border-2 flex-shrink-0 transition-all ${
+                          isSelected ? 'border-gray-900 scale-110' : 'border-gray-200'
+                        } ${vSoldOut ? 'opacity-35 cursor-not-allowed' : 'hover:border-gray-400 cursor-pointer'}`}
+                        style={{ background: bg, boxShadow: isSelected ? '0 0 0 2px white inset' : undefined }}
+                      >
+                        {vSoldOut && (
+                          <span
+                            className="absolute inset-0 rounded-full pointer-events-none"
+                            style={{ background: 'linear-gradient(to top right, transparent calc(50% - 1px), #6b7280 50%, transparent calc(50% + 1px))' }}
+                          />
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Options — switches price/name/sizes between non-colour variants (e.g. pack sizes, styles) */}
+            {!isColourGroup && variants && variants.length > 1 && (
               <div className="mb-6">
                 <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2.5" style={{ fontFamily: "'Poppins', sans-serif" }}>
                   Options
@@ -229,8 +260,8 @@ export default function ProductDetailPage() {
               </div>
             )}
 
-            {/* Colour swatch */}
-            {product.colour && (
+            {/* Colour swatch — plain products with a colour but no siblings to switch between */}
+            {!isColourGroup && product.colour && (
               <div className="mb-6">
                 <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2.5" style={{ fontFamily: "'Poppins', sans-serif" }}>
                   Colour

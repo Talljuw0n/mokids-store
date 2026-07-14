@@ -47,7 +47,8 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
   const sb = getServiceClient()
   const { id } = await params
 
-  const { error } = await sb.from('products').update({ is_active: false }).eq('id', id)
+  await sb.from('inventory').delete().eq('product_id', id)
+  const { error } = await sb.from('products').delete().eq('id', id)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ success: true })
 }

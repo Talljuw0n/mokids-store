@@ -89,7 +89,7 @@ async function getCategoryImages(): Promise<Record<string, string[]>> {
 
 const FEATURED_ITEMS: { sku: string; gender?: string }[] = [
   { sku: 'MOKIDSD043' },
-  { sku: 'MOKIDSDRESSSHOE018' },
+  { sku: 'MOKIDSSC012', gender: 'girls' },
   { sku: 'MOKIDSSL011' },
   { sku: 'MOKIDSP003' },
   { sku: 'MOKIDSD042' },
@@ -143,7 +143,7 @@ export default async function Home() {
 
       {/* Announcement bar */}
       <div className="w-full py-2.5 text-center text-sm font-bold text-white" style={{ background: '#D9247A', fontFamily: "'Poppins', sans-serif", letterSpacing: '0.05em' }}>
-        Ships Nationwide!
+        Nationwide Delivery
       </div>
 
       {/* Hero slideshow */}

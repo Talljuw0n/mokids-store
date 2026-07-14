@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { formatPrice, CATEGORY_LABELS } from '@/lib/utils'
 
 interface Product {
@@ -71,6 +72,19 @@ export default function AdminProductsPage() {
     setSaving(null)
   }
 
+  const deleteProduct = async (product: Product) => {
+    if (!confirm(`Permanently delete "${product.name}" (${product.sku})? This cannot be undone.`)) return
+    setSaving(product.id)
+    setSaveError(null)
+    const res = await fetch(`/api/products/${product.id}`, { method: 'DELETE' })
+    if (res.ok) {
+      setProducts(prev => prev.filter(p => p.id !== product.id))
+    } else {
+      setSaveError('Failed to delete product. Please try again.')
+    }
+    setSaving(null)
+  }
+
   const activeCount = products.filter(p => p.is_active).length
   const inactiveCount = products.filter(p => !p.is_active).length
 
@@ -135,7 +149,7 @@ export default function AdminProductsPage() {
                   {/* Image */}
                   <td className="px-3 py-2">
                     {product.images?.[0] ? (
-                      <img src={product.images[0]} alt="" className="w-10 h-10 rounded-lg object-cover border border-gray-200" />
+                      <Image src={product.images[0]} alt="" width={40} height={40} className="w-10 h-10 rounded-lg object-cover border border-gray-200" />
                     ) : (
                       <div className="w-10 h-10 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-xs text-gray-400">—</div>
                     )}
@@ -186,9 +200,19 @@ export default function AdminProductsPage() {
                   </td>
                   {/* Actions */}
                   <td className="px-3 py-2">
-                    <Link href={`/admin/products/${product.id}/edit`} className="text-xs font-bold text-[#D9247A] hover:underline" style={{ fontFamily: "'Nunito', sans-serif" }}>
-                      Edit
-                    </Link>
+                    <div className="flex items-center gap-3">
+                      <Link href={`/admin/products/${product.id}/edit`} className="text-xs font-bold text-[#D9247A] hover:underline" style={{ fontFamily: "'Nunito', sans-serif" }}>
+                        Edit
+                      </Link>
+                      <button
+                        onClick={() => deleteProduct(product)}
+                        disabled={saving === product.id}
+                        className="text-xs font-bold text-red-500 hover:text-red-700 hover:underline disabled:opacity-50"
+                        style={{ fontFamily: "'Nunito', sans-serif" }}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -68,6 +68,8 @@ export interface ProductVariant {
   name: string
   price: number
   variant_label: string | null
+  colour: string | null
+  images: string[]
   inventory: InventoryItem[]
 }
 

@@ -53,6 +53,23 @@ export const CATEGORY_LABELS: Record<string, string> = {
   'clearance': 'Clearance Sale',
 }
 
+// Maps a free-text colour name (lowercased, spaces stripped) to a swatch
+// colour/gradient, used for both the storefront swatch picker and the admin
+// colour-variant linker
+export const COLOUR_SWATCH_MAP: Record<string, string> = {
+  red: '#ef4444', pink: '#ec4899', hotpink: '#f472b6', rose: '#fb7185',
+  purple: '#a855f7', violet: '#8b5cf6', lavender: '#c4b5fd',
+  blue: '#3b82f6', navy: '#1e3a8a', skyblue: '#38bdf8', lightblue: '#7dd3fc',
+  green: '#22c55e', mint: '#6ee7b7', olive: '#84cc16',
+  yellow: '#eab308', gold: '#f59e0b', orange: '#f97316', peach: '#fdba74',
+  white: '#ffffff', cream: '#fef9c3', beige: '#e5d3b3',
+  grey: '#9ca3af', gray: '#9ca3af', silver: '#d1d5db',
+  black: '#111827', brown: '#92400e', chocolate: '#7c3100',
+  teal: '#14b8a6', cyan: '#06b6d4', coral: '#f87171', lilac: '#d8b4fe',
+  multicolour: 'linear-gradient(135deg,#f472b6,#a78bfa,#38bdf8,#4ade80,#facc15)',
+  multicolor:  'linear-gradient(135deg,#f472b6,#a78bfa,#38bdf8,#4ade80,#facc15)',
+}
+
 export const STANDARD_SHIPPING_FEE = 5500
 // Item count threshold above which the heavy (>1kg) rate applies.
 // Kids clothing ≈ 300g/item → 4 items ≈ 1.2kg

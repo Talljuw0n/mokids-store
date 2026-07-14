@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { getServiceClient, isConfigured } from '@/lib/supabase'
 import { ProductForm } from '@/components/admin/ProductForm'
 
@@ -61,10 +62,12 @@ export default async function EditProductPage({ params }: Props) {
             {/* Main image */}
             <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-gray-100 border border-gray-200 mb-3">
               {product.images?.[0] ? (
-                <img
+                <Image
                   src={product.images[0]}
                   alt={product.name}
-                  className="w-full h-full object-cover object-top"
+                  fill
+                  sizes="256px"
+                  className="object-cover object-top"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-5xl text-gray-200">
@@ -77,7 +80,7 @@ export default async function EditProductPage({ params }: Props) {
               <div className="flex gap-1.5 flex-wrap mb-3">
                 {product.images.slice(1).map((img: string, i: number) => (
                   <div key={i} className="relative w-12 h-12 rounded-lg overflow-hidden border border-gray-200">
-                    <img src={img} alt="" className="w-full h-full object-cover" />
+                    <Image src={img} alt="" fill sizes="48px" className="object-cover" />
                   </div>
                 ))}
               </div>

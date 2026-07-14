@@ -71,7 +71,7 @@ export function ShopSidebar({ params }: ShopSidebarProps) {
       </h2>
 
       {/* Gender + nested category dropdown */}
-      <FilterSection title="Gender">
+      <FilterSection title="Category">
         <div className="flex flex-col gap-0.5">
           {genderOptions.map((g) => {
             const isActive = params.gender === g.value || (!params.gender && !g.value)

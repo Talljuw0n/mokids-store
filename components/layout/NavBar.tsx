@@ -36,6 +36,7 @@ export function NavBar() {
 
           {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-6" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 800 }}>
+            <Link href="/" className="text-sm font-bold text-gray-700 hover:text-[#D9247A] transition-colors">Home</Link>
             <Link href="/shop?gender=girls" className="text-sm font-bold text-gray-700 hover:text-[#D9247A] transition-colors">Girls</Link>
             <Link href="/shop?gender=boys" className="text-sm font-bold text-gray-700 hover:text-[#3DB8E8] transition-colors">Boys</Link>
             <Link href="/shop?sort=newest" className="text-sm font-bold text-gray-700 hover:text-gray-900 transition-colors">New In</Link>
@@ -97,6 +98,7 @@ export function NavBar() {
             </form>
             <div className="flex flex-col gap-1" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 800 }}>
               {[
+                { href: '/', label: 'Home', color: '' },
                 { href: '/shop?gender=girls', label: 'Girls', color: 'text-[#D9247A]' },
                 { href: '/shop?gender=boys', label: 'Boys', color: 'text-[#3DB8E8]' },
                 { href: '/shop?sort=newest', label: 'New In', color: '' },

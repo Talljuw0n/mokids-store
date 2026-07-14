@@ -1,9 +1,9 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { ProductWithInventory, ProductCategory, Gender } from '@/types'
-import { CATEGORY_LABELS } from '@/lib/utils'
+import { ProductWithInventory, ProductCategory, Gender, Product } from '@/types'
+import { CATEGORY_LABELS, COLOUR_SWATCH_MAP } from '@/lib/utils'
 
 interface ProductFormProps {
   product?: ProductWithInventory
@@ -18,6 +18,7 @@ const GENDERS: Gender[] = ['girls', 'boys', 'unisex']
 export function ProductForm({ product, mode }: ProductFormProps) {
   const router = useRouter()
   const fileRef = useRef<HTMLInputElement>(null)
+  const replaceRef = useRef<HTMLInputElement>(null)
 
   const [form, setForm] = useState({
     sku: product?.sku || '',
@@ -28,6 +29,7 @@ export function ProductForm({ product, mode }: ProductFormProps) {
     gender: product?.gender || 'girls' as Gender,
     colour: product?.colour || '',
     is_active: product?.is_active ?? true,
+    is_variant_child: product?.is_variant_child ?? false,
   })
 
   const [sizes, setSizes] = useState<SizeRow[]>(
@@ -38,6 +40,50 @@ export function ProductForm({ product, mode }: ProductFormProps) {
   const [uploading, setUploading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+
+  // ── Colour variants: link this product to sibling colourways ──
+  // (shares the same variant_group DB column used for the shoe/pack-size
+  // variant feature — the storefront renders it as swatches instead of a
+  // dropdown when every sibling has its own `colour` set)
+  const [allProducts, setAllProducts] = useState<Product[] | null>(null)
+  const [variantSearch, setVariantSearch] = useState('')
+  const [siblingIds, setSiblingIds] = useState<string[]>([])
+  const originalGroupRef = useRef<{ group: string | null; members: string[] }>({ group: null, members: [] })
+
+  useEffect(() => {
+    fetch('/api/products?all=true')
+      .then(res => res.json())
+      .then((all: Product[]) => {
+        setAllProducts(all)
+        if (product?.variant_group) {
+          const members = all.filter(p => p.variant_group === product.variant_group && p.id !== product.id).map(p => p.id)
+          setSiblingIds(members)
+          originalGroupRef.current = { group: product.variant_group, members }
+        }
+      })
+      .catch(() => setAllProducts([]))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const linkedSiblings = useMemo(
+    () => (allProducts ?? []).filter(p => siblingIds.includes(p.id)),
+    [allProducts, siblingIds]
+  )
+
+  const searchResults = useMemo(() => {
+    const q = variantSearch.trim().toLowerCase()
+    if (q.length < 2 || !allProducts) return []
+    return allProducts
+      .filter(p => p.id !== product?.id && !siblingIds.includes(p.id) &&
+        (p.sku.toLowerCase().includes(q) || p.name.toLowerCase().includes(q)))
+      .slice(0, 8)
+  }, [variantSearch, allProducts, siblingIds, product?.id])
+
+  const addSibling = (p: Product) => {
+    setSiblingIds(ids => [...ids, p.id])
+    setVariantSearch('')
+  }
+  const removeSibling = (id: string) => setSiblingIds(ids => ids.filter(i => i !== id))
 
   const addSizeRow = () => setSizes(s => [...s, { size: '', quantity: 0 }])
   const removeSizeRow = (idx: number) => setSizes(s => s.filter((_, i) => i !== idx))
@@ -64,6 +110,64 @@ export function ProductForm({ product, mode }: ProductFormProps) {
 
   const removeImage = (url: string) => setImages(prev => prev.filter(i => i !== url))
 
+  const moveImage = (idx: number, dir: -1 | 1) => {
+    setImages(prev => {
+      const next = [...prev]
+      const target = idx + dir
+      if (target < 0 || target >= next.length) return prev
+      ;[next[idx], next[target]] = [next[target], next[idx]]
+      return next
+    })
+  }
+
+  const makeCoverImage = (idx: number) => {
+    setImages(prev => {
+      if (idx === 0) return prev
+      const next = [...prev]
+      const [chosen] = next.splice(idx, 1)
+      next.unshift(chosen)
+      return next
+    })
+  }
+
+  const [replacingIdx, setReplacingIdx] = useState<number | null>(null)
+  const triggerReplace = (idx: number) => {
+    setReplacingIdx(idx)
+    replaceRef.current?.click()
+  }
+  const handleReplaceFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file || replacingIdx === null) return
+    setUploading(true)
+    const fd = new FormData()
+    fd.append('file', file)
+    fd.append('folder', `mokids/${form.sku || 'products'}`)
+    const res = await fetch('/api/upload', { method: 'POST', body: fd })
+    const { url } = await res.json()
+    if (url) {
+      const idx = replacingIdx
+      setImages(prev => prev.map((img, i) => i === idx ? url : img))
+    }
+    setReplacingIdx(null)
+    setUploading(false)
+  }
+
+  const [deleting, setDeleting] = useState(false)
+  const handleDelete = async () => {
+    if (!product?.id) return
+    if (!confirm(`Permanently delete "${product.name}" (${product.sku})? This cannot be undone.`)) return
+    setDeleting(true)
+    const res = await fetch(`/api/products/${product.id}`, { method: 'DELETE' })
+    if (res.ok) {
+      router.push('/admin/products')
+      router.refresh()
+    } else {
+      setError('Failed to delete product')
+      setDeleting(false)
+    }
+  }
+
   const handleSave = async () => {
     if (!form.sku || !form.name || !form.category) {
       setError('SKU, Name, and Category are required')
@@ -72,8 +176,15 @@ export function ProductForm({ product, mode }: ProductFormProps) {
     setSaving(true)
     setError('')
 
+    // Resolve the shared variant_group key for colour-variant linking: keep
+    // the group this product already belonged to, or adopt a sibling's
+    // existing group (joining it), or mint a fresh one from this SKU
+    const existingGroup = originalGroupRef.current.group
+    const joinedGroup = linkedSiblings.find(s => s.variant_group)?.variant_group ?? null
+    const variant_group = siblingIds.length > 0 ? (existingGroup ?? joinedGroup ?? form.sku.toUpperCase()) : null
+
     const validSizes = sizes.filter(s => s.size.trim())
-    const payload = { ...form, images, sizes: validSizes }
+    const payload = { ...form, variant_group, images, sizes: validSizes }
 
     const url = mode === 'new' ? '/api/products' : `/api/products/${product?.id}`
     const method = mode === 'new' ? 'POST' : 'PUT'
@@ -84,14 +195,33 @@ export function ProductForm({ product, mode }: ProductFormProps) {
       body: JSON.stringify(payload),
     })
 
-    if (res.ok) {
-      router.push('/admin/products')
-      router.refresh()
-    } else {
+    if (!res.ok) {
       const data = await res.json()
       setError(data.error || 'Failed to save product')
       setSaving(false)
+      return
     }
+
+    // Sync sibling membership: newly-added siblings adopt this group,
+    // siblings the admin removed get detached back to no group
+    const originalMembers = originalGroupRef.current.members
+    const added = siblingIds.filter(id => !originalMembers.includes(id))
+    const removed = originalMembers.filter(id => !siblingIds.includes(id))
+    await Promise.all([
+      ...added.map(id => fetch(`/api/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ variant_group }),
+      })),
+      ...removed.map(id => fetch(`/api/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ variant_group: null }),
+      })),
+    ])
+
+    router.push('/admin/products')
+    router.refresh()
   }
 
   const inputCls = 'w-full px-3 py-2 text-sm font-bold border-[2.5px] border-black rounded-xl bg-[#FFFBEF] focus:outline-none focus:border-[#F5C000] transition-colors'
@@ -160,6 +290,68 @@ export function ProductForm({ product, mode }: ProductFormProps) {
         </div>
       </div>
 
+      {/* Colour Variants */}
+      <div className="bg-white rounded-xl border-[2.5px] border-black shadow-[4px_4px_0_#000] p-6 mb-5">
+        <h2 className="font-bold text-lg mb-1" style={{ fontFamily: "'Fredoka One', cursive" }}>Colour Variants</h2>
+        <p className="text-xs text-gray-500 font-bold mb-4">
+          Link this to the same product in other colours — the shop shows one listing with clickable colour swatches. Set each product&apos;s own <span className="underline">Colour</span> field above first.
+        </p>
+
+        {linkedSiblings.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-3">
+            {linkedSiblings.map(p => (
+              <div key={p.id} className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-full border-[2px] border-black bg-[#FFFBEF]">
+                <span
+                  className="w-5 h-5 rounded-full border border-gray-300 flex-shrink-0"
+                  style={{ background: COLOUR_SWATCH_MAP[p.colour?.toLowerCase().replace(/\s+/g, '') || ''] ?? '#d1d5db' }}
+                />
+                <span className="text-xs font-bold">{p.colour || p.name}</span>
+                <button type="button" onClick={() => removeSibling(p.id)} className="text-red-500 font-bold text-xs hover:text-red-700">✕</button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="relative">
+          <input
+            value={variantSearch}
+            onChange={e => setVariantSearch(e.target.value)}
+            className={inputCls}
+            placeholder="Search by SKU or name to link a colour…"
+          />
+          {searchResults.length > 0 && (
+            <div className="absolute z-10 top-full left-0 right-0 mt-1 bg-white border-[2px] border-black rounded-xl shadow-[4px_4px_0_#000] max-h-56 overflow-y-auto">
+              {searchResults.map(p => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => addSibling(p)}
+                  className="w-full text-left px-3 py-2 text-sm font-bold hover:bg-[#FFFBEF] flex items-center justify-between gap-2"
+                >
+                  <span>{p.name}</span>
+                  <span className="text-xs text-gray-400 font-mono flex-shrink-0">{p.sku}{p.colour ? ` · ${p.colour}` : ''}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {siblingIds.length > 0 && (
+          <div className="mt-4 flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setForm(f => ({ ...f, is_variant_child: !f.is_variant_child }))}
+              className={`w-12 h-6 rounded-full border-[2px] border-black transition-colors relative flex-shrink-0 ${form.is_variant_child ? 'bg-gray-300' : 'bg-[#8DC63F]'}`}
+            >
+              <span className={`absolute top-0.5 w-4 h-4 bg-white border border-gray-300 rounded-full shadow transition-transform ${form.is_variant_child ? 'right-0.5' : 'left-0.5'}`} />
+            </button>
+            <span className="text-xs font-bold text-gray-500">
+              {form.is_variant_child ? 'Hidden from shop grid — only reachable via a sibling\'s colour swatch' : 'Shown as its own tile in the shop grid'}
+            </span>
+          </div>
+        )}
+      </div>
+
       {/* Sizes & Inventory */}
       <div className="bg-white rounded-xl border-[2.5px] border-black shadow-[4px_4px_0_#000] p-6 mb-5">
         <div className="flex items-center justify-between mb-4">
@@ -221,23 +413,80 @@ export function ProductForm({ product, mode }: ProductFormProps) {
           onChange={handleFileUpload}
           className="hidden"
         />
+        <input
+          ref={replaceRef}
+          type="file"
+          accept="image/*"
+          onChange={handleReplaceFile}
+          className="hidden"
+        />
 
         {/* Image grid */}
         {images.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {images.map((url, idx) => (
-              <div key={idx} className="relative w-20 h-20 rounded-lg border-[2px] border-black overflow-hidden">
-                <Image src={url} alt={`Product image ${idx + 1}`} fill className="object-cover" sizes="80px" />
-                <button
-                  type="button"
-                  onClick={() => removeImage(url)}
-                  className="absolute top-0.5 right-0.5 bg-red-500 text-white w-4 h-4 rounded-full text-xs flex items-center justify-center"
-                >
-                  ✕
-                </button>
-              </div>
-            ))}
-          </div>
+          <>
+            <p className="text-xs text-gray-500 font-bold mb-2">
+              The first photo (marked <span className="px-1 py-0.5 bg-gray-900 text-white rounded text-[10px]">DISPLAY</span>) is what shows on the shop grid and as the default photo. Use ⭐ to make another photo the display image.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {images.map((url, idx) => (
+                <div key={url} className="w-24">
+                  <div className="relative w-24 h-24 rounded-lg border-[2px] border-black overflow-hidden">
+                    <Image src={url} alt={`Product image ${idx + 1}`} fill className="object-cover" sizes="96px" />
+                    {idx === 0 && (
+                      <span className="absolute top-1 left-1 px-1.5 py-0.5 bg-gray-900 text-white rounded text-[9px] font-bold">
+                        DISPLAY
+                      </span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => removeImage(url)}
+                      title="Remove"
+                      className="absolute top-1 right-1 bg-red-500 text-white w-5 h-5 rounded-full text-xs flex items-center justify-center hover:bg-red-600"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <div className="flex items-center justify-center gap-1 mt-1">
+                    <button
+                      type="button"
+                      onClick={() => moveImage(idx, -1)}
+                      disabled={idx === 0}
+                      title="Move left"
+                      className="w-6 h-6 text-xs font-bold rounded border border-black bg-white hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      ◀
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => makeCoverImage(idx)}
+                      disabled={idx === 0}
+                      title="Make display image"
+                      className="w-6 h-6 text-xs rounded border border-black bg-[#F5C000] hover:bg-[#e0b000] disabled:opacity-30 disabled:cursor-not-allowed disabled:bg-white"
+                    >
+                      ⭐
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => moveImage(idx, 1)}
+                      disabled={idx === images.length - 1}
+                      title="Move right"
+                      className="w-6 h-6 text-xs font-bold rounded border border-black bg-white hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      ▶
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => triggerReplace(idx)}
+                      title="Replace this photo"
+                      className="w-6 h-6 text-xs rounded border border-black bg-white hover:bg-gray-100"
+                    >
+                      🔄
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 
@@ -260,6 +509,17 @@ export function ProductForm({ product, mode }: ProductFormProps) {
         >
           Cancel
         </button>
+        {mode === 'edit' && (
+          <button
+            type="button"
+            onClick={handleDelete}
+            disabled={deleting}
+            className="ml-auto px-6 py-3 font-bold rounded-xl border-[2.5px] border-black shadow-[4px_4px_0_#000] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#000] transition-all disabled:opacity-50 bg-red-500 text-white"
+            style={{ fontFamily: "'Nunito', sans-serif" }}
+          >
+            {deleting ? '⏳ Deleting...' : '🗑️ Delete Product'}
+          </button>
+        )}
       </div>
     </div>
   )

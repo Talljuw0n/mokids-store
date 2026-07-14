@@ -28,7 +28,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ sku:
   if (product.variant_group) {
     const { data: siblings } = await sb
       .from('products')
-      .select('id, sku, name, price, variant_label, inventory(*)')
+      .select('id, sku, name, price, variant_label, colour, images, inventory(*)')
       .eq('variant_group', product.variant_group)
       .eq('gender', product.gender)
     variants = siblings && siblings.length > 1 ? siblings : null
