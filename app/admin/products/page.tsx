@@ -167,7 +167,7 @@ export default function AdminProductsPage() {
                         <span className="text-gray-500">₦</span>
                         <input
                           type="number"
-                          value={priceVal}
+                          value={priceVal || ''}
                           onChange={e => setPriceVal(parseInt(e.target.value) || 0)}
                           onKeyDown={e => { if (e.key === 'Enter') savePrice(product); if (e.key === 'Escape') setEditingPrice(null) }}
                           className="w-24 px-2 py-1 border-[2px] border-black rounded text-sm font-bold focus:outline-none focus:border-[#F5C000] bg-[#FFFBEF]"

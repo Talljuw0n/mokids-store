@@ -93,18 +93,34 @@ export function ProductForm({ product, mode }: ProductFormProps) {
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
+    e.target.value = ''
     if (!files.length) return
     setUploading(true)
+    setError('')
     const uploaded: string[] = []
+    let failed = 0
     for (const file of files) {
-      const fd = new FormData()
-      fd.append('file', file)
-      fd.append('folder', `mokids/${form.sku || 'products'}`)
-      const res = await fetch('/api/upload', { method: 'POST', body: fd })
-      const { url } = await res.json()
-      if (url) uploaded.push(url)
+      try {
+        const fd = new FormData()
+        fd.append('file', file)
+        fd.append('folder', `mokids/${form.sku || 'products'}`)
+        const res = await fetch('/api/upload', { method: 'POST', body: fd })
+        if (!res.ok) { failed++; continue }
+        const { url } = await res.json()
+        if (url) uploaded.push(url)
+        else failed++
+      } catch {
+        failed++
+      }
     }
-    setImages(prev => [...prev, ...uploaded])
+    if (uploaded.length) setImages(prev => [...prev, ...uploaded])
+    if (failed > 0) {
+      setError(
+        failed === files.length
+          ? 'Upload failed — check your admin session hasn\'t expired, then try again.'
+          : `${failed} of ${files.length} photo(s) failed to upload — try those again.`
+      )
+    }
     setUploading(false)
   }
 
@@ -140,14 +156,19 @@ export function ProductForm({ product, mode }: ProductFormProps) {
     e.target.value = ''
     if (!file || replacingIdx === null) return
     setUploading(true)
-    const fd = new FormData()
-    fd.append('file', file)
-    fd.append('folder', `mokids/${form.sku || 'products'}`)
-    const res = await fetch('/api/upload', { method: 'POST', body: fd })
-    const { url } = await res.json()
-    if (url) {
+    setError('')
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('folder', `mokids/${form.sku || 'products'}`)
+      const res = await fetch('/api/upload', { method: 'POST', body: fd })
+      if (!res.ok) throw new Error()
+      const { url } = await res.json()
+      if (!url) throw new Error()
       const idx = replacingIdx
       setImages(prev => prev.map((img, i) => i === idx ? url : img))
+    } catch {
+      setError('Photo replacement failed — check your admin session hasn\'t expired, then try again.')
     }
     setReplacingIdx(null)
     setUploading(false)
@@ -169,6 +190,10 @@ export function ProductForm({ product, mode }: ProductFormProps) {
   }
 
   const handleSave = async () => {
+    if (uploading) {
+      setError('Still uploading a photo — wait for it to finish before saving.')
+      return
+    }
     if (!form.sku || !form.name || !form.category) {
       setError('SKU, Name, and Category are required')
       return
@@ -244,7 +269,7 @@ export function ProductForm({ product, mode }: ProductFormProps) {
           </div>
           <div>
             <label className="block text-xs font-bold mb-1 uppercase tracking-wide text-gray-500">Price (₦) *</label>
-            <input type="number" value={form.price} onChange={e => setForm(f => ({ ...f, price: parseInt(e.target.value) || 0 }))} className={inputCls} placeholder="35000" />
+            <input type="number" value={form.price || ''} onChange={e => setForm(f => ({ ...f, price: parseInt(e.target.value) || 0 }))} className={inputCls} placeholder="35000" />
           </div>
         </div>
 
@@ -495,11 +520,11 @@ export function ProductForm({ product, mode }: ProductFormProps) {
         <button
           type="button"
           onClick={handleSave}
-          disabled={saving}
+          disabled={saving || uploading}
           className="px-6 py-3 font-bold rounded-xl border-[2.5px] border-black shadow-[4px_4px_0_#000] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#000] transition-all disabled:opacity-50"
           style={{ backgroundColor: '#F5C000', fontFamily: "'Fredoka One', cursive", fontSize: '1rem' }}
         >
-          {saving ? '⏳ Saving...' : mode === 'new' ? '💾 Create Product' : '💾 Save Changes'}
+          {saving ? '⏳ Saving...' : uploading ? '⏳ Photo uploading...' : mode === 'new' ? '💾 Create Product' : '💾 Save Changes'}
         </button>
         <button
           type="button"
