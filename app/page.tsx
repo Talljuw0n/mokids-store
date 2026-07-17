@@ -93,7 +93,7 @@ const FEATURED_ITEMS: { sku: string; gender?: string }[] = [
   { sku: 'MOKIDSSL011' },
   { sku: 'MOKIDSP003' },
   { sku: 'MOKIDSD042' },
-  { sku: 'MOKIDSSC004', gender: 'boys' },
+  { sku: 'MOKIDSSC011', gender: 'boys' },
   { sku: 'MOKIDSLS004' },
   { sku: 'MOKIDSSH006' },
 ]

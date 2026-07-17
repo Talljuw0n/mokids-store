@@ -15,6 +15,15 @@ type SizeRow = { size: string; quantity: number }
 const CATEGORIES = Object.entries(CATEGORY_LABELS) as [ProductCategory, string][]
 const GENDERS: Gender[] = ['girls', 'boys', 'unisex']
 
+// A 401 here almost always means the admin login cookie has expired — there's
+// no session check on the admin pages themselves, so this is often the first
+// visible sign of it. Point the admin straight at the fix instead of a vague
+// "check your session" guess.
+function requestErrorMessage(status: number, action: string): string {
+  if (status === 401) return `Your admin session has expired. Log out and log back in, then retry ${action}.`
+  return `${action} failed (server error ${status}). Try again in a moment.`
+}
+
 export function ProductForm({ product, mode }: ProductFormProps) {
   const router = useRouter()
   const fileRef = useRef<HTMLInputElement>(null)
@@ -99,13 +108,14 @@ export function ProductForm({ product, mode }: ProductFormProps) {
     setError('')
     const uploaded: string[] = []
     let failed = 0
+    let lastFailStatus: number | null = null
     for (const file of files) {
       try {
         const fd = new FormData()
         fd.append('file', file)
         fd.append('folder', `mokids/${form.sku || 'products'}`)
         const res = await fetch('/api/upload', { method: 'POST', body: fd })
-        if (!res.ok) { failed++; continue }
+        if (!res.ok) { failed++; lastFailStatus = res.status; continue }
         const { url } = await res.json()
         if (url) uploaded.push(url)
         else failed++
@@ -116,8 +126,8 @@ export function ProductForm({ product, mode }: ProductFormProps) {
     if (uploaded.length) setImages(prev => [...prev, ...uploaded])
     if (failed > 0) {
       setError(
-        failed === files.length
-          ? 'Upload failed — check your admin session hasn\'t expired, then try again.'
+        failed === files.length && lastFailStatus !== null
+          ? requestErrorMessage(lastFailStatus, 'the upload')
           : `${failed} of ${files.length} photo(s) failed to upload — try those again.`
       )
     }
@@ -162,13 +172,13 @@ export function ProductForm({ product, mode }: ProductFormProps) {
       fd.append('file', file)
       fd.append('folder', `mokids/${form.sku || 'products'}`)
       const res = await fetch('/api/upload', { method: 'POST', body: fd })
-      if (!res.ok) throw new Error()
+      if (!res.ok) { setError(requestErrorMessage(res.status, 'the photo replacement')); setReplacingIdx(null); setUploading(false); return }
       const { url } = await res.json()
       if (!url) throw new Error()
       const idx = replacingIdx
       setImages(prev => prev.map((img, i) => i === idx ? url : img))
     } catch {
-      setError('Photo replacement failed — check your admin session hasn\'t expired, then try again.')
+      setError('Photo replacement failed. Try again.')
     }
     setReplacingIdx(null)
     setUploading(false)
@@ -184,7 +194,7 @@ export function ProductForm({ product, mode }: ProductFormProps) {
       router.push('/admin/products')
       router.refresh()
     } else {
-      setError('Failed to delete product')
+      setError(requestErrorMessage(res.status, 'the delete'))
       setDeleting(false)
     }
   }
@@ -221,8 +231,12 @@ export function ProductForm({ product, mode }: ProductFormProps) {
     })
 
     if (!res.ok) {
-      const data = await res.json()
-      setError(data.error || 'Failed to save product')
+      if (res.status === 401) {
+        setError(requestErrorMessage(401, 'saving'))
+      } else {
+        const data = await res.json().catch(() => ({}))
+        setError(data.error || 'Failed to save product')
+      }
       setSaving(false)
       return
     }

@@ -4,6 +4,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { formatPrice, CATEGORY_LABELS } from '@/lib/utils'
 
+// A 401 here almost always means the admin login cookie has expired — there's
+// no session check on the admin pages themselves, so this is often the first
+// visible sign of it.
+function requestErrorMessage(status: number, action: string): string {
+  if (status === 401) return `Your admin session has expired. Log out and log back in, then retry ${action}.`
+  return `${action} failed (server error ${status}). Try again in a moment.`
+}
+
 interface Product {
   id: string
   sku: string
@@ -50,7 +58,7 @@ export default function AdminProductsPage() {
       setProducts(prev => prev.map(p => p.id === product.id ? { ...p, price: priceVal } : p))
       setEditingPrice(null)
     } else {
-      setSaveError('Failed to save price. Please try again.')
+      setSaveError(requestErrorMessage(res.status, 'saving the price'))
     }
     setSaving(null)
   }
@@ -67,7 +75,7 @@ export default function AdminProductsPage() {
     if (res.ok) {
       setProducts(prev => prev.map(p => p.id === product.id ? { ...p, is_active: newState } : p))
     } else {
-      setSaveError(`Failed to ${newState ? 'activate' : 'deactivate'} product. Please try again.`)
+      setSaveError(requestErrorMessage(res.status, newState ? 'activating' : 'deactivating'))
     }
     setSaving(null)
   }
@@ -80,7 +88,7 @@ export default function AdminProductsPage() {
     if (res.ok) {
       setProducts(prev => prev.filter(p => p.id !== product.id))
     } else {
-      setSaveError('Failed to delete product. Please try again.')
+      setSaveError(requestErrorMessage(res.status, 'the delete'))
     }
     setSaving(null)
   }
