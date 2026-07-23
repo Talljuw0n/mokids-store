@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic'
 import { Suspense } from 'react'
 import { getServiceClient, isConfigured } from '@/lib/supabase'
 import { ProductCard } from '@/components/ui/ProductCard'
-import { ProductWithInventory, ProductCategory, Gender } from '@/types'
+import { ProductWithInventory, Gender } from '@/types'
 import { CATEGORY_LABELS } from '@/lib/utils'
 import Link from 'next/link'
 import { ShopSidebar } from '@/components/shop/ShopSidebar'
@@ -36,7 +36,7 @@ async function getProducts(params: Awaited<ShopPageProps['searchParams']>) {
       .eq('is_active', true)
       .eq('is_variant_child', false)
 
-    if (params.category) query = query.eq('category', params.category as ProductCategory)
+    if (params.category) query = query.or(`category.eq.${params.category},also_categories.cs.{${params.category}}`)
     if (params.gender)   query = query.eq('gender', params.gender as Gender)
     if (params.minPrice) query = query.gte('price', parseInt(params.minPrice))
     if (params.maxPrice) query = query.lte('price', parseInt(params.maxPrice))

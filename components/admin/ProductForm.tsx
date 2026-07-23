@@ -109,13 +109,19 @@ export function ProductForm({ product, mode }: ProductFormProps) {
     const uploaded: string[] = []
     let failed = 0
     let lastFailStatus: number | null = null
+    let lastFailMessage: string | null = null
     for (const file of files) {
       try {
         const fd = new FormData()
         fd.append('file', file)
         fd.append('folder', `mokids/${form.sku || 'products'}`)
         const res = await fetch('/api/upload', { method: 'POST', body: fd })
-        if (!res.ok) { failed++; lastFailStatus = res.status; continue }
+        if (!res.ok) {
+          failed++
+          lastFailStatus = res.status
+          lastFailMessage = (await res.json().catch(() => ({})))?.error ?? null
+          continue
+        }
         const { url } = await res.json()
         if (url) uploaded.push(url)
         else failed++
@@ -126,9 +132,11 @@ export function ProductForm({ product, mode }: ProductFormProps) {
     if (uploaded.length) setImages(prev => [...prev, ...uploaded])
     if (failed > 0) {
       setError(
-        failed === files.length && lastFailStatus !== null
-          ? requestErrorMessage(lastFailStatus, 'the upload')
-          : `${failed} of ${files.length} photo(s) failed to upload — try those again.`
+        failed !== files.length || lastFailStatus === null
+          ? `${failed} of ${files.length} photo(s) failed to upload — try those again.`
+          : lastFailStatus === 401
+          ? requestErrorMessage(401, 'the upload')
+          : lastFailMessage ?? requestErrorMessage(lastFailStatus, 'the upload')
       )
     }
     setUploading(false)
@@ -172,7 +180,13 @@ export function ProductForm({ product, mode }: ProductFormProps) {
       fd.append('file', file)
       fd.append('folder', `mokids/${form.sku || 'products'}`)
       const res = await fetch('/api/upload', { method: 'POST', body: fd })
-      if (!res.ok) { setError(requestErrorMessage(res.status, 'the photo replacement')); setReplacingIdx(null); setUploading(false); return }
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        setError(res.status === 401 ? requestErrorMessage(401, 'the photo replacement') : (body?.error ?? requestErrorMessage(res.status, 'the photo replacement')))
+        setReplacingIdx(null)
+        setUploading(false)
+        return
+      }
       const { url } = await res.json()
       if (!url) throw new Error()
       const idx = replacingIdx

@@ -47,6 +47,10 @@ export interface Product {
   variant_group?: string | null
   variant_label?: string | null
   is_variant_child?: boolean
+  // Lets a product also show up under another category's listing (e.g. a
+  // school shoe filed as girls-shoes that should also appear under Back to
+  // School) without duplicating the row or changing its primary category
+  also_categories?: ProductCategory[]
 }
 
 export interface InventoryItem {
