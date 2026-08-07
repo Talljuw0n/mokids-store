@@ -20,7 +20,7 @@ export const NIGERIAN_STATES = [
   'Benue', 'Borno', 'Cross River', 'Delta', 'Ebonyi', 'Edo',
   'Ekiti', 'Enugu', 'FCT - Abuja', 'Gombe', 'Imo', 'Jigawa',
   'Kaduna', 'Kano', 'Katsina', 'Kebbi', 'Kogi', 'Kwara',
-  'Lagos', 'Nasarawa', 'Niger', 'Ogun', 'Ondo', 'Osun',
+  'Lagos Island', 'Lagos Mainland', 'Nasarawa', 'Niger', 'Ogun', 'Ondo', 'Osun',
   'Oyo', 'Plateau', 'Rivers', 'Sokoto', 'Taraba', 'Yobe', 'Zamfara'
 ]
 
@@ -80,19 +80,29 @@ export type ShippingRate = { fee: number; heavy_fee: number }
 // Delivery zones
 export const DELIVERY_ZONES = [
   {
-    id: 'lagos',
-    name: 'Lagos',
+    id: 'lagos-island',
+    name: 'Lagos Island',
     carrier: 'Local delivery',
-    note: 'Rate may vary by area within Lagos',
-    states: ['Lagos'],
+    note: '',
+    states: ['Lagos Island'],
     color: '#D9247A',
-    defaultFee: 4000,
+    defaultFee: 5000,
+    defaultHeavyFee: 5000,
+  },
+  {
+    id: 'lagos-mainland',
+    name: 'Lagos Mainland',
+    carrier: 'Local delivery',
+    note: '',
+    states: ['Lagos Mainland'],
+    color: '#F5C000',
+    defaultFee: 6000,
     defaultHeavyFee: 6000,
   },
   {
     id: 'south',
     name: 'Southwest, East & Abuja',
-    carrier: 'GIGM',
+    carrier: 'GUO',
     note: '',
     states: [
       'Ogun', 'Oyo', 'Osun', 'Ondo', 'Ekiti', 'Kwara',
@@ -101,8 +111,8 @@ export const DELIVERY_ZONES = [
       'Anambra', 'Imo', 'Abia', 'Enugu', 'Ebonyi',
     ],
     color: '#3DB8E8',
-    defaultFee: 5500,
-    defaultHeavyFee: 7500,
+    defaultFee: 6500,
+    defaultHeavyFee: 6500,
   },
   {
     id: 'north',
@@ -115,8 +125,8 @@ export const DELIVERY_ZONES = [
       'Borno', 'Adamawa', 'Gombe', 'Bauchi', 'Yobe',
     ],
     color: '#E55A1C',
-    defaultFee: 9000,
-    defaultHeavyFee: 13000,
+    defaultFee: 8500,
+    defaultHeavyFee: 8500,
   },
 ] as const
 

@@ -274,11 +274,6 @@ export default function CheckoutPage() {
                         <span className="ml-1 text-amber-600 font-bold">· heavy order ({totalItemQty} items)</span>
                       )}
                     </p>
-                    {form.state === 'Lagos' && (
-                      <p className="text-xs text-amber-600 font-bold">
-                        Lagos fee may vary depending on your area
-                      </p>
-                    )}
                   </div>
                 )}
                 <hr className="border-gray-100 my-1" />

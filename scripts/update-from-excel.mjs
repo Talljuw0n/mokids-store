@@ -24,7 +24,7 @@ import { createClient } from '@supabase/supabase-js'
 import XLSX from 'xlsx'
 
 // ── Config ───────────────────────────────────────────────────────────────────
-const EXCEL_PATH = 'C:/Users/Superuser/Downloads/Mokids Store Inventory (7).xlsx'
+const EXCEL_PATH = 'C:/Users/Superuser/Downloads/Mokids Store Inventory (9).xlsx'
 
 const envFile = readFileSync('C:/Users/Superuser/mokids-store/.env.local', 'utf8')
 const env = Object.fromEntries(
@@ -102,6 +102,16 @@ const MANUAL_SKU_FIXES = {
   'MOKISD011': 'MOKIDSD011',
   'MOKIDSSSC10': 'MOKIDSSC010',
 }
+
+// SKUs that must stay hidden from the storefront regardless of what the sheet
+// says — the item is still tracked (name/price/inventory keep syncing), it's
+// just deliberately not for sale right now. Keyed by "sku|gender" since SKUs
+// can collide across genders.
+const KEEP_INACTIVE = new Set([
+  'MOKIDSUW029|girls', // 4-pack camisole variant — kept off-site on request
+  'MOKIDSJP001|girls', // "don't make it live" — will be revisited later
+  'MOKIDSBD009|girls', // has a real price already, but no photo yet
+])
 
 // ── SKU normalisation ─────────────────────────────────────────────────────────
 function normSku(raw) {
@@ -273,9 +283,10 @@ for (const p of toProcess) {
     process.stdout.write(`  ${p.sku} — "${p.name}" @ ₦${p.price?.toLocaleString() ?? 'TBD'}...`)
     try {
       if (existing) {
+        const keepInactive = KEEP_INACTIVE.has(`${p.sku}|${p.gender}`)
         const update = {}
         if (p.name)   { update.name = p.name; update.description = p.description }
-        if (p.price)  { update.price = p.price; update.is_active = true }
+        if (p.price)  { update.price = p.price; if (!keepInactive) update.is_active = true }
         if (p.colour) update.colour = p.colour
         await supabase.from('products').update(update).eq('id', existing.id)
         console.log(' updated')
@@ -290,7 +301,7 @@ for (const p of toProcess) {
           gender: p.gender,
           colour: p.colour || '',
           images: [],
-          is_active: !!(p.price && p.price > 0),
+          is_active: !KEEP_INACTIVE.has(`${p.sku}|${p.gender}`) && !!(p.price && p.price > 0),
         }).select('id').single()
         if (error) throw error
         productId = inserted.id
