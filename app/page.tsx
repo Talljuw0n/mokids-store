@@ -15,6 +15,7 @@ const HERO_SLIDES = [
     subtitle: "Everything your kids need for the new term: backpacks, shoes, uniforms and more.",
     ctaHref: '/shop',
     ctaLabel: 'Shop Now',
+    mobileImagePosition: '58% 62%',
   },
   {
     image: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1783441284/mokids/hero/hero-bg-2.jpg',
@@ -24,6 +25,7 @@ const HERO_SLIDES = [
     ctaHref: '/shop?category=back-to-school-girls',
     ctaLabel: 'Shop Girls',
     imagePosition: '60% 15%',
+    mobileImagePosition: '58% 45%',
   },
   {
     image: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1783441286/mokids/hero/hero-bg-3.jpg',
@@ -33,6 +35,7 @@ const HERO_SLIDES = [
     ctaHref: '/shop?category=back-to-school-boys',
     ctaLabel: 'Shop Boys',
     imagePosition: '60% 15%',
+    mobileImagePosition: '58% 45%',
   },
 ]
 

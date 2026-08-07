@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -12,6 +12,10 @@ export interface HeroSlide {
   ctaHref?: string
   ctaLabel?: string
   imagePosition?: string
+  // Desktop crops are tuned to sit beside the text gradient on a wide frame;
+  // a portrait phone screen needs its own framing or the subject ends up
+  // pushed out of view with mostly empty sky/background showing instead.
+  mobileImagePosition?: string
 }
 
 const DEFAULT_HEADLINE = ['Dress Them', 'in Pure Joy']
@@ -24,6 +28,7 @@ interface Props {
 export function HeroSlideshow({ slides }: Props) {
   const [current, setCurrent] = useState(0)
   const [visible, setVisible] = useState(true)
+  const touchStartX = useRef<number | null>(null)
 
   const goTo = useCallback((index: number) => {
     setVisible(false)
@@ -42,13 +47,25 @@ export function HeroSlideshow({ slides }: Props) {
     return () => clearInterval(t)
   }, [next, slides.length])
 
+  const onTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX }
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || slides.length < 2) return
+    const delta = e.changedTouches[0].clientX - touchStartX.current
+    if (Math.abs(delta) > 40) (delta < 0 ? next() : prev())
+    touchStartX.current = null
+  }
+
   if (!slides?.length) return null
   const slide = slides[Math.min(current, slides.length - 1)]
   const lines = slide.headline ?? DEFAULT_HEADLINE
   const subtitle = slide.subtitle ?? DEFAULT_SUBTITLE
 
   return (
-    <section className="relative w-full overflow-hidden" style={{ height: '88vh', minHeight: '680px', maxHeight: '900px' }}>
+    <section
+      className="relative w-full overflow-hidden h-[62vh] min-h-[460px] max-h-[620px] md:h-[88vh] md:min-h-[680px] md:max-h-[900px]"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
 
       {/* Background image — fades with slide */}
       <div
@@ -59,8 +76,11 @@ export function HeroSlideshow({ slides }: Props) {
           src={slide.image}
           alt={slide.alt ?? 'Hero background'}
           fill
-          className="object-cover"
-          style={{ objectPosition: slide.imagePosition ?? 'center' }}
+          className="object-cover hero-bg-image"
+          style={{
+            '--pos-mobile': slide.mobileImagePosition ?? 'center 65%',
+            '--pos-desktop': slide.imagePosition ?? 'center',
+          } as React.CSSProperties}
           sizes="100vw"
           priority
         />
@@ -79,7 +99,7 @@ export function HeroSlideshow({ slides }: Props) {
         className="absolute inset-0 flex items-center"
         style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.4s ease' }}
       >
-        <div className="max-w-7xl mx-auto w-full" style={{ paddingLeft: 'clamp(56px, 6vw, 100px)', paddingRight: 'clamp(56px, 6vw, 100px)' }}>
+        <div className="max-w-7xl mx-auto w-full" style={{ paddingLeft: 'clamp(24px, 6vw, 100px)', paddingRight: 'clamp(24px, 6vw, 100px)' }}>
           <div className="max-w-lg">
             <h1
               style={{
@@ -125,10 +145,11 @@ export function HeroSlideshow({ slides }: Props) {
         </div>
       </div>
 
-      {/* Prev arrow */}
+      {/* Prev/next arrows — hidden on mobile, where they'd sit on top of the
+          text; swipe + dots cover navigation there instead */}
       <button
         onClick={prev}
-        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full flex items-center justify-center font-bold text-xl transition-all hover:scale-110"
+        className="hidden md:flex absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full items-center justify-center font-bold text-xl transition-all hover:scale-110"
         style={{ background: 'rgba(255,255,255,0.2)', color: '#fff', backdropFilter: 'blur(4px)', border: '1.5px solid rgba(255,255,255,0.4)' }}
         aria-label="Previous"
       >‹</button>
@@ -136,7 +157,7 @@ export function HeroSlideshow({ slides }: Props) {
       {/* Next arrow */}
       <button
         onClick={next}
-        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full flex items-center justify-center font-bold text-xl transition-all hover:scale-110"
+        className="hidden md:flex absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full items-center justify-center font-bold text-xl transition-all hover:scale-110"
         style={{ background: 'rgba(255,255,255,0.2)', color: '#fff', backdropFilter: 'blur(4px)', border: '1.5px solid rgba(255,255,255,0.4)' }}
         aria-label="Next"
       >›</button>
@@ -159,6 +180,17 @@ export function HeroSlideshow({ slides }: Props) {
           ))}
         </div>
       )}
+
+      <style jsx global>{`
+        .hero-bg-image {
+          object-position: var(--pos-mobile);
+        }
+        @media (min-width: 768px) {
+          .hero-bg-image {
+            object-position: var(--pos-desktop);
+          }
+        }
+      `}</style>
     </section>
   )
 }
