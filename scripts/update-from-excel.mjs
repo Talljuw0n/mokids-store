@@ -24,7 +24,7 @@ import { createClient } from '@supabase/supabase-js'
 import XLSX from 'xlsx'
 
 // ── Config ───────────────────────────────────────────────────────────────────
-const EXCEL_PATH = 'C:/Users/Superuser/Downloads/Mokids Store Inventory (9).xlsx'
+const EXCEL_PATH = 'C:/Users/Superuser/Downloads/Mokids Store Inventory (10).xlsx'
 
 const envFile = readFileSync('C:/Users/Superuser/mokids-store/.env.local', 'utf8')
 const env = Object.fromEntries(

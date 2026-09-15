@@ -19,6 +19,13 @@ function StockStatus({ qty }: { qty: number }) {
   return <span className="text-green-600 font-bold text-xs">✅ In Stock</span>
 }
 
+// A 401 here almost always means the admin login cookie has expired — same
+// failure mode already handled on the product form's save/upload actions.
+function requestErrorMessage(status: number): string {
+  if (status === 401) return 'Your admin session has expired. Log out and log back in, then retry the update.'
+  return `Update failed (server error ${status}). Try again in a moment.`
+}
+
 export default function AdminInventoryPage() {
   const [rows, setRows] = useState<InventoryRow[]>([])
   const [loading, setLoading] = useState(true)
@@ -26,6 +33,7 @@ export default function AdminInventoryPage() {
   const [editVal, setEditVal] = useState<number>(0)
   const [saving, setSaving] = useState<string | null>(null)
   const [search, setSearch] = useState('')
+  const [error, setError] = useState<string | null>(null)
 
   const load = useCallback(async () => {
     // Fetch all inventory joined with product names
@@ -44,14 +52,24 @@ export default function AdminInventoryPage() {
 
   const saveEdit = async (row: InventoryRow) => {
     setSaving(row.id)
-    await fetch('/api/inventory', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ product_id: row.product_id, size: row.size, quantity: editVal }),
-    })
-    setRows(prev => prev.map(r => r.id === row.id ? { ...r, quantity: editVal } : r))
-    setEditing(null)
-    setSaving(null)
+    setError(null)
+    try {
+      const res = await fetch('/api/inventory', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product_id: row.product_id, size: row.size, quantity: editVal }),
+      })
+      if (!res.ok) {
+        setError(requestErrorMessage(res.status))
+        return
+      }
+      setRows(prev => prev.map(r => r.id === row.id ? { ...r, quantity: editVal } : r))
+      setEditing(null)
+    } catch {
+      setError('Update failed — check your connection and try again.')
+    } finally {
+      setSaving(null)
+    }
   }
 
   const filtered = rows.filter(r =>
@@ -72,6 +90,12 @@ export default function AdminInventoryPage() {
           <span className="px-2 py-1 rounded border" style={{ backgroundColor: '#FFF3CD', borderColor: '#E55A1C', color: '#E55A1C' }}>⚠️ {lowStockCount} Low Stock</span>
         </div>
       </div>
+
+      {error && (
+        <div className="mb-4 px-4 py-2 text-sm font-bold text-red-600 bg-red-50 border-[2px] border-red-200 rounded-xl">
+          {error}
+        </div>
+      )}
 
       <div className="mb-4">
         <input
