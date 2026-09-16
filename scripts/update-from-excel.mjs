@@ -133,9 +133,19 @@ function isValidSku(val) {
   return typeof val === 'string' && /^mokids?/i.test(val.trim())
 }
 
+// The sheet is hand-typed and inconsistent about whitespace for the same real
+// size ("6-7 years" vs "6-7years", "UK 4.5/EU37.5" vs "UK4.5/EU37.5") — since
+// inventory upserts key on the literal (product_id, size) string, an unnormalized
+// value creates a brand-new duplicate row instead of updating the existing size
+// (found 44 such duplicate pairs after the first inventory sync).
 function cleanSize(val) {
-  const s = String(val ?? '').trim()
-  return s && s !== '"' ? s : ''
+  let s = String(val ?? '').trim()
+  if (!s || s === '"') return ''
+  s = s.replace(/\s+/g, ' ')
+  s = s.replace(/(\d)\s*-\s*(\d)/g, '$1-$2')
+  s = s.replace(/(\d)(years?|months?)\b/gi, '$1 $2')
+  s = s.replace(/\b(UK|EU|US)\s+(\d)/gi, '$1$2')
+  return s
 }
 
 // A blank Qty cell means "not entered yet", not necessarily zero — but a
