@@ -41,21 +41,67 @@ async function getProducts(params: Awaited<ShopPageProps['searchParams']>) {
     if (params.minPrice) query = query.gte('price', parseInt(params.minPrice))
     if (params.maxPrice) query = query.lte('price', parseInt(params.maxPrice))
 
-    // Smart search: match name, colour, description, or inventory size/age
+    // Smart search: match name, colour, description, category, gender, or
+    // inventory size/age. A query like "girls dress" has its words split
+    // across separate columns (gender="girls", name="...dress") rather than
+    // appearing together in any single field, so each word is matched
+    // independently (OR across fields) and every word must match something
+    // (AND across words).
     if (params.search) {
-      const term = params.search.replace(/'/g, "''")
-      const { data: sizeMatchRows } = await sb
-        .from('inventory')
-        .select('product_id')
-        .ilike('size', `%${term}%`)
-      const sizeMatchIds = (sizeMatchRows ?? []).map((r: { product_id: string }) => r.product_id)
+      const raw = params.search.trim()
+      const words = raw.split(/\s+/).filter(Boolean).map(w => w.replace(/'/g, "''"))
 
-      if (sizeMatchIds.length > 0) {
-        query = query.or(
-          `name.ilike.%${term}%,colour.ilike.%${term}%,description.ilike.%${term}%,id.in.(${sizeMatchIds.join(',')})`
-        )
-      } else {
-        query = query.or(`name.ilike.%${term}%,colour.ilike.%${term}%,description.ilike.%${term}%`)
+      if (words.length > 0) {
+        const wordClauses: string[][] = []
+        for (const term of words) {
+          const { data: sizeMatchRows } = await sb
+            .from('inventory')
+            .select('product_id')
+            .ilike('size', `%${term}%`)
+          const sizeMatchIds = [...new Set((sizeMatchRows ?? []).map((r: { product_id: string }) => r.product_id))]
+
+          const clauses = [
+            `name.ilike.%${term}%`,
+            `colour.ilike.%${term}%`,
+            `description.ilike.%${term}%`,
+            `category.ilike.%${term}%`,
+            `gender.ilike.%${term}%`,
+          ]
+          // A generic word (e.g. "years") can match sizes on hundreds of
+          // products — past a point that id.in.(...) clause makes the request
+          // URL too long and the query fails outright. Above that size the
+          // term is too generic to usefully narrow by size anyway, so skip
+          // the size match for this word rather than breaking the search.
+          if (sizeMatchIds.length > 0 && sizeMatchIds.length <= 50) {
+            clauses.push(`id.in.(${sizeMatchIds.join(',')})`)
+          }
+          wordClauses.push(clauses)
+        }
+
+        if (words.length === 1) {
+          query = query.or(wordClauses[0].join(','))
+        } else {
+          // Multi-word: every word must match something (AND across words,
+          // OR across fields per word).
+          const andOfOrs = `and(${wordClauses.map(c => `or(${c.join(',')})`).join(',')})`
+
+          // Sizes are also often written as one exact multi-word phrase
+          // ("6-7 years", "12-18 months") that the per-word split above
+          // would lose (since a generic word like "years" alone gets
+          // capped out above) — OR that in as an extra alternative.
+          const fullPhrase = raw.replace(/'/g, "''")
+          const { data: phraseSizeRows } = await sb
+            .from('inventory')
+            .select('product_id')
+            .ilike('size', `%${fullPhrase}%`)
+          const phraseSizeIds = [...new Set((phraseSizeRows ?? []).map((r: { product_id: string }) => r.product_id))]
+
+          const alternatives = [andOfOrs]
+          if (phraseSizeIds.length > 0 && phraseSizeIds.length <= 50) {
+            alternatives.unshift(`id.in.(${phraseSizeIds.join(',')})`)
+          }
+          query = query.or(alternatives.join(','))
+        }
       }
     }
 
