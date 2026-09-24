@@ -74,11 +74,8 @@ export const COLOUR_SWATCH_MAP: Record<string, string> = {
 }
 
 export const STANDARD_SHIPPING_FEE = 5500
-// Item count threshold above which the heavy (>1kg) rate applies.
-// Kids clothing ≈ 300g/item → 4 items ≈ 1.2kg
-export const HEAVY_ORDER_THRESHOLD = 4
 
-export type ShippingRate = { fee: number; heavy_fee: number }
+export type ShippingRate = { fee: number }
 
 // Delivery zones
 export const DELIVERY_ZONES = [
@@ -90,7 +87,6 @@ export const DELIVERY_ZONES = [
     states: ['Pickup'],
     color: '#22c55e',
     defaultFee: 0,
-    defaultHeavyFee: 0,
   },
   {
     id: 'lagos-island-core',
@@ -100,7 +96,6 @@ export const DELIVERY_ZONES = [
     states: ['Lagos Island, Surulere & Yaba'],
     color: '#D9247A',
     defaultFee: 5000,
-    defaultHeavyFee: 5000,
   },
   {
     id: 'magodo-ketu-berger',
@@ -110,7 +105,6 @@ export const DELIVERY_ZONES = [
     states: ['Magodo, Ketu & Berger'],
     color: '#F5C000',
     defaultFee: 5500,
-    defaultHeavyFee: 5500,
   },
   {
     id: 'lekki-vi-ikoyi',
@@ -120,7 +114,6 @@ export const DELIVERY_ZONES = [
     states: ['Lekki Phase 1, VI & Ikoyi'],
     color: '#3DB8E8',
     defaultFee: 4000,
-    defaultHeavyFee: 4000,
   },
   {
     id: 'ajah-vgc-badore',
@@ -130,7 +123,6 @@ export const DELIVERY_ZONES = [
     states: ['Ajah, VGC & Badore'],
     color: '#8b5cf6',
     defaultFee: 2500,
-    defaultHeavyFee: 2500,
   },
   {
     id: 'gbagada-ikeja-ogba',
@@ -140,7 +132,6 @@ export const DELIVERY_ZONES = [
     states: ['Gbagada, Ikeja & Ogba'],
     color: '#E55A1C',
     defaultFee: 6000,
-    defaultHeavyFee: 6000,
   },
   {
     id: 'egbeda-ipaja-ikotun',
@@ -150,7 +141,6 @@ export const DELIVERY_ZONES = [
     states: ['Egbeda, Ipaja & Ikotun'],
     color: '#14b8a6',
     defaultFee: 6500,
-    defaultHeavyFee: 6500,
   },
   {
     id: 'ikorodu-sango',
@@ -160,7 +150,6 @@ export const DELIVERY_ZONES = [
     states: ['Ikorodu & Sango'],
     color: '#92400e',
     defaultFee: 7000,
-    defaultHeavyFee: 7000,
   },
   {
     id: 'south',
@@ -175,7 +164,6 @@ export const DELIVERY_ZONES = [
     ],
     color: '#3DB8E8',
     defaultFee: 6500,
-    defaultHeavyFee: 6500,
   },
   {
     id: 'north',
@@ -189,7 +177,6 @@ export const DELIVERY_ZONES = [
     ],
     color: '#E55A1C',
     defaultFee: 8500,
-    defaultHeavyFee: 8500,
   },
 ] as const
 
@@ -198,7 +185,7 @@ export const DEFAULT_SHIPPING_RATES: Record<string, ShippingRate> = (() => {
   const map: Record<string, ShippingRate> = {}
   for (const zone of DELIVERY_ZONES) {
     for (const state of zone.states) {
-      map[state] = { fee: zone.defaultFee, heavy_fee: zone.defaultHeavyFee }
+      map[state] = { fee: zone.defaultFee }
     }
   }
   return map

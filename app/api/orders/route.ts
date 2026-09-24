@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServiceClient } from '@/lib/supabase'
 import { isAdminRequest, unauthorized } from '@/lib/auth'
-import { NIGERIAN_STATES, DEFAULT_SHIPPING_RATES, HEAVY_ORDER_THRESHOLD } from '@/lib/utils'
+import { NIGERIAN_STATES, DEFAULT_SHIPPING_RATES } from '@/lib/utils'
 
 export async function GET(req: NextRequest) {
   if (!isAdminRequest(req)) return unauthorized()
@@ -85,12 +85,10 @@ export async function POST(req: NextRequest) {
   }
 
   const subtotal = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0)
-  const totalQty = orderItems.reduce((sum, i) => sum + i.quantity, 0)
-  const isHeavy = totalQty >= HEAVY_ORDER_THRESHOLD
 
-  const { data: rateRow } = await sb.from('shipping_rates').select('fee, heavy_fee').eq('state', state).maybeSingle()
-  const rate = rateRow ?? DEFAULT_SHIPPING_RATES[state] ?? { fee: 5500, heavy_fee: 7500 }
-  const shipping_fee = isHeavy ? (rate.heavy_fee ?? rate.fee) : rate.fee
+  const { data: rateRow } = await sb.from('shipping_rates').select('fee').eq('state', state).maybeSingle()
+  const rate = rateRow ?? DEFAULT_SHIPPING_RATES[state] ?? { fee: 5500 }
+  const shipping_fee = rate.fee
   const total = subtotal + shipping_fee
 
   const { data, error } = await sb

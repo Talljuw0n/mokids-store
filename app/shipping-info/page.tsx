@@ -1,5 +1,5 @@
 import { getServiceClient, isConfigured } from '@/lib/supabase'
-import { DELIVERY_ZONES, HEAVY_ORDER_THRESHOLD, formatPrice, ShippingRate } from '@/lib/utils'
+import { DELIVERY_ZONES, formatPrice, ShippingRate } from '@/lib/utils'
 
 export const dynamic = 'force-dynamic'
 
@@ -7,15 +7,15 @@ async function getRates(): Promise<Record<string, ShippingRate>> {
   const map: Record<string, ShippingRate> = {}
   for (const zone of DELIVERY_ZONES) {
     for (const state of zone.states) {
-      map[state] = { fee: zone.defaultFee, heavy_fee: zone.defaultHeavyFee }
+      map[state] = { fee: zone.defaultFee }
     }
   }
   try {
     if (!isConfigured()) return map
     const sb = getServiceClient()
-    const { data } = await sb.from('shipping_rates').select('state, fee, heavy_fee')
+    const { data } = await sb.from('shipping_rates').select('state, fee')
     for (const row of (data ?? [])) {
-      map[row.state] = { fee: row.fee, heavy_fee: row.heavy_fee ?? row.fee }
+      map[row.state] = { fee: row.fee }
     }
   } catch {
     // fall back to defaults already in map
@@ -25,10 +25,10 @@ async function getRates(): Promise<Record<string, ShippingRate>> {
 
 // A zone's displayed fee is its most common (modal) rate — states occasionally
 // have a one-off override, but the zone card should show what most customers pay
-function modalFee(states: readonly string[], rates: Record<string, ShippingRate>, key: 'fee' | 'heavy_fee') {
+function modalFee(states: readonly string[], rates: Record<string, ShippingRate>) {
   const counts = new Map<number, number>()
   for (const s of states) {
-    const v = rates[s]?.[key]
+    const v = rates[s]?.fee
     if (v == null) continue
     counts.set(v, (counts.get(v) ?? 0) + 1)
   }
@@ -48,7 +48,7 @@ export default async function ShippingInfoPage() {
           Shipping Info
         </h1>
         <p className="text-gray-500 font-bold mb-10" style={{ fontFamily: "'Poppins', sans-serif" }}>
-          We ship nationwide across all 36 states + FCT. Delivery fees depend on your state and order size.
+          We ship nationwide across all 36 states + FCT. Delivery fees depend on your state.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
@@ -58,11 +58,7 @@ export default async function ShippingInfoPage() {
               <p className="font-bold text-gray-900 mb-0.5" style={{ fontFamily: "'Poppins', sans-serif" }}>{zone.name}</p>
               <p className="text-xs text-gray-400 font-bold mb-4" style={{ fontFamily: "'Poppins', sans-serif" }}>via {zone.carrier}</p>
               <p className="text-2xl font-bold text-gray-900" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                {formatPrice(modalFee(zone.states, rates, 'fee'))}
-              </p>
-              <p className="text-xs text-gray-400 font-bold" style={{ fontFamily: "'Poppins', sans-serif" }}>standard order</p>
-              <p className="text-sm text-gray-600 font-bold mt-2" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                {formatPrice(modalFee(zone.states, rates, 'heavy_fee'))} <span className="text-gray-400 font-normal">for {HEAVY_ORDER_THRESHOLD}+ items</span>
+                {formatPrice(modalFee(zone.states, rates))}
               </p>
               {zone.note && <p className="text-xs text-gray-400 mt-2">{zone.note}</p>}
             </div>

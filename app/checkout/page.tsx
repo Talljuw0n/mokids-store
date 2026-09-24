@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useCartStore } from '@/store/cart'
-import { formatPrice, NIGERIAN_STATES, DEFAULT_SHIPPING_RATES, HEAVY_ORDER_THRESHOLD, ShippingRate } from '@/lib/utils'
+import { formatPrice, NIGERIAN_STATES, DEFAULT_SHIPPING_RATES, ShippingRate } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import Script from 'next/script'
 
@@ -55,12 +55,8 @@ export default function CheckoutPage() {
       .catch(() => {/* keep defaults */})
   }, [])
 
-  const totalItemQty = items.reduce((sum, i) => sum + i.quantity, 0)
-  const isHeavyOrder = totalItemQty >= HEAVY_ORDER_THRESHOLD
   const stateRate = form.state ? shippingRates[form.state] : null
-  const shippingFee = stateRate
-    ? (isHeavyOrder ? stateRate.heavy_fee : stateRate.fee)
-    : 0
+  const shippingFee = stateRate ? stateRate.fee : 0
   const total = sub + shippingFee
 
   const validate = (): boolean => {
@@ -270,9 +266,6 @@ export default function CheckoutPage() {
                   <div className="flex flex-col gap-0.5">
                     <p className="text-xs text-gray-400">
                       Shipping to <span className="font-bold text-gray-600">{form.state}</span>
-                      {isHeavyOrder && (
-                        <span className="ml-1 text-amber-600 font-bold">· heavy order ({totalItemQty} items)</span>
-                      )}
                     </p>
                   </div>
                 )}

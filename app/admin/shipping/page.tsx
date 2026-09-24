@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
-import { DELIVERY_ZONES, ShippingRate, formatPrice, HEAVY_ORDER_THRESHOLD } from '@/lib/utils'
+import { DELIVERY_ZONES, ShippingRate, formatPrice } from '@/lib/utils'
 
 export default function AdminShippingPage() {
   const [rates, setRates] = useState<Record<string, ShippingRate>>({})
@@ -19,20 +19,20 @@ export default function AdminShippingPage() {
 
   useEffect(() => { load() }, [load])
 
-  const setZoneRates = (states: readonly string[], field: 'fee' | 'heavy_fee', value: number) => {
+  const setZoneRates = (states: readonly string[], value: number) => {
     setRates(prev => {
       const next = { ...prev }
       for (const s of states) {
-        next[s] = { ...(next[s] ?? { fee: 0, heavy_fee: 0 }), [field]: value }
+        next[s] = { fee: value }
       }
       return next
     })
   }
 
-  const setStateRate = (state: string, field: 'fee' | 'heavy_fee', value: number) => {
+  const setStateRate = (state: string, value: number) => {
     setRates(prev => ({
       ...prev,
-      [state]: { ...(prev[state] ?? { fee: 0, heavy_fee: 0 }), [field]: value },
+      [state]: { fee: value },
     }))
   }
 
@@ -57,9 +57,6 @@ export default function AdminShippingPage() {
       <div className="flex items-center justify-between mb-2">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Delivery Rates</h1>
-          <p className="text-sm text-gray-400 mt-1 font-bold">
-            Orders with {HEAVY_ORDER_THRESHOLD}+ items use the heavy rate (~over 1 kg)
-          </p>
         </div>
         <button
           onClick={handleSave}
@@ -77,10 +74,9 @@ export default function AdminShippingPage() {
       </div>
 
       {/* Column headers explanation */}
-      <div className="hidden sm:grid grid-cols-[1fr_160px_160px] gap-4 px-5 pb-2 text-xs font-bold text-gray-400 uppercase tracking-widest">
+      <div className="hidden sm:grid grid-cols-[1fr_160px] gap-4 px-5 pb-2 text-xs font-bold text-gray-400 uppercase tracking-widest">
         <span>State</span>
-        <span>Standard (0–1 kg)</span>
-        <span>Heavy (&gt;1 kg, {HEAVY_ORDER_THRESHOLD}+ items)</span>
+        <span>Delivery Fee</span>
       </div>
 
       {loading ? (
@@ -89,9 +85,7 @@ export default function AdminShippingPage() {
         <div className="flex flex-col gap-5">
           {DELIVERY_ZONES.map((zone) => {
             const fees = zone.states.map(s => rates[s]?.fee ?? zone.defaultFee)
-            const heavyFees = zone.states.map(s => rates[s]?.heavy_fee ?? zone.defaultHeavyFee)
             const allFeeSame = fees.every(f => f === fees[0])
-            const allHeavySame = heavyFees.every(f => f === heavyFees[0])
 
             return (
               <div key={zone.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
@@ -108,77 +102,61 @@ export default function AdminShippingPage() {
                     </span>
                   </div>
 
-                  {/* Set-all inputs for the zone */}
+                  {/* Set-all input for the zone */}
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-xs text-gray-400 font-bold hidden sm:inline">Set all:</span>
-                    {(['fee', 'heavy_fee'] as const).map(field => (
-                      <div key={field} className="flex items-center border border-gray-200 rounded-lg overflow-hidden">
-                        <span className="px-2 text-xs text-gray-400 bg-gray-50 font-bold border-r border-gray-200">₦</span>
-                        <input
-                          type="number"
-                          step="500"
-                          min="0"
-                          placeholder={
-                            (field === 'fee' ? allFeeSame : allHeavySame)
-                              ? String(field === 'fee' ? fees[0] : heavyFees[0])
-                              : 'Mixed'
-                          }
-                          key={`${zone.id}-${field}-${field === 'fee' ? (allFeeSame ? fees[0] : '') : (allHeavySame ? heavyFees[0] : '')}`}
-                          onChange={e => {
-                            const v = parseInt(e.target.value)
-                            if (!isNaN(v) && v >= 0) setZoneRates(zone.states, field, v)
-                          }}
-                          className="w-24 px-2 py-1.5 text-sm font-bold focus:outline-none focus:ring-1 focus:ring-gray-900 bg-white"
-                          title={field === 'fee' ? 'Standard rate (0–1 kg)' : 'Heavy rate (>1 kg)'}
-                        />
-                      </div>
-                    ))}
+                    <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden">
+                      <span className="px-2 text-xs text-gray-400 bg-gray-50 font-bold border-r border-gray-200">₦</span>
+                      <input
+                        type="number"
+                        step="500"
+                        min="0"
+                        placeholder={allFeeSame ? String(fees[0]) : 'Mixed'}
+                        key={`${zone.id}-${allFeeSame ? fees[0] : ''}`}
+                        onChange={e => {
+                          const v = parseInt(e.target.value)
+                          if (!isNaN(v) && v >= 0) setZoneRates(zone.states, v)
+                        }}
+                        className="w-24 px-2 py-1.5 text-sm font-bold focus:outline-none focus:ring-1 focus:ring-gray-900 bg-white"
+                        title="Delivery fee"
+                      />
+                    </div>
                   </div>
                 </div>
 
                 {/* Per-state rows */}
                 <div className="divide-y divide-gray-50">
                   {zone.states.map(state => {
-                    const r = rates[state] ?? { fee: zone.defaultFee, heavy_fee: zone.defaultHeavyFee }
+                    const r = rates[state] ?? { fee: zone.defaultFee }
                     const feeChanged = r.fee !== original[state]?.fee
-                    const heavyChanged = r.heavy_fee !== original[state]?.heavy_fee
                     return (
                       <div
                         key={state}
-                        className={`grid grid-cols-1 sm:grid-cols-[1fr_160px_160px] gap-2 sm:gap-4 items-center px-5 py-3 ${feeChanged || heavyChanged ? 'bg-yellow-50' : ''}`}
+                        className={`grid grid-cols-1 sm:grid-cols-[1fr_160px] gap-2 sm:gap-4 items-center px-5 py-3 ${feeChanged ? 'bg-yellow-50' : ''}`}
                       >
                         <span className="text-sm font-bold text-gray-700">{state}</span>
 
-                        {(['fee', 'heavy_fee'] as const).map(field => {
-                          const val = field === 'fee' ? r.fee : r.heavy_fee
-                          const changed = field === 'fee' ? feeChanged : heavyChanged
-                          return (
-                            <div key={field} className="flex items-center gap-1.5">
-                              <span className="text-xs text-gray-400 sm:hidden font-bold">
-                                {field === 'fee' ? 'Standard:' : 'Heavy:'}
-                              </span>
-                              <div className={`flex items-center border rounded-lg overflow-hidden ${changed ? 'border-amber-400' : 'border-gray-200'}`}>
-                                <span className="px-2 text-xs text-gray-400 bg-gray-50 font-bold border-r border-gray-200">₦</span>
-                                <input
-                                  type="number"
-                                  step="500"
-                                  min="0"
-                                  value={val}
-                                  onChange={e => {
-                                    const v = parseInt(e.target.value)
-                                    if (!isNaN(v) && v >= 0) setStateRate(state, field, v)
-                                  }}
-                                  className="w-24 px-2 py-1.5 text-sm font-bold focus:outline-none focus:ring-1 focus:ring-gray-900 bg-white"
-                                />
-                              </div>
-                              {changed && (
-                                <span className="text-[10px] text-amber-600 font-bold">
-                                  was {formatPrice(original[state]?.[field] ?? 0)}
-                                </span>
-                              )}
-                            </div>
-                          )
-                        })}
+                        <div className="flex items-center gap-1.5">
+                          <div className={`flex items-center border rounded-lg overflow-hidden ${feeChanged ? 'border-amber-400' : 'border-gray-200'}`}>
+                            <span className="px-2 text-xs text-gray-400 bg-gray-50 font-bold border-r border-gray-200">₦</span>
+                            <input
+                              type="number"
+                              step="500"
+                              min="0"
+                              value={r.fee}
+                              onChange={e => {
+                                const v = parseInt(e.target.value)
+                                if (!isNaN(v) && v >= 0) setStateRate(state, v)
+                              }}
+                              className="w-24 px-2 py-1.5 text-sm font-bold focus:outline-none focus:ring-1 focus:ring-gray-900 bg-white"
+                            />
+                          </div>
+                          {feeChanged && (
+                            <span className="text-[10px] text-amber-600 font-bold">
+                              was {formatPrice(original[state]?.fee ?? 0)}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     )
                   })}
