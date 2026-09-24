@@ -1,7 +1,9 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { getServiceClient } from '@/lib/supabase'
+import { isAdminRequest, unauthorized } from '@/lib/auth'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  if (!isAdminRequest(req)) return unauthorized()
   const sb = getServiceClient()
 
   const { data: inventory, error } = await sb
