@@ -17,11 +17,12 @@ const HERO_SLIDES = [
   },
 ]
 
+// Back to school season is over — swapped for a general dress/top/jeans lineup.
 const FEATURED_CATEGORIES = [
-  { slug: 'girls-dresses',        label: 'Girls Dresses',          href: '/shop?category=girls-dresses',        fallbackBg: '#fce7f3', pinSku: 'MOKIDSD031' },
-  { slug: 'boys-shirts',          label: 'Boys Shirts',            href: '/shop?category=boys-shirts',          fallbackBg: '#e0f2fe' },
-  { slug: 'back-to-school-girls', label: 'Back to School (Girls)', href: '/shop?category=back-to-school-girls', fallbackBg: '#fef9c3', pinSku: 'MOKIDSB014' },
-  { slug: 'back-to-school-boys',  label: 'Back to School (Boys)',  href: '/shop?category=back-to-school-boys',  fallbackBg: '#dbeafe', pinSku: 'MOKIDSB003' },
+  { slug: 'girls-dresses',     label: 'Dress',           href: '/shop?category=girls-dresses',     fallbackBg: '#fce7f3', pinSku: 'MOKIDSD024' },
+  { slug: 'boys-graphic-tees', label: 'Top',             href: '/shop?category=boys-graphic-tees', fallbackBg: '#e0f2fe', pinSku: 'MOKIDSSS052' },
+  { slug: 'girls-jumpsuits',   label: 'Girls Jumpsuits', href: '/shop?category=girls-jumpsuits',    fallbackBg: '#fef9c3', pinSku: 'MOKIDSDJ003' },
+  { slug: 'boys-trousers',     label: 'Jeans',           href: '/shop?category=boys-trousers',     fallbackBg: '#dbeafe', pinSku: 'MOKIDSBT025' },
 ]
 
 
