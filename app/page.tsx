@@ -22,7 +22,7 @@ const FEATURED_CATEGORIES = [
   { slug: 'girls-dresses',     label: 'Dress',           href: '/shop?category=girls-dresses',     fallbackBg: '#fce7f3', pinSku: 'MOKIDSD024' },
   { slug: 'boys-graphic-tees', label: 'Top',             href: '/shop?category=boys-graphic-tees', fallbackBg: '#e0f2fe', pinSku: 'MOKIDSSS052' },
   { slug: 'girls-jumpsuits',   label: 'Girls Jumpsuits', href: '/shop?category=girls-jumpsuits',    fallbackBg: '#fef9c3', pinSku: 'MOKIDSDJ003' },
-  { slug: 'boys-trousers',     label: 'Jeans',           href: '/shop?category=boys-trousers',     fallbackBg: '#dbeafe', pinSku: 'MOKIDSBT025' },
+  { slug: 'boys-trousers',     label: 'Boy Jeans',       href: '/shop?category=boys-trousers',     fallbackBg: '#dbeafe', pinSku: 'MOKIDSBT025' },
 ]
 
 
