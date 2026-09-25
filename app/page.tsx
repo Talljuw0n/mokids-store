@@ -7,35 +7,13 @@ import { ProductCard } from '@/components/ui/ProductCard'
 import { HeroSlideshow } from '@/components/ui/HeroSlideshow'
 import { ProductWithInventory } from '@/types'
 
+// Back to school season is over — back to the standard year-round hero.
 const HERO_SLIDES = [
   {
-    image: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1783441283/mokids/hero/hero-bg-1.jpg',
-    alt: 'Kids at school with backpacks',
-    headline: ['Back to', 'School'],
-    subtitle: "Everything your kids need for the new term: backpacks, shoes, uniforms and more.",
-    ctaHref: '/shop',
-    ctaLabel: 'Shop Now',
-    mobileImagePosition: '58% 62%',
-  },
-  {
-    image: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1783441284/mokids/hero/hero-bg-2.jpg',
-    alt: 'Girl walking in school hallway',
-    headline: ['Style Meets', 'School'],
-    subtitle: "Bold backpacks and chic shoes, because every girl deserves to walk into school with confidence.",
-    ctaHref: '/shop?category=back-to-school-girls',
-    ctaLabel: 'Shop Girls',
-    imagePosition: '60% 15%',
-    mobileImagePosition: '58% 45%',
-  },
-  {
-    image: 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1783441286/mokids/hero/hero-bg-3.jpg',
-    alt: 'Boy walking in school hallway',
-    headline: ['Gear Up for', 'the New Term'],
-    subtitle: "Tough backpacks, sharp shoes and cool sets, built for boys who mean business.",
-    ctaHref: '/shop?category=back-to-school-boys',
-    ctaLabel: 'Shop Boys',
-    imagePosition: '60% 15%',
-    mobileImagePosition: '58% 45%',
+    image: '/hero-bg.JPG',
+    alt: 'Kids clothing',
+    imagePosition: 'center top',
+    mobileImagePosition: 'center',
   },
 ]
 
