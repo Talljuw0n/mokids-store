@@ -70,9 +70,9 @@ async function getCategoryImages(): Promise<Record<string, string[]>> {
 
 
 const FEATURED_ITEMS: { sku: string; gender?: string }[] = [
-  { sku: 'MOKIDSD043' },
+  { sku: 'MOKIDSD020' },
   { sku: 'MOKIDSSC012', gender: 'girls' },
-  { sku: 'MOKIDSSL011' },
+  { sku: 'MOKIDSLS006' },
   { sku: 'MOKIDSP003' },
   { sku: 'MOKIDSD042' },
   { sku: 'MOKIDSSC011', gender: 'boys' },
