@@ -74,10 +74,10 @@ const FEATURED_ITEMS: { sku: string; gender?: string }[] = [
   { sku: 'MOKIDSSC012', gender: 'girls' },
   { sku: 'MOKIDSLS006' },
   { sku: 'MOKIDSP003' },
-  { sku: 'MOKIDSD042' },
-  { sku: 'MOKIDSSC011', gender: 'boys' },
-  { sku: 'MOKIDSLS004' },
-  { sku: 'MOKIDSSH006' },
+  { sku: 'MOKIDSP015' },
+  { sku: 'MOKIDSD001' },
+  { sku: 'MOKIDSBSET009' },
+  { sku: 'MOKIDSSH009' },
 ]
 
 async function getFeaturedProducts() {
