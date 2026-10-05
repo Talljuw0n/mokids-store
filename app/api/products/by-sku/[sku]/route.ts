@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServiceClient, isConfigured } from '@/lib/supabase'
+import { getServiceClient, isConfigured, getSaleCampaignActive } from '@/lib/supabase'
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ sku: string }> }) {
   if (!isConfigured()) return NextResponse.json(null, { status: 503 })
@@ -28,11 +28,13 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ sku:
   if (product.variant_group) {
     const { data: siblings } = await sb
       .from('products')
-      .select('id, sku, name, price, variant_label, colour, images, inventory(*)')
+      .select('id, sku, name, price, variant_label, colour, images, on_sale, sale_price, inventory(*)')
       .eq('variant_group', product.variant_group)
       .eq('gender', product.gender)
     variants = siblings && siblings.length > 1 ? siblings : null
   }
 
-  return NextResponse.json({ product, related: related || [], variants })
+  const saleCampaignActive = await getSaleCampaignActive()
+
+  return NextResponse.json({ product, related: related || [], variants, saleCampaignActive })
 }

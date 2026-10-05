@@ -4,7 +4,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ProductWithInventory, Product, ProductVariant } from '@/types'
-import { formatPrice, CATEGORY_LABELS, COLOUR_SWATCH_MAP } from '@/lib/utils'
+import { formatPrice, CATEGORY_LABELS, COLOUR_SWATCH_MAP, isOnSale } from '@/lib/utils'
 import { SizeSelector } from '@/components/ui/SizeSelector'
 import { Button } from '@/components/ui/Button'
 import { ProductCard } from '@/components/ui/ProductCard'
@@ -26,6 +26,7 @@ export default function ProductDetailPage() {
   const [activeImage, setActiveImage] = useState(0)
   const [loading, setLoading] = useState(true)
   const [added, setAdded] = useState(false)
+  const [saleCampaignActive, setSaleCampaignActive] = useState(true)
 
   const addItem = useCartStore((s) => s.addItem)
 
@@ -51,6 +52,7 @@ export default function ProductDetailPage() {
       setVariants(v)
       setSelectedVariantId(v ? p.id : null)
       setSelectedSize(null)
+      setSaleCampaignActive(json.saleCampaignActive ?? true)
       setLoading(false)
     }
     load()
@@ -79,7 +81,10 @@ export default function ProductDetailPage() {
     inventory: activeVariant?.inventory ?? product.inventory,
     images: (activeVariant?.images?.length ? activeVariant.images : product.images),
     colour: activeVariant?.colour ?? product.colour,
+    on_sale: activeVariant?.on_sale ?? product.on_sale,
+    sale_price: activeVariant?.sale_price ?? product.sale_price,
   }
+  const onSale = isOnSale(effective, saleCampaignActive)
 
   // A "colour group" is a variant group where every option represents a
   // different colourway of the same item — shown as clickable swatches
@@ -108,7 +113,7 @@ export default function ProductDetailPage() {
       sku: effective.sku,
       name: effective.name,
       size: selectedSize!,
-      price: effective.price,
+      price: onSale ? effective.sale_price! : effective.price,
       quantity: 1,
       image: effective.images?.[0] || '',
       maxQuantity: selectedQty,
@@ -159,6 +164,11 @@ export default function ProductDetailPage() {
                   Sold Out
                 </div>
               )}
+              {onSale && totalStock > 0 && (
+                <div className="absolute top-4 left-4 px-3 py-1 text-white text-xs font-bold rounded-full" style={{ backgroundColor: '#E55A1C', fontFamily: "'Poppins', sans-serif" }}>
+                  Sale
+                </div>
+              )}
             </div>
 
             {/* Thumbnail strip */}
@@ -196,10 +206,17 @@ export default function ProductDetailPage() {
               {effective.name}
             </h1>
 
-            <p className="text-3xl font-bold mb-8" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              <span style={{ color: '#D9247A' }}>
-                {effective.price > 0 ? formatPrice(effective.price) : 'Price TBD'}
-              </span>
+            <p className="text-3xl font-bold mb-8 flex items-baseline gap-3 flex-wrap" style={{ fontFamily: "'Poppins', sans-serif" }}>
+              {onSale ? (
+                <>
+                  <span style={{ color: '#E55A1C' }}>{formatPrice(effective.sale_price!)}</span>
+                  <span className="text-xl text-gray-400 line-through">{formatPrice(effective.price)}</span>
+                </>
+              ) : (
+                <span style={{ color: '#D9247A' }}>
+                  {effective.price > 0 ? formatPrice(effective.price) : 'Price TBD'}
+                </span>
+              )}
             </p>
 
             {/* Colour swatches — click to switch between colourway siblings */}
@@ -388,7 +405,7 @@ export default function ProductDetailPage() {
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {related.map(({ product: rp, inventory: ri }) => (
-                <ProductCard key={rp.id} product={rp} inventory={ri} />
+                <ProductCard key={rp.id} product={rp} inventory={ri} saleCampaignActive={saleCampaignActive} />
               ))}
             </div>
           </section>

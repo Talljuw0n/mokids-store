@@ -2,6 +2,23 @@ export function formatPrice(amount: number): string {
   return `₦${amount.toLocaleString('en-NG')}`
 }
 
+// True while the shared sale campaign is still running — null ends_at means
+// no end date was set, so the sale stays on until manually turned off.
+export function isSaleCampaignActive(endsAt: string | null): boolean {
+  return !endsAt || new Date(endsAt) > new Date()
+}
+
+// A product only counts as "on sale" if it's flagged AND has a real
+// discounted price AND the shared campaign hasn't ended — checking all
+// three here (instead of trusting `on_sale` alone) means a stale flag from
+// a past campaign can't make a badge/struck price reappear.
+export function isOnSale(
+  product: { on_sale?: boolean; sale_price?: number | null },
+  campaignActive: boolean
+): boolean {
+  return !!product.on_sale && typeof product.sale_price === 'number' && product.sale_price > 0 && campaignActive
+}
+
 export function productSlug(sku: string, name: string): string {
   return `${sku.toLowerCase()}-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
 }

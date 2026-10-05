@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { href: '/admin/products',  label: 'Products'               },
   { href: '/admin/orders',    label: 'Orders'                 },
   { href: '/admin/inventory', label: 'Inventory'              },
+  { href: '/admin/sales',     label: 'Sales'                  },
   { href: '/admin/shipping',  label: 'Delivery'               },
   { href: '/admin/security',  label: 'Security'               },
 ]

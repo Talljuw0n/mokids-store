@@ -39,7 +39,10 @@ export function ProductForm({ product, mode }: ProductFormProps) {
     colour: product?.colour || '',
     is_active: product?.is_active ?? true,
     is_variant_child: product?.is_variant_child ?? false,
+    on_sale: product?.on_sale ?? false,
+    sale_price: product?.sale_price ?? null as number | null,
   })
+  const [salePercent, setSalePercent] = useState('')
 
   const [sizes, setSizes] = useState<SizeRow[]>(
     product?.inventory?.map(i => ({ size: i.size, quantity: i.quantity })) || [{ size: '', quantity: 0 }]
@@ -340,6 +343,48 @@ export function ProductForm({ product, mode }: ProductFormProps) {
             <span className={`absolute top-0.5 w-4 h-4 bg-white border border-gray-300 rounded-full shadow transition-transform ${form.is_active ? 'right-0.5' : 'left-0.5'}`} />
           </button>
           <span className="text-xs font-bold text-gray-500">{form.is_active ? 'Visible in store' : 'Hidden from store'}</span>
+        </div>
+
+        <div className="mt-3 flex items-center gap-3 flex-wrap">
+          <label className="text-xs font-bold uppercase tracking-wide text-gray-500">On Sale</label>
+          <button
+            type="button"
+            onClick={() => setForm(f => ({ ...f, on_sale: !f.on_sale }))}
+            className={`w-12 h-6 rounded-full border-[2px] border-black transition-colors relative flex-shrink-0 ${form.on_sale ? 'bg-[#E55A1C]' : 'bg-gray-200'}`}
+          >
+            <span className={`absolute top-0.5 w-4 h-4 bg-white border border-gray-300 rounded-full shadow transition-transform ${form.on_sale ? 'right-0.5' : 'left-0.5'}`} />
+          </button>
+          {form.on_sale && (
+            <>
+              <span className="text-xs text-gray-500">₦</span>
+              <input
+                type="number"
+                value={form.sale_price || ''}
+                onChange={e => { setForm(f => ({ ...f, sale_price: parseInt(e.target.value) || null })); setSalePercent('') }}
+                className="w-28 px-2 py-1.5 text-sm font-bold border-[2px] border-black rounded-lg focus:outline-none focus:border-[#F5C000] bg-[#FFFBEF]"
+                placeholder="Sale price"
+                min="0"
+              />
+              <span className="text-xs text-gray-400">or</span>
+              <input
+                type="number"
+                value={salePercent}
+                onChange={e => {
+                  setSalePercent(e.target.value)
+                  const pct = parseFloat(e.target.value)
+                  if (!isNaN(pct) && pct >= 0 && pct <= 100) {
+                    setForm(f => ({ ...f, sale_price: Math.round(f.price * (1 - pct / 100)) }))
+                  }
+                }}
+                className="w-16 px-2 py-1.5 text-sm font-bold border-[2px] border-black rounded-lg focus:outline-none focus:border-[#F5C000] bg-[#FFFBEF]"
+                placeholder="%"
+                min="0"
+                max="100"
+                title="Type a % off to auto-fill the sale price"
+              />
+              <span className="text-xs text-gray-400">% off</span>
+            </>
+          )}
         </div>
       </div>
 

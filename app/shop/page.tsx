@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic'
 
 import { Suspense } from 'react'
-import { getServiceClient, isConfigured } from '@/lib/supabase'
+import { getServiceClient, isConfigured, getSaleCampaignActive } from '@/lib/supabase'
 import { ProductCard } from '@/components/ui/ProductCard'
 import { ProductWithInventory, Gender } from '@/types'
 import { CATEGORY_LABELS } from '@/lib/utils'
@@ -19,12 +19,20 @@ interface ShopPageProps {
     page?: string
     minPrice?: string
     maxPrice?: string
+    sale?: string
   }>
 }
 
 async function getProducts(params: Awaited<ShopPageProps['searchParams']>) {
+  const campaignActive = await getSaleCampaignActive()
   try {
-    if (!isConfigured()) return { products: [], count: 0 }
+    if (!isConfigured()) return { products: [], count: 0, campaignActive }
+
+    // Past the campaign's end date, "Sale" has nothing to show — rather than
+    // silently falling back to the full catalog, make that explicit.
+    if (params.sale === 'true' && !campaignActive) {
+      return { products: [], count: 0, campaignActive }
+    }
 
     const page = parseInt(params.page || '1', 10)
     const offset = (page - 1) * ITEMS_PER_PAGE
@@ -40,6 +48,7 @@ async function getProducts(params: Awaited<ShopPageProps['searchParams']>) {
     if (params.gender)   query = query.eq('gender', params.gender as Gender)
     if (params.minPrice) query = query.gte('price', parseInt(params.minPrice))
     if (params.maxPrice) query = query.lte('price', parseInt(params.maxPrice))
+    if (params.sale === 'true') query = query.eq('on_sale', true)
 
     // Smart search: match name, colour, description, category, gender, or
     // inventory size/age. A query like "girls dress" has its words split
@@ -112,24 +121,25 @@ async function getProducts(params: Awaited<ShopPageProps['searchParams']>) {
     query = query.range(offset, offset + ITEMS_PER_PAGE - 1)
 
     const { data, count } = await query
-    if (!data) return { products: [], count: 0 }
+    if (!data) return { products: [], count: 0, campaignActive }
 
     const enriched = ((data ?? []) as ProductWithInventory[]).map((p) => ({
       product: p,
       inventory: p.inventory || [],
     }))
 
-    return { products: enriched, count: count || 0 }
+    return { products: enriched, count: count || 0, campaignActive }
   } catch {
-    return { products: [], count: 0 }
+    return { products: [], count: 0, campaignActive }
   }
 }
 
 export default async function ShopPage({ searchParams }: ShopPageProps) {
   const params = await searchParams
-  const { products, count } = await getProducts(params)
+  const { products, count, campaignActive } = await getProducts(params)
   const totalPages = Math.ceil(count / ITEMS_PER_PAGE)
   const currentPage = parseInt(params.page || '1', 10)
+  const isSaleView = params.sale === 'true'
 
   const buildHref = (overrides: Record<string, string | undefined>) => {
     const merged = { ...params, ...overrides }
@@ -147,13 +157,14 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         {/* Page header */}
         <div className="mb-8">
           <h1 className="text-4xl text-gray-900" style={{ fontFamily: "'Poppins', sans-serif" }}>
-            {params.gender === 'girls' ? 'Girls Collection' :
+            {isSaleView ? 'Sale' :
+              params.gender === 'girls' ? 'Girls Collection' :
               params.gender === 'boys' ? 'Boys Collection' :
                 params.category ? CATEGORY_LABELS[params.category] || 'Shop' :
                   'Shop All'}
           </h1>
           <p className="text-gray-400 font-bold text-sm mt-1" style={{ fontFamily: "'Poppins', sans-serif" }}>
-            {count} item{count !== 1 ? 's' : ''} found
+            {isSaleView && !campaignActive ? 'This sale has ended' : `${count} item${count !== 1 ? 's' : ''} found`}
           </p>
         </div>
 
@@ -164,8 +175,13 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
           {/* Product Grid */}
           <div className="flex-1">
             {/* Active filter chips */}
-            {(params.search || params.category || params.gender) && (
+            {(params.search || params.category || params.gender || isSaleView) && (
               <div className="flex flex-wrap gap-2 mb-5">
+                {isSaleView && (
+                  <span className="px-3 py-1 bg-[#E55A1C]/10 text-[#E55A1C] text-sm font-bold rounded-full" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                    Sale
+                  </span>
+                )}
                 {params.search && (
                   <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-bold rounded-full" style={{ fontFamily: "'Poppins', sans-serif" }}>
                     &ldquo;{params.search}&rdquo;
@@ -198,7 +214,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                 <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 items-stretch">
                   <Suspense>
                     {products.map(({ product, inventory }) => (
-                      <ProductCard key={product.id} product={product} inventory={inventory} />
+                      <ProductCard key={product.id} product={product} inventory={inventory} saleCampaignActive={campaignActive} />
                     ))}
                   </Suspense>
                 </div>

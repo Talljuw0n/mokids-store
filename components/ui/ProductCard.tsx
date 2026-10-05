@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Product, InventoryItem } from '@/types'
-import { formatPrice, productSlug } from '@/lib/utils'
+import { formatPrice, productSlug, isOnSale } from '@/lib/utils'
 import { Button } from './Button'
 import { Badge } from './Badge'
 import { useCartStore } from '@/store/cart'
@@ -10,12 +10,17 @@ import { useCartStore } from '@/store/cart'
 interface ProductCardProps {
   product: Product
   inventory?: InventoryItem[]
+  // Whether the shared sale campaign is still running — defaults to true so
+  // call sites that haven't been updated yet don't accidentally hide sale
+  // pricing; isOnSale() still requires the product's own on_sale flag too.
+  saleCampaignActive?: boolean
 }
 
-export function ProductCard({ product, inventory = [] }: ProductCardProps) {
+export function ProductCard({ product, inventory = [], saleCampaignActive = true }: ProductCardProps) {
   const addItem = useCartStore((s) => s.addItem)
   const totalStock = inventory.reduce((sum, i) => sum + i.quantity, 0)
   const isOutOfStock = totalStock === 0
+  const onSale = isOnSale(product, saleCampaignActive)
   const slug = `${productSlug(product.sku, product.name)}?g=${product.gender}`
   const mainImage = product.images?.[0]
 
@@ -28,7 +33,7 @@ export function ProductCard({ product, inventory = [] }: ProductCardProps) {
         sku: product.sku,
         name: product.name,
         size: inStockSizes[0].size,
-        price: product.price,
+        price: onSale ? product.sale_price! : product.price,
         quantity: 1,
         image: mainImage || '',
         maxQuantity: inStockSizes[0].quantity,
@@ -59,6 +64,11 @@ export function ProductCard({ product, inventory = [] }: ProductCardProps) {
               <Badge variant="out">Sold Out</Badge>
             </div>
           )}
+          {onSale && !isOutOfStock && (
+            <div className="absolute top-2 left-2">
+              <Badge variant="sale">Sale</Badge>
+            </div>
+          )}
         </div>
 
         {/* Info — flex-col so price/button always sits at the bottom */}
@@ -71,9 +81,20 @@ export function ProductCard({ product, inventory = [] }: ProductCardProps) {
           </h3>
 
           <div className="flex items-center justify-between mt-auto pt-3 gap-2">
-            <p className="text-base font-bold text-gray-900" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              {product.price > 0 ? formatPrice(product.price) : 'TBD'}
-            </p>
+            {onSale ? (
+              <p className="flex items-baseline gap-1.5 flex-wrap">
+                <span className="text-base font-bold" style={{ fontFamily: "'Poppins', sans-serif", color: '#E55A1C' }}>
+                  {formatPrice(product.sale_price!)}
+                </span>
+                <span className="text-xs text-gray-400 line-through" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                  {formatPrice(product.price)}
+                </span>
+              </p>
+            ) : (
+              <p className="text-base font-bold text-gray-900" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                {product.price > 0 ? formatPrice(product.price) : 'TBD'}
+              </p>
+            )}
             {isOutOfStock ? (
               <Button size="sm" variant="ghost" className="text-xs pointer-events-none text-gray-400 bg-gray-100">
                 Sold Out

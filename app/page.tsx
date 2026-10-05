@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic'
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { getServiceClient, isConfigured } from '@/lib/supabase'
+import { getServiceClient, isConfigured, getSaleCampaignActive } from '@/lib/supabase'
 import { ProductCard } from '@/components/ui/ProductCard'
 import { HeroSlideshow } from '@/components/ui/HeroSlideshow'
 import { ProductWithInventory } from '@/types'
@@ -114,9 +114,10 @@ async function getFeaturedProducts() {
 }
 
 export default async function Home() {
-  const [featured, categoryImages] = await Promise.all([
+  const [featured, categoryImages, saleCampaignActive] = await Promise.all([
     getFeaturedProducts(),
     getCategoryImages(),
+    getSaleCampaignActive(),
   ])
 
 
@@ -198,7 +199,7 @@ export default async function Home() {
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 items-stretch">
               {featured.map(({ product, inventory }) => (
-                <ProductCard key={product.id} product={product} inventory={inventory} />
+                <ProductCard key={product.id} product={product} inventory={inventory} saleCampaignActive={saleCampaignActive} />
               ))}
             </div>
           )}

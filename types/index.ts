@@ -51,6 +51,19 @@ export interface Product {
   // school shoe filed as girls-shoes that should also appear under Back to
   // School) without duplicating the row or changing its primary category
   also_categories?: ProductCategory[]
+  // Sale: `price` is always the real/regular price — `sale_price` only
+  // applies while `on_sale` is true, so turning a sale off never loses the
+  // original number. Whether the sale is still within the campaign window
+  // is resolved separately via SaleSettings, not stored per-product.
+  on_sale?: boolean
+  sale_price?: number | null
+}
+
+// Single shared end-date for the current sale campaign (e.g. "Christmas
+// Sale ends Dec 26") — one row, applies to every product flagged on_sale.
+// null ends_at means no end date set (stays on until manually turned off).
+export interface SaleSettings {
+  ends_at: string | null
 }
 
 export interface InventoryItem {
@@ -74,6 +87,8 @@ export interface ProductVariant {
   variant_label: string | null
   colour: string | null
   images: string[]
+  on_sale?: boolean
+  sale_price?: number | null
   inventory: InventoryItem[]
 }
 

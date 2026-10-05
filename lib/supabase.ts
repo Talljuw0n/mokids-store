@@ -34,3 +34,20 @@ export const supabase = new Proxy({} as SupabaseClient, {
     return Reflect.get(getSupabaseClient(), prop, getSupabaseClient())
   },
 })
+
+// Whether the shared sale campaign is still running — used by every page
+// that renders ProductCard, so a product's on_sale flag stops showing a
+// badge/struck price once the campaign's end date has passed. Defaults to
+// true (campaign active) if the sale_settings table isn't reachable —
+// harmless, since isOnSale() still requires a product's own on_sale flag
+// and sale_price to be set before anything displays as on sale.
+export async function getSaleCampaignActive(): Promise<boolean> {
+  try {
+    const sb = getServiceClient()
+    const { data } = await sb.from('sale_settings').select('ends_at').eq('id', 1).maybeSingle()
+    if (!data) return true
+    return !data.ends_at || new Date(data.ends_at) > new Date()
+  } catch {
+    return true
+  }
+}
