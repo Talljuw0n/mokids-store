@@ -59,8 +59,8 @@ export interface Product {
   sale_price?: number | null
 }
 
-// Single shared end-date for the current sale campaign (e.g. "Christmas
-// Sale ends Dec 26") — one row, applies to every product flagged on_sale.
+// Single shared end-date for the current sale campaign (e.g. "End-of-Year
+// Clearance Sale ends Dec 31") — one row, applies to every product flagged on_sale.
 // null ends_at means no end date set (stays on until manually turned off).
 export interface SaleSettings {
   ends_at: string | null

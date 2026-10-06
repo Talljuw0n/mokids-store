@@ -135,18 +135,18 @@ export default async function Home() {
       {/* Hero slideshow */}
       <HeroSlideshow slides={HERO_SLIDES} />
 
-      {/* Christmas sale banner — only shows while the campaign is active and
-          at least one product is actually flagged on sale, so it appears
-          and disappears on its own as /admin/sales is used, with nothing
-          to remember to add or remove by hand. */}
+      {/* End-of-year clearance sale banner — only shows while the campaign is
+          active and at least one product is actually flagged on sale, so it
+          appears and disappears on its own as /admin/sales is used, with
+          nothing to remember to add or remove by hand. */}
       {showSaleBanner && (
         <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #D9247A, #E55A1C)' }}>
           <div className="max-w-7xl mx-auto px-4 py-10 sm:py-14 text-center">
             <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-white/80 mb-2" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              🎄 Limited Time
+              🏷️ Limited Time
             </p>
             <h2 className="text-3xl sm:text-4xl text-white mb-3" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              Christmas Sale is Here
+              End-of-Year Clearance Sale
             </h2>
             <p className="text-white/90 font-bold mb-6 max-w-xl mx-auto" style={{ fontFamily: "'Poppins', sans-serif" }}>
               Save on {saleBanner.onSaleCount} selected style{saleBanner.onSaleCount !== 1 ? 's' : ''} across the store — while stocks last.

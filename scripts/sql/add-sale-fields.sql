@@ -1,4 +1,4 @@
--- Christmas sales feature — run this once in the Supabase SQL editor
+-- End-of-year clearance sale feature — run this once in the Supabase SQL editor
 -- (Project > SQL Editor > New query > paste > Run). Purely additive: adds
 -- new columns/a new table, touches no existing data, and is safe to re-run
 -- (IF NOT EXISTS / ON CONFLICT guards throughout).
