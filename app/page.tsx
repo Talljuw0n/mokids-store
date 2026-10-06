@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic'
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { getServiceClient, isConfigured, getSaleCampaignActive } from '@/lib/supabase'
+import { getServiceClient, isConfigured, getSaleBannerInfo } from '@/lib/supabase'
 import { ProductCard } from '@/components/ui/ProductCard'
 import { HeroSlideshow } from '@/components/ui/HeroSlideshow'
 import { ProductWithInventory } from '@/types'
@@ -114,11 +114,14 @@ async function getFeaturedProducts() {
 }
 
 export default async function Home() {
-  const [featured, categoryImages, saleCampaignActive] = await Promise.all([
+  const [featured, categoryImages, saleBanner] = await Promise.all([
     getFeaturedProducts(),
     getCategoryImages(),
-    getSaleCampaignActive(),
+    getSaleBannerInfo(),
   ])
+  const saleCampaignActive = saleBanner.campaignActive
+  const showSaleBanner = saleBanner.campaignActive && saleBanner.onSaleCount > 0
+  const saleDaysLeft = saleBanner.daysLeft
 
 
   return (
@@ -132,6 +135,37 @@ export default async function Home() {
       {/* Hero slideshow */}
       <HeroSlideshow slides={HERO_SLIDES} />
 
+      {/* Christmas sale banner — only shows while the campaign is active and
+          at least one product is actually flagged on sale, so it appears
+          and disappears on its own as /admin/sales is used, with nothing
+          to remember to add or remove by hand. */}
+      {showSaleBanner && (
+        <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #D9247A, #E55A1C)' }}>
+          <div className="max-w-7xl mx-auto px-4 py-10 sm:py-14 text-center">
+            <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-white/80 mb-2" style={{ fontFamily: "'Poppins', sans-serif" }}>
+              🎄 Limited Time
+            </p>
+            <h2 className="text-3xl sm:text-4xl text-white mb-3" style={{ fontFamily: "'Poppins', sans-serif" }}>
+              Christmas Sale is Here
+            </h2>
+            <p className="text-white/90 font-bold mb-6 max-w-xl mx-auto" style={{ fontFamily: "'Poppins', sans-serif" }}>
+              Save on {saleBanner.onSaleCount} selected style{saleBanner.onSaleCount !== 1 ? 's' : ''} across the store — while stocks last.
+            </p>
+            {saleDaysLeft !== null && (
+              <p className="text-white font-bold mb-6" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                ⏰ Ends in {saleDaysLeft} day{saleDaysLeft !== 1 ? 's' : ''}
+              </p>
+            )}
+            <Link
+              href="/shop?sale=true"
+              className="inline-block px-8 py-3 bg-white text-gray-900 font-bold rounded-full shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all"
+              style={{ fontFamily: "'Poppins', sans-serif" }}
+            >
+              Shop the Sale →
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* Category Grid — product images */}
       <section className="max-w-7xl mx-auto px-4 py-14">

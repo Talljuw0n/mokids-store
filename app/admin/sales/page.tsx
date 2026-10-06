@@ -50,6 +50,12 @@ export default function AdminSalesPage() {
   const [savingCampaign, setSavingCampaign] = useState(false)
   const [campaignSaved, setCampaignSaved] = useState(false)
 
+  // Bulk select — apply one % off to many products at once, rather than
+  // setting each one's price individually
+  const [selected, setSelected] = useState<Set<string>>(new Set())
+  const [bulkPercent, setBulkPercent] = useState('')
+  const [bulkApplying, setBulkApplying] = useState(false)
+
   const load = useCallback(async () => {
     const [prodRes, settingsRes] = await Promise.all([
       fetch('/api/products?all=true'),
@@ -123,6 +129,54 @@ export default function AdminSalesPage() {
       setError(requestErrorMessage(res.status, 'saving the sale price'))
     }
     setSavingPrice(null)
+  }
+
+  const toggleSelected = (id: string) => {
+    setSelected(prev => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  const allFilteredSelected = filtered.length > 0 && filtered.every(p => selected.has(p.id))
+  const toggleSelectAllFiltered = () => {
+    setSelected(prev => {
+      if (allFilteredSelected) {
+        const next = new Set(prev)
+        for (const p of filtered) next.delete(p.id)
+        return next
+      }
+      return new Set([...prev, ...filtered.map(p => p.id)])
+    })
+  }
+
+  const bulkApply = async (onSale: boolean) => {
+    const ids = [...selected]
+    if (ids.length === 0) return
+    const pct = parseFloat(bulkPercent)
+    if (onSale && (isNaN(pct) || pct < 0 || pct > 100)) {
+      setError('Enter a % off between 0 and 100 first')
+      return
+    }
+    setBulkApplying(true)
+    setError(null)
+    const res = await fetch('/api/admin/products/bulk-sale', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(onSale ? { ids, on_sale: true, percentOff: pct } : { ids, on_sale: false }),
+    })
+    if (res.ok) {
+      const { errors } = await res.json()
+      if (errors?.length) setError(`${errors.length} of ${ids.length} product(s) failed to update.`)
+      setSelected(new Set())
+      setBulkPercent('')
+      await load()
+    } else {
+      setError(requestErrorMessage(res.status, 'the bulk update'))
+    }
+    setBulkApplying(false)
   }
 
   const saveCampaignEnd = async () => {
@@ -200,11 +254,61 @@ export default function AdminSalesPage() {
         />
       </div>
 
+      {/* Bulk toolbar — appears once products are checked below */}
+      {selected.size > 0 && (
+        <div className="mb-4 flex flex-wrap items-center gap-3 px-4 py-3 rounded-xl border-[2.5px] border-black bg-[#FFFBEF] shadow-[3px_3px_0_#000]">
+          <span className="text-sm font-bold" style={{ fontFamily: "'Nunito', sans-serif" }}>{selected.size} selected</span>
+          <div className="flex items-center gap-1.5">
+            <input
+              type="number"
+              value={bulkPercent}
+              onChange={e => setBulkPercent(e.target.value)}
+              placeholder="%"
+              min="0"
+              max="100"
+              className="w-16 px-2 py-1.5 text-sm font-bold border-[2px] border-black rounded-lg bg-white focus:outline-none focus:border-[#F5C000]"
+            />
+            <span className="text-xs text-gray-500 font-bold">% off</span>
+          </div>
+          <button
+            onClick={() => bulkApply(true)}
+            disabled={bulkApplying}
+            className="px-4 py-1.5 text-sm font-bold rounded-lg border-[2px] border-black bg-[#E55A1C] text-white hover:brightness-95 transition-all disabled:opacity-50"
+            style={{ fontFamily: "'Nunito', sans-serif" }}
+          >
+            {bulkApplying ? 'Applying…' : `Put ${selected.size} On Sale`}
+          </button>
+          <button
+            onClick={() => bulkApply(false)}
+            disabled={bulkApplying}
+            className="px-4 py-1.5 text-sm font-bold rounded-lg border-[2px] border-black bg-white hover:bg-gray-50 transition-all disabled:opacity-50"
+            style={{ fontFamily: "'Nunito', sans-serif" }}
+          >
+            Remove from Sale
+          </button>
+          <button
+            onClick={() => setSelected(new Set())}
+            className="text-xs text-gray-400 hover:text-black font-bold ml-auto"
+          >
+            Clear selection
+          </button>
+        </div>
+      )}
+
       <div className="bg-white rounded-xl border-[2.5px] border-black shadow-[4px_4px_0_#000] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-gray-50 border-b-[2px] border-black">
+                <th className="px-3 py-2">
+                  <input
+                    type="checkbox"
+                    checked={allFilteredSelected}
+                    onChange={toggleSelectAllFiltered}
+                    className="w-4 h-4"
+                    title="Select all filtered"
+                  />
+                </th>
                 {['Image', 'SKU', 'Name', 'Category', 'Price', 'On Sale', 'Sale Price'].map(h => (
                   <th key={h} className="px-3 py-2 text-left text-xs font-bold uppercase tracking-wide text-gray-500" style={{ fontFamily: "'Nunito', sans-serif" }}>{h}</th>
                 ))}
@@ -212,11 +316,19 @@ export default function AdminSalesPage() {
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={7} className="text-center py-10 text-gray-400">Loading products...</td></tr>
+                <tr><td colSpan={8} className="text-center py-10 text-gray-400">Loading products...</td></tr>
               ) : filtered.length === 0 ? (
-                <tr><td colSpan={7} className="text-center py-10 text-gray-400">No products found</td></tr>
+                <tr><td colSpan={8} className="text-center py-10 text-gray-400">No products found</td></tr>
               ) : filtered.map(product => (
                 <tr key={product.id} className={`border-b border-gray-100 hover:bg-gray-50 ${product.on_sale ? 'bg-[#FFFBEF]' : ''}`}>
+                  <td className="px-3 py-2">
+                    <input
+                      type="checkbox"
+                      checked={selected.has(product.id)}
+                      onChange={() => toggleSelected(product.id)}
+                      className="w-4 h-4"
+                    />
+                  </td>
                   <td className="px-3 py-2">
                     {product.images?.[0] ? (
                       <Image src={product.images[0]} alt="" width={40} height={40} className="w-10 h-10 rounded-lg object-cover border border-gray-200" />

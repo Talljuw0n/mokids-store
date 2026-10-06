@@ -51,3 +51,28 @@ export async function getSaleCampaignActive(): Promise<boolean> {
     return true
   }
 }
+
+// Richer version for the homepage promo banner — also needs to know whether
+// there's anything to actually promote (no point showing a banner for zero
+// items) and how many days are left, to show an "ends in N days" line. The
+// day count is computed here rather than in the page component because
+// Date.now() is an impure call React disallows during a Server Component's
+// render.
+export async function getSaleBannerInfo(): Promise<{ campaignActive: boolean; onSaleCount: number; endsAt: string | null; daysLeft: number | null }> {
+  try {
+    const sb = getServiceClient()
+    const { data: settings } = await sb.from('sale_settings').select('ends_at').eq('id', 1).maybeSingle()
+    const endsAt = settings?.ends_at ?? null
+    const now = Date.now()
+    const campaignActive = !endsAt || new Date(endsAt).getTime() > now
+    const daysLeft = endsAt ? Math.max(0, Math.ceil((new Date(endsAt).getTime() - now) / 86400000)) : null
+    const { count } = await sb
+      .from('products')
+      .select('*', { count: 'exact', head: true })
+      .eq('on_sale', true)
+      .eq('is_active', true)
+    return { campaignActive, onSaleCount: count ?? 0, endsAt, daysLeft }
+  } catch {
+    return { campaignActive: true, onSaleCount: 0, endsAt: null, daysLeft: null }
+  }
+}
