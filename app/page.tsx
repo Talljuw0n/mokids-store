@@ -17,6 +17,15 @@ const HERO_SLIDES = [
   },
 ]
 
+// Shown instead of the usual hero only while the clearance sale is actually
+// running (same showSaleBanner condition as the rest of the sale UI) — a
+// fully designed graphic with its own price/CTA baked in, not a photo our
+// code overlays text onto like HERO_SLIDES above. Reverts to HERO_SLIDES
+// automatically once the campaign ends, same as everywhere else sale state
+// is checked.
+const SALE_HERO_DESKTOP = 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1791310328/mokids/hero/snaqd6oxptome0auyabk.jpg'
+const SALE_HERO_MOBILE = 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1791310291/mokids/hero/fvn139s3zonnocuo0fhw.jpg'
+
 // Back to school season is over — swapped for a general dress/top/jeans lineup.
 const FEATURED_CATEGORIES = [
   { slug: 'girls-dresses',     label: 'Dress',           href: '/shop?category=girls-dresses',     fallbackBg: '#fce7f3', pinSku: 'MOKIDSD024' },
@@ -121,7 +130,6 @@ export default async function Home() {
   ])
   const saleCampaignActive = saleBanner.campaignActive
   const showSaleBanner = saleBanner.campaignActive && saleBanner.onSaleCount > 0
-  const saleDaysLeft = saleBanner.daysLeft
 
 
   return (
@@ -132,39 +140,32 @@ export default async function Home() {
         Nationwide Delivery
       </div>
 
-      {/* Hero slideshow */}
-      <HeroSlideshow slides={HERO_SLIDES} />
-
-      {/* End-of-year clearance sale banner — only shows while the campaign is
-          active and at least one product is actually flagged on sale, so it
-          appears and disappears on its own as /admin/sales is used, with
-          nothing to remember to add or remove by hand. */}
-      {showSaleBanner && (
-        <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #D9247A, #E55A1C)' }}>
-          <div className="max-w-7xl mx-auto px-4 py-10 sm:py-14 text-center">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-white/80 mb-2" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              🏷️ Limited Time
-            </p>
-            <h2 className="text-3xl sm:text-4xl text-white mb-3" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              End-of-Year Clearance Sale
-            </h2>
-            <p className="text-white/90 font-bold mb-6 max-w-xl mx-auto" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              Save on {saleBanner.onSaleCount} selected style{saleBanner.onSaleCount !== 1 ? 's' : ''} across the store — while stocks last.
-            </p>
-            {saleDaysLeft !== null && (
-              <p className="text-white font-bold mb-6" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                ⏰ Ends in {saleDaysLeft} day{saleDaysLeft !== 1 ? 's' : ''}
-              </p>
-            )}
-            <Link
-              href="/shop?sale=true"
-              className="inline-block px-8 py-3 bg-white text-gray-900 font-bold rounded-full shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
-              Shop the Sale →
-            </Link>
-          </div>
-        </section>
+      {/* Hero — the sale graphic (own price/CTA baked in) replaces the usual
+          photo hero while the clearance sale is running, and reverts back
+          automatically once it ends. */}
+      {showSaleBanner ? (
+        <Link href="/shop?sale=true" className="block relative w-full">
+          <Image
+            src={SALE_HERO_DESKTOP}
+            alt="End-of-Year Clearance Sale — Shop Now"
+            width={1440}
+            height={640}
+            className="hidden md:block w-full h-auto"
+            priority
+            sizes="100vw"
+          />
+          <Image
+            src={SALE_HERO_MOBILE}
+            alt="End-of-Year Clearance Sale — Shop Now"
+            width={390}
+            height={680}
+            className="block md:hidden w-full h-auto"
+            priority
+            sizes="100vw"
+          />
+        </Link>
+      ) : (
+        <HeroSlideshow slides={HERO_SLIDES} />
       )}
 
       {/* Category Grid — product images */}
