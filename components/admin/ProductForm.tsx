@@ -472,12 +472,22 @@ export function ProductForm({ product, mode }: ProductFormProps) {
                 placeholder="e.g. 7 Years, 2T, 10..."
               />
               <input
-                type="number"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 value={row.quantity}
-                onChange={e => updateSize(idx, 'quantity', parseInt(e.target.value) || 0)}
+                onChange={e => {
+                  // type="number" here would let React get stuck showing "01"
+                  // after typing a digit onto an existing 0 — React compares
+                  // the *numeric* value (01 and 1 are equal) and skips
+                  // re-rendering the text, so the leading zero never clears.
+                  // Plain text avoids that: strip non-digits and any leading
+                  // zero ourselves, so the displayed string always matches.
+                  const digits = e.target.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '')
+                  updateSize(idx, 'quantity', digits === '' ? 0 : parseInt(digits, 10))
+                }}
                 className="w-24 px-3 py-2 text-sm font-bold border-[2px] border-black rounded-lg bg-[#FFFBEF] focus:outline-none focus:border-[#F5C000]"
                 placeholder="Qty"
-                min="0"
               />
               <button type="button" onClick={() => removeSizeRow(idx)} className="text-red-500 font-bold text-sm hover:text-red-700">✕</button>
             </div>
