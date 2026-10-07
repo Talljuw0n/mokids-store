@@ -23,8 +23,8 @@ const HERO_SLIDES = [
 // code overlays text onto like HERO_SLIDES above. Reverts to HERO_SLIDES
 // automatically once the campaign ends, same as everywhere else sale state
 // is checked.
-const SALE_HERO_DESKTOP = 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1791310328/mokids/hero/snaqd6oxptome0auyabk.jpg'
-const SALE_HERO_MOBILE = 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1791310291/mokids/hero/fvn139s3zonnocuo0fhw.jpg'
+const SALE_HERO_DESKTOP = 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1791380897/mokids/hero/sq3bvqh6b7ns9m1m8bbk.jpg'
+const SALE_HERO_MOBILE = 'https://res.cloudinary.com/dtrwr5vwt/image/upload/v1791380899/mokids/hero/iokcdapxo19cfkpeg1au.jpg'
 
 // Back to school season is over — swapped for a general dress/top/jeans lineup.
 const FEATURED_CATEGORIES = [
