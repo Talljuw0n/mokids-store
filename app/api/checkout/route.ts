@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Order already processed' }, { status: 400 })
   }
 
-  const reference = `mokids_${orderId.slice(0, 8)}_${Date.now()}`
+  const reference = `mokids_${orderId.slice(0, 8)}_${Date.now()}_${crypto.randomUUID().slice(0, 8)}`;
 
   const paystackRes = await fetch('https://api.paystack.co/transaction/initialize', {
     method: 'POST',

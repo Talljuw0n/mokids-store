@@ -12,11 +12,7 @@ declare global {
     PaystackPop: {
       setup(options: {
         key: string
-        email: string
-        amount: number
-        ref: string
-        currency: string
-        metadata?: Record<string, unknown>
+        access_code: string
         onClose?: () => void
         callback?: (response: { reference: string }) => void
       }): { openIframe(): void }
@@ -108,18 +104,14 @@ export default function CheckoutPage() {
       const checkoutRes = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId, email: form.email, amount: total }),
+        body: JSON.stringify({ orderId, email: form.email }),
       })
-      const { reference } = await checkoutRes.json()
+      const { access_code } = await checkoutRes.json()
 
-      // 3. Open Paystack inline popup
+      // 3. Open the popup for that same transaction using the access code
       const handler = window.PaystackPop.setup({
         key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY!,
-        email: form.email,
-        amount: total * 100, // Paystack uses kobo
-        ref: reference,
-        currency: 'NGN',
-        metadata: { orderId, customerName: form.fullName },
+        access_code,
         onClose: () => {
           setLoading(false)
         },
