@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { NavBar } from '@/components/layout/NavBar'
 import { Footer } from '@/components/layout/Footer'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 export const metadata: Metadata = {
   title: 'Mo Kids Place — Dress Them in Pure Joy',
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="min-h-screen">{children}</main>
         <Footer />
       </body>
+      <GoogleAnalytics gaId="G-S1K80MDER5" />
     </html>
   )
 }
