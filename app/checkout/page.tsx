@@ -12,6 +12,8 @@ declare global {
     PaystackPop: {
       setup(options: {
         key: string
+        email: string
+        amount: number
         access_code: string
         onClose?: () => void
         callback?: (response: { reference: string }) => void
@@ -111,6 +113,8 @@ export default function CheckoutPage() {
       // 3. Open the popup for that same transaction using the access code
       const handler = window.PaystackPop.setup({
         key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY!,
+        email: form.email,
+        amount: total * 100, // kobo
         access_code,
         onClose: () => {
           setLoading(false)
