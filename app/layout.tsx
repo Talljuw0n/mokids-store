@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="min-h-screen">{children}</main>
         <Footer />
       </body>
-      <GoogleAnalytics gaId="G-S1K80MDER5" />
+      <GoogleAnalytics gaId="G-MKWY1SSL5L" />
     </html>
   )
 }
