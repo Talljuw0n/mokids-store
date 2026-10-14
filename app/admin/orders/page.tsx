@@ -10,11 +10,27 @@ const STATUS_COLORS: Record<string, string> = {
   cancelled: '#E55A1C',
 }
 
+// Local types so this page doesn't depend on extra fields existing in '@/types'
+type OrderItem = {
+  name: string
+  size?: string
+  quantity: number
+  price: number
+  image?: string
+  sku?: string
+}
+
+type AdminOrder = Omit<Order, 'items' | 'subtotal' | 'shipping_fee'> & {
+  items: OrderItem[]
+  subtotal?: number
+  shipping_fee?: number
+}
+
 export default function AdminOrdersPage() {
-  const [orders, setOrders] = useState<Order[]>([])
+  const [orders, setOrders] = useState<AdminOrder[]>([])
   const [loading, setLoading] = useState(true)
   const [statusFilter, setStatusFilter] = useState('')
-  const [selected, setSelected] = useState<Order | null>(null)
+  const [selected, setSelected] = useState<AdminOrder | null>(null)
   const [updating, setUpdating] = useState<string | null>(null)
 
   useEffect(() => {
@@ -80,7 +96,12 @@ export default function AdminOrdersPage() {
                     <td className="px-4 py-3 font-mono text-xs">{order.id.slice(0, 8).toUpperCase()}</td>
                     <td className="px-4 py-3 text-xs text-gray-500">{new Date(order.created_at).toLocaleDateString('en-NG', { dateStyle: 'short' })}</td>
                     <td className="px-4 py-3 font-bold text-xs">{order.customer_name}</td>
-                    <td className="px-4 py-3 text-xs text-gray-500">{order.items.length}</td>
+                    <td className="px-4 py-3 text-xs text-gray-600 max-w-[200px]">
+                      <div className="truncate font-bold">{order.items?.[0]?.name}</div>
+                      {(order.items?.length ?? 0) > 1 && (
+                        <div className="text-gray-400">+{order.items.length - 1} more</div>
+                      )}
+                    </td>
                     <td className="px-4 py-3 font-bold text-xs" style={{ fontFamily: "'Fredoka One', cursive" }}>{formatPrice(order.total)}</td>
                     <td className="px-4 py-3">
                       <span
@@ -120,7 +141,7 @@ export default function AdminOrdersPage() {
             <div className="
               fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-2xl
               sm:static sm:inset-auto sm:max-h-none sm:rounded-xl sm:overflow-visible
-              w-full sm:w-80 sm:flex-shrink-0
+              w-full sm:w-96 sm:flex-shrink-0
               bg-white border-[2.5px] border-black shadow-[4px_4px_0_#000] p-4 sm:h-fit sm:sticky sm:top-24
             ">
               {/* Handle bar (mobile only) */}
@@ -136,19 +157,40 @@ export default function AdminOrdersPage() {
                 <div><span className="text-gray-400">Customer:</span> {selected.customer_name}</div>
                 <div><span className="text-gray-400">Email:</span> {selected.email}</div>
                 <div><span className="text-gray-400">Phone:</span> {selected.phone}</div>
+                <div><span className="text-gray-400">Date:</span> {new Date(selected.created_at).toLocaleString('en-NG')}</div>
                 <div><span className="text-gray-400">Address:</span> {selected.shipping_address}, {selected.state}</div>
-                {selected.payment_ref && <div><span className="text-gray-400">Ref:</span> <span className="font-mono">{selected.payment_ref}</span></div>}
+                {selected.payment_ref && <div><span className="text-gray-400">Ref:</span> <span className="font-mono break-all">{selected.payment_ref}</span></div>}
               </div>
 
               <hr className="border-black mb-3" />
-              <h4 className="font-bold text-xs mb-2">Items</h4>
-              {selected.items.map((item, i) => (
-                <div key={i} className="flex justify-between text-xs mb-1" style={{ fontFamily: "'Nunito', sans-serif" }}>
-                  <span className="font-bold truncate flex-1">{item.name} ({item.size}) ×{item.quantity}</span>
-                  <span className="font-bold ml-2">{formatPrice(item.price * item.quantity)}</span>
+              <h4 className="font-bold text-xs mb-2">Items ({selected.items?.length ?? 0})</h4>
+              {selected.items?.map((item, i) => (
+                <div key={i} className="flex items-center gap-3 mb-3" style={{ fontFamily: "'Nunito', sans-serif" }}>
+                  {item.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-16 h-16 rounded-lg object-cover border-[1.5px] border-black flex-shrink-0"
+                    />
+                  ) : (
+                    <div className="w-16 h-16 rounded-lg bg-gray-100 border-[1.5px] border-black flex-shrink-0" />
+                  )}
+                  <div className="flex-1 min-w-0 text-xs">
+                    <p className="font-bold">{item.name}</p>
+                    <p className="text-gray-500">Size: {item.size ?? '—'} · Qty: {item.quantity}</p>
+                    {item.sku && <p className="text-gray-400 font-mono">SKU: {item.sku}</p>}
+                  </div>
+                  <span className="font-bold text-xs flex-shrink-0">{formatPrice(item.price * item.quantity)}</span>
                 </div>
               ))}
               <hr className="border-gray-200 my-2" />
+              <div className="flex justify-between text-xs text-gray-500 mb-1" style={{ fontFamily: "'Nunito', sans-serif" }}>
+                <span>Subtotal</span><span>{formatPrice(selected.subtotal ?? 0)}</span>
+              </div>
+              <div className="flex justify-between text-xs text-gray-500 mb-2" style={{ fontFamily: "'Nunito', sans-serif" }}>
+                <span>Delivery</span><span>{formatPrice(selected.shipping_fee ?? 0)}</span>
+              </div>
               <div className="flex justify-between text-xs font-bold" style={{ fontFamily: "'Fredoka One', cursive" }}>
                 <span>Total</span>
                 <span style={{ color: '#D9247A' }}>{formatPrice(selected.total)}</span>
