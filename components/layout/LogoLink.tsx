@@ -28,15 +28,24 @@ export function LogoLink() {
   }
 
   return (
-    <Link href="/" onClick={handleClick} className="flex-shrink-0 flex items-center">
+    <Link href="/" onClick={handleClick} className="flex-shrink-0 flex items-center gap-2">
+      {/* alt is empty because the wordmark beside it already names the link */}
       <Image
         src="/logo.jpeg"
-        alt="Mo Kids Place"
+        alt=""
         width={72}
         height={72}
         className="rounded-xl"
         priority
       />
+      <span
+        className="text-lg sm:text-2xl whitespace-nowrap leading-none"
+        style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 900 }}
+      >
+        <span className="text-gray-900">Mo</span>
+        <span className="text-[#D9247A]">Kids</span>{' '}
+        <span className="text-[#F5C000]">Place</span>
+      </span>
     </Link>
   )
 }
