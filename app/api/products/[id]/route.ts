@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServiceClient } from '@/lib/supabase'
 import { isAdminRequest, unauthorized } from '@/lib/auth'
+import { pickProductFields } from '@/lib/utils'
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const sb = getServiceClient()
@@ -19,11 +20,11 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   const sb = getServiceClient()
   const { id } = await params
   const body = await req.json()
-  const { sizes, ...productData } = body
+  const { sizes } = body
 
   const { data, error } = await sb
     .from('products')
-    .update(productData)
+    .update(pickProductFields(body))
     .eq('id', id)
     .select()
     .single()

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServiceClient } from '@/lib/supabase'
 import { sendLoginAlert } from '@/lib/email'
+import { ADMIN_COOKIE, ADMIN_SESSION_SECONDS, clientIp, createAdminSession, passwordMatches } from '@/lib/auth'
 
 // Progressive backoff: each lockout round gets stricter
 // round 0 → 5 attempts / 15 min lockout
@@ -12,17 +13,54 @@ const ROUNDS = [
   { maxAttempts: 1, lockoutMs: 60 * 60 * 1000, lockoutMinutes: 60 },
 ]
 
-interface Record {
+interface AttemptRecord {
   count: number
   resetAt: number
   round: number
   lockedOut: boolean
 }
 
-const tracker = new Map<string, Record>()
+// Attempts live in the admin_login_attempts table (scripts/sql/admin-login-attempts.sql)
+// so lockouts survive serverless cold starts and are shared across instances.
+// The in-memory map is only a fallback for when that table isn't reachable.
+const memory = new Map<string, AttemptRecord>()
 
-function getRecord(ip: string, now: number): Record {
-  const existing = tracker.get(ip)
+async function readRecord(ip: string): Promise<AttemptRecord | undefined> {
+  try {
+    const { data, error } = await getServiceClient()
+      .from('admin_login_attempts')
+      .select('count, round, reset_at, locked_out')
+      .eq('ip', ip)
+      .maybeSingle()
+    if (error) return memory.get(ip)
+    if (!data) return undefined
+    return { count: data.count, round: data.round, resetAt: new Date(data.reset_at).getTime(), lockedOut: data.locked_out }
+  } catch {
+    return memory.get(ip)
+  }
+}
+
+async function writeRecord(ip: string, rec: AttemptRecord) {
+  memory.set(ip, rec)
+  try {
+    await getServiceClient()
+      .from('admin_login_attempts')
+      .upsert(
+        { ip, count: rec.count, round: rec.round, reset_at: new Date(rec.resetAt).toISOString(), locked_out: rec.lockedOut },
+        { onConflict: 'ip' }
+      )
+  } catch {}
+}
+
+async function clearRecord(ip: string) {
+  memory.delete(ip)
+  try {
+    await getServiceClient().from('admin_login_attempts').delete().eq('ip', ip)
+  } catch {}
+}
+
+async function getRecord(ip: string, now: number): Promise<AttemptRecord> {
+  const existing = await readRecord(ip)
   if (!existing) return { count: 0, resetAt: 0, round: 0, lockedOut: false }
   if (existing.lockedOut && now >= existing.resetAt) {
     return { count: 0, resetAt: 0, round: existing.round, lockedOut: false }
@@ -31,7 +69,7 @@ function getRecord(ip: string, now: number): Record {
 }
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+  const ip = clientIp(req)
   const now = Date.now()
 
   // Check permanent IP blocklist in Supabase
@@ -50,7 +88,7 @@ export async function POST(req: NextRequest) {
     // If table doesn't exist yet, skip the check
   }
 
-  const rec = getRecord(ip, now)
+  const rec = await getRecord(ip, now)
 
   // Still in a lockout window
   if (rec.lockedOut) {
@@ -61,15 +99,15 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  const { password } = await req.json()
+  const { password } = await req.json().catch(() => ({}))
 
-  if (password !== process.env.ADMIN_PASSWORD) {
+  if (!passwordMatches(password)) {
     const newCount = rec.count + 1
     const roundConfig = ROUNDS[Math.min(rec.round, ROUNDS.length - 1)]
 
     if (newCount >= roundConfig.maxAttempts) {
       const nextRound = Math.min(rec.round + 1, ROUNDS.length - 1)
-      tracker.set(ip, {
+      await writeRecord(ip, {
         count: newCount,
         resetAt: now + roundConfig.lockoutMs,
         round: nextRound,
@@ -84,22 +122,22 @@ export async function POST(req: NextRequest) {
         round: rec.round + 1,
       }).catch(() => {})
     } else {
-      tracker.set(ip, { ...rec, count: newCount })
+      await writeRecord(ip, { ...rec, count: newCount })
     }
 
     return NextResponse.json({ error: 'Invalid password' }, { status: 401 })
   }
 
   // Correct password — wipe all history for this IP
-  tracker.delete(ip)
+  await clearRecord(ip)
 
   const res = NextResponse.json({ success: true })
-  res.cookies.set('admin_token', process.env.ADMIN_PASSWORD!, {
+  res.cookies.set(ADMIN_COOKIE, createAdminSession(), {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    sameSite: 'strict',
     path: '/',
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: ADMIN_SESSION_SECONDS,
   })
   return res
 }

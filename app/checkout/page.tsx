@@ -9,15 +9,18 @@ import Script from 'next/script'
 
 declare global {
   interface Window {
-    PaystackPop: {
-      setup(options: {
-        key: string
-        email: string
-        amount: number
-        access_code: string
-        onClose?: () => void
-        callback?: (response: { reference: string }) => void
-      }): { openIframe(): void }
+    // Paystack InlineJS v2 — resumeTransaction() opens the popup for a
+    // transaction the server already initialized, so the customer pays the
+    // server-computed total and the payment carries the orderId metadata
+    PaystackPop: new () => {
+      resumeTransaction(
+        accessCode: string,
+        callbacks?: {
+          onSuccess?: (transaction: { reference?: string }) => void
+          onCancel?: () => void
+          onError?: (error: { message?: string }) => void
+        }
+      ): void
     }
   }
 }
@@ -100,7 +103,12 @@ export default function CheckoutPage() {
           total,
         }),
       })
-      const { orderId } = await orderRes.json()
+      const orderData = await orderRes.json().catch(() => ({}))
+      if (!orderRes.ok || !orderData.orderId) {
+        // e.g. "… only has 1 left in stock" — show the server's reason as-is
+        throw new Error(orderData.error || 'Could not create your order. Please try again.')
+      }
+      const { orderId } = orderData
 
       // 2. Initialize Paystack
       const checkoutRes = await fetch('/api/checkout', {
@@ -108,27 +116,30 @@ export default function CheckoutPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ orderId, email: form.email }),
       })
-      const { access_code } = await checkoutRes.json()
+      const checkoutData = await checkoutRes.json().catch(() => ({}))
+      if (!checkoutRes.ok || !checkoutData.access_code) {
+        throw new Error(checkoutData.error || 'Could not start payment. Please try again.')
+      }
+      const { access_code, reference } = checkoutData as { access_code: string; reference: string }
 
-      // 3. Open the popup for that same transaction using the access code
-      const handler = window.PaystackPop.setup({
-        key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY!,
-        email: form.email,
-        amount: total * 100, // kobo
-        access_code,
-        onClose: () => {
+      // 3. Open the popup for that same server-created transaction
+      new window.PaystackPop().resumeTransaction(access_code, {
+        onCancel: () => {
           setLoading(false)
         },
-        callback: (response) => {
+        onError: (error) => {
+          setLoading(false)
+          alert(error?.message || 'Payment could not be started. Please try again.')
+        },
+        onSuccess: () => {
           clearCart()
-          router.push(`/order-confirmation/${orderId}?ref=${response.reference}`)
+          router.push(`/order-confirmation/${orderId}?ref=${reference}`)
         },
       })
-      handler.openIframe()
     } catch (err) {
       console.error(err)
       setLoading(false)
-      alert('Something went wrong. Please try again.')
+      alert(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
     }
   }
 
@@ -145,7 +156,7 @@ export default function CheckoutPage() {
 
   return (
     <>
-      <Script src="https://js.paystack.co/v1/inline.js" strategy="lazyOnload" />
+      <Script src="https://js.paystack.co/v2/inline.js" strategy="lazyOnload" />
       <div className="max-w-7xl mx-auto px-4 py-8" style={{ fontFamily: "'Poppins', sans-serif" }}>
         <h1 className="text-3xl font-bold mb-6 text-gray-900">Checkout</h1>
 

@@ -48,12 +48,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
           <div className="flex items-center gap-3">
             <Link href="/" className="text-xs text-gray-400 hover:text-white transition-colors hidden sm:inline">← Store</Link>
-            <a
-              href="/api/admin/logout"
-              className="text-xs px-3 py-1 bg-white/10 rounded border border-white/20 hover:bg-white/20 transition-colors hidden sm:inline"
-            >
-              Logout
-            </a>
+            <form action="/api/admin/logout" method="post" className="hidden sm:inline">
+              <button
+                type="submit"
+                className="text-xs px-3 py-1 bg-white/10 rounded border border-white/20 hover:bg-white/20 transition-colors"
+              >
+                Logout
+              </button>
+            </form>
             {/* Mobile hamburger */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -86,9 +88,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </nav>
             <div className="flex items-center gap-3 mt-3 pt-3 border-t border-white/10">
               <Link href="/" className="text-xs text-gray-400 hover:text-white transition-colors">← View Store</Link>
-              <a href="/api/admin/logout" className="text-xs px-3 py-1 bg-white/10 rounded border border-white/20 hover:bg-white/20 transition-colors">
-                Logout
-              </a>
+              <form action="/api/admin/logout" method="post">
+                <button type="submit" className="text-xs px-3 py-1 bg-white/10 rounded border border-white/20 hover:bg-white/20 transition-colors">
+                  Logout
+                </button>
+              </form>
             </div>
           </div>
         )}

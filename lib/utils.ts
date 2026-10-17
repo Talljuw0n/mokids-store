@@ -207,3 +207,15 @@ export const DEFAULT_SHIPPING_RATES: Record<string, ShippingRate> = (() => {
   }
   return map
 })()
+
+// Columns the admin product forms may write — anything else in a request
+// body (id, created_at, inventory, …) is dropped before it reaches the DB
+const PRODUCT_FIELDS = [
+  'sku', 'name', 'description', 'price', 'category', 'gender', 'colour', 'images',
+  'is_active', 'variant_group', 'variant_label', 'is_variant_child', 'also_categories',
+  'on_sale', 'sale_price',
+] as const
+
+export function pickProductFields(body: Record<string, unknown>): Record<string, unknown> {
+  return Object.fromEntries(PRODUCT_FIELDS.filter(k => k in body).map(k => [k, body[k]]))
+}

@@ -40,16 +40,34 @@ export default function AdminOrdersPage() {
       .catch(() => setLoading(false))
   }, [statusFilter])
 
-  const markFulfilled = async (orderId: string) => {
+  // Buttons shown in the order panel for each status — mirrors the
+  // ALLOWED_CHANGES rules in app/api/orders/[id]/route.ts
+  const STATUS_ACTIONS: Record<string, { to: string; label: string; color: string; confirm?: string }[]> = {
+    pending: [
+      { to: 'paid', label: '💰 Mark as Paid', color: '#8DC63F', confirm: 'Only do this if you have confirmed the payment in Paystack or your bank. This takes the items out of stock and sends the order email. Continue?' },
+      { to: 'cancelled', label: '✕ Cancel Order', color: '#ffffff', confirm: 'Cancel this order?' },
+    ],
+    paid: [{ to: 'fulfilled', label: '✓ Mark as Fulfilled', color: '#3DB8E8' }],
+    fulfilled: [{ to: 'paid', label: '↩ Undo — back to Paid', color: '#ffffff' }],
+    cancelled: [{ to: 'pending', label: '↩ Reopen as Pending', color: '#ffffff' }],
+  }
+
+  const changeStatus = async (orderId: string, status: string, confirmMessage?: string) => {
+    if (confirmMessage && !window.confirm(confirmMessage)) return
     setUpdating(orderId)
-    await fetch(`/api/orders/${orderId}`, {
+    const res = await fetch(`/api/orders/${orderId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: 'fulfilled' }),
+      body: JSON.stringify({ status }),
     })
-    setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: 'fulfilled' } : o))
-    if (selected?.id === orderId) setSelected(prev => prev ? { ...prev, status: 'fulfilled' } : null)
+    const data = await res.json().catch(() => ({}))
     setUpdating(null)
+    if (!res.ok) {
+      alert(data.error || 'Could not update the order. Please try again.')
+      return
+    }
+    setOrders(prev => prev.map(o => o.id === orderId ? { ...o, ...data } : o))
+    if (selected?.id === orderId) setSelected(prev => prev ? { ...prev, ...data } : null)
   }
 
   return (
@@ -114,7 +132,7 @@ export default function AdminOrdersPage() {
                     <td className="px-4 py-3">
                       {order.status === 'paid' && (
                         <button
-                          onClick={e => { e.stopPropagation(); markFulfilled(order.id) }}
+                          onClick={e => { e.stopPropagation(); changeStatus(order.id, 'fulfilled') }}
                           disabled={updating === order.id}
                           className="text-xs font-bold px-2 py-1 rounded border-[1.5px] border-black bg-[#3DB8E8] hover:bg-[#2aa8d8] transition-colors disabled:opacity-50"
                           style={{ fontFamily: "'Nunito', sans-serif" }}
@@ -196,16 +214,19 @@ export default function AdminOrdersPage() {
                 <span style={{ color: '#D9247A' }}>{formatPrice(selected.total)}</span>
               </div>
 
-              {selected.status === 'paid' && (
-                <button
-                  onClick={() => markFulfilled(selected.id)}
-                  disabled={updating === selected.id}
-                  className="w-full mt-3 py-2 text-sm font-bold rounded-lg border-[2.5px] border-black bg-[#3DB8E8] hover:bg-[#2aa8d8] transition-colors shadow-[3px_3px_0_#000] disabled:opacity-50"
-                  style={{ fontFamily: "'Nunito', sans-serif" }}
-                >
-                  {updating === selected.id ? 'Updating...' : '✓ Mark as Fulfilled'}
-                </button>
-              )}
+              <div className="mt-3 space-y-2">
+                {(STATUS_ACTIONS[selected.status] ?? []).map(action => (
+                  <button
+                    key={action.to}
+                    onClick={() => changeStatus(selected.id, action.to, action.confirm)}
+                    disabled={updating === selected.id}
+                    className="w-full py-2 text-sm font-bold rounded-lg border-[2.5px] border-black hover:brightness-95 transition shadow-[3px_3px_0_#000] disabled:opacity-50"
+                    style={{ backgroundColor: action.color, fontFamily: "'Nunito', sans-serif" }}
+                  >
+                    {updating === selected.id ? 'Updating...' : action.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </>
         )}

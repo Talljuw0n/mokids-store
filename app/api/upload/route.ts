@@ -15,6 +15,13 @@ export async function POST(req: NextRequest) {
   const folder = (formData.get('folder') as string) || 'mokids'
 
   if (!file) return NextResponse.json({ error: 'No file provided' }, { status: 400 })
+  if (!file.type.startsWith('image/')) {
+    return NextResponse.json({ error: 'Only image files can be uploaded' }, { status: 400 })
+  }
+  // Keep uploads inside the store's own Cloudinary folder (e.g. mokids/MokidsD001)
+  if (!/^mokids(\/[A-Za-z0-9_-]+)*$/.test(folder)) {
+    return NextResponse.json({ error: 'Invalid upload folder' }, { status: 400 })
+  }
 
   const MAX_BYTES = 10 * 1024 * 1024
   if (file.size > MAX_BYTES) {

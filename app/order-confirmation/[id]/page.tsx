@@ -15,8 +15,11 @@ export default async function OrderConfirmationPage({ params, searchParams }: Pr
   const { ref } = await searchParams
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2348000000000'
 
-  const { data: order } = isConfigured()
-    ? await getServiceClient().from('orders').select('*').eq('id', id).single()
+  // The order only shows when the URL also carries its Paystack reference
+  // (added by checkout's payment callback), so an order ID on its own —
+  // e.g. one shared over WhatsApp — doesn't expose the customer's details
+  const { data: order } = isConfigured() && ref
+    ? await getServiceClient().from('orders').select('*').eq('id', id).eq('payment_ref', ref).maybeSingle()
     : { data: null }
 
   if (!order) {

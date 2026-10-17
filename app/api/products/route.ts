@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServiceClient } from '@/lib/supabase'
 import { isAdminRequest, unauthorized } from '@/lib/auth'
+import { pickProductFields } from '@/lib/utils'
 
 export async function GET(req: NextRequest) {
   const sb = getServiceClient()
@@ -15,7 +16,8 @@ export async function GET(req: NextRequest) {
   if (category) query = query.eq('category', category)
   if (gender) query = query.eq('gender', gender)
   if (colour) query = query.ilike('colour', colour)
-  const showAll = active === 'all' || searchParams.get('all') === 'true'
+  // Hidden (inactive) products are only listed for the admin panel
+  const showAll = (active === 'all' || searchParams.get('all') === 'true') && isAdminRequest(req)
   if (!showAll) query = query.eq('is_active', true)
 
   // Size filter: find products that have this size in stock
@@ -39,11 +41,11 @@ export async function POST(req: NextRequest) {
   if (!isAdminRequest(req)) return unauthorized()
   const sb = getServiceClient()
   const body = await req.json()
-  const { sizes, ...productData } = body
+  const { sizes } = body
 
   const { data: product, error } = await sb
     .from('products')
-    .insert(productData)
+    .insert(pickProductFields(body))
     .select()
     .single()
 

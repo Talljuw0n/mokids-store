@@ -1,7 +1,9 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
+import { ADMIN_COOKIE } from '@/lib/auth'
 
-export async function GET() {
-  const res = NextResponse.redirect(new URL('/admin/login', process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'))
-  res.cookies.delete('admin_token')
+// POST only — a GET logout can be triggered by any other site via an <img> tag
+export async function POST(req: NextRequest) {
+  const res = NextResponse.redirect(new URL('/admin/login', req.url), 303)
+  res.cookies.delete(ADMIN_COOKIE)
   return res
 }

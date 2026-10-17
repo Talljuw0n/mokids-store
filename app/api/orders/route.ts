@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServiceClient } from '@/lib/supabase'
+import { getServiceClient, getSaleCampaignActive } from '@/lib/supabase'
 import { isAdminRequest, unauthorized } from '@/lib/auth'
-import { NIGERIAN_STATES, DEFAULT_SHIPPING_RATES } from '@/lib/utils'
+import { NIGERIAN_STATES, DEFAULT_SHIPPING_RATES, isOnSale } from '@/lib/utils'
 
 export async function GET(req: NextRequest) {
   if (!isAdminRequest(req)) return unauthorized()
@@ -51,10 +51,11 @@ export async function POST(req: NextRequest) {
 
   const { data: products, error: prodErr } = await sb
     .from('products')
-    .select('id, sku, name, price, images, is_active')
+    .select('id, sku, name, price, on_sale, sale_price, images, is_active')
     .in('id', productIds)
   if (prodErr) return NextResponse.json({ error: prodErr.message }, { status: 500 })
   const productMap = new Map(products.map(p => [p.id, p]))
+  const saleCampaignActive = await getSaleCampaignActive()
 
   const { data: inventory, error: invErr } = await sb
     .from('inventory')
@@ -79,7 +80,9 @@ export async function POST(req: NextRequest) {
       name: product.name,
       size: item.size,
       quantity: item.quantity,
-      price: product.price,
+      // Charge the same price the storefront showed — sale price while the
+      // product is flagged and the campaign is running, regular price otherwise
+      price: isOnSale(product, saleCampaignActive) ? product.sale_price : product.price,
       image: product.images?.[0] ?? '',
     })
   }
