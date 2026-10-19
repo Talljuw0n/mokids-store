@@ -236,7 +236,9 @@ export function ProductForm({ product, mode }: ProductFormProps) {
     const variant_group = siblingIds.length > 0 ? (existingGroup ?? joinedGroup ?? form.sku.toUpperCase()) : null
 
     const validSizes = sizes.filter(s => s.size.trim())
-    const payload = { ...form, variant_group, images, sizes: validSizes }
+    // replace_sizes tells the API this is the full list, so sizes removed in
+    // the form are deleted from inventory rather than silently kept
+    const payload = { ...form, variant_group, images, sizes: validSizes, replace_sizes: true }
 
     const url = mode === 'new' ? '/api/products' : `/api/products/${product?.id}`
     const method = mode === 'new' ? 'POST' : 'PUT'

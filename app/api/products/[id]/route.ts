@@ -20,7 +20,10 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   const sb = getServiceClient()
   const { id } = await params
   const body = await req.json()
-  const { sizes } = body
+  // replace_sizes: the product form sends its complete size list, so any
+  // size missing from it was deleted there. Other callers (on/off toggles,
+  // price edits) send sizes: [] and must not wipe the product's stock.
+  const { sizes, replace_sizes } = body
 
   const { data, error } = await sb
     .from('products')
@@ -37,6 +40,18 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         { product_id: id, size: s.size, quantity: s.quantity },
         { onConflict: 'product_id,size' }
       )
+    }
+  }
+
+  if (replace_sizes === true && Array.isArray(sizes)) {
+    const keep = new Set((sizes as { size: string }[]).map(s => s.size))
+    const { data: existing } = await sb.from('inventory').select('id, size').eq('product_id', id)
+    // Delete by row id — size names can contain quotes/slashes that don't
+    // survive being used as a filter value
+    const removed = (existing ?? []).filter(r => !keep.has(r.size)).map(r => r.id)
+    if (removed.length > 0) {
+      const { error: delErr } = await sb.from('inventory').delete().in('id', removed)
+      if (delErr) return NextResponse.json({ error: `Saved, but removing sizes failed: ${delErr.message}` }, { status: 500 })
     }
   }
 
