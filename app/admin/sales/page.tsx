@@ -49,6 +49,10 @@ export default function AdminSalesPage() {
   const [originalEndsAt, setOriginalEndsAt] = useState('')
   const [savingCampaign, setSavingCampaign] = useState(false)
   const [campaignSaved, setCampaignSaved] = useState(false)
+  // True once the saved end date has passed — products keep their on_sale
+  // flag afterwards, so they'd all jump back on sale if a new date were set
+  const [campaignEnded, setCampaignEnded] = useState(false)
+  const [clearingFlags, setClearingFlags] = useState(false)
 
   // Bulk select — apply one % off to many products at once, rather than
   // setting each one's price individually
@@ -68,6 +72,7 @@ export default function AdminSalesPage() {
       const local = toDatetimeLocal(ends_at)
       setEndsAt(local)
       setOriginalEndsAt(local)
+      setCampaignEnded(!!ends_at && new Date(ends_at) < new Date())
     }
     setLoading(false)
   }, [])
@@ -179,7 +184,29 @@ export default function AdminSalesPage() {
     setBulkApplying(false)
   }
 
+  // Takes every product off sale (keeps their sale prices for reference) —
+  // the clean slate to start from once a sale campaign is over
+  const clearAllSaleFlags = async () => {
+    const ids = products.filter(p => p.on_sale).map(p => p.id)
+    if (ids.length === 0) return
+    if (!window.confirm(`Take all ${ids.length} products off sale? Their regular prices are unchanged.`)) return
+    setClearingFlags(true)
+    setError(null)
+    const res = await fetch('/api/admin/products/bulk-sale', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ids, on_sale: false }),
+    })
+    if (res.ok) await load()
+    else setError(requestErrorMessage(res.status, 'clearing the sale'))
+    setClearingFlags(false)
+  }
+
   const saveCampaignEnd = async () => {
+    if (
+      campaignEnded && onSaleCount > 0 && endsAt && new Date(endsAt) > new Date() &&
+      !window.confirm(`${onSaleCount} products from the last sale are still marked on sale. Setting a new end date puts them ALL back on sale at their old discounts. Continue anyway?`)
+    ) return
     setSavingCampaign(true)
     setCampaignSaved(false)
     setError(null)
@@ -217,6 +244,22 @@ export default function AdminSalesPage() {
           </p>
         </div>
       </div>
+
+      {campaignEnded && onSaleCount > 0 && (
+        <div className="mb-5 px-4 py-3 bg-[#FFFBEF] border-[2.5px] border-black rounded-xl shadow-[4px_4px_0_#000] flex flex-wrap items-center justify-between gap-3" style={{ fontFamily: "'Nunito', sans-serif" }}>
+          <p className="text-sm font-bold">
+            The sale has ended — customers now see regular prices. {onSaleCount} product{onSaleCount !== 1 ? 's are' : ' is'} still
+            marked on sale, and would go straight back on sale if you set a new end date.
+          </p>
+          <button
+            onClick={clearAllSaleFlags}
+            disabled={clearingFlags}
+            className="px-4 py-2 font-bold text-sm rounded-lg border-[2.5px] border-black bg-[#F5C000] shadow-[3px_3px_0_#000] disabled:opacity-50"
+          >
+            {clearingFlags ? 'Clearing…' : 'Take all off sale'}
+          </button>
+        </div>
+      )}
 
       {/* Campaign end date */}
       <div className="bg-white rounded-xl border-[2.5px] border-black shadow-[4px_4px_0_#000] p-4 mb-5 flex flex-wrap items-end gap-3">

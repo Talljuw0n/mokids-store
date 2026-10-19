@@ -35,7 +35,7 @@ interface FormData {
 
 export default function CheckoutPage() {
   const router = useRouter()
-  const { items, subtotal, clearCart } = useCartStore()
+  const { items, subtotal, clearCart, syncPrices } = useCartStore()
   const sub = subtotal()
 
   const [form, setForm] = useState<FormData>({
@@ -109,6 +109,16 @@ export default function CheckoutPage() {
         throw new Error(orderData.error || 'Could not create your order. Please try again.')
       }
       const { orderId } = orderData
+
+      // The cart showed different prices from what the order will cost —
+      // usually a sale that ended after the items were added. Update the
+      // cart and let the customer see the new total before paying.
+      if (orderData.subtotal !== sub) {
+        syncPrices(orderData.prices)
+        setLoading(false)
+        alert(`Some prices in your cart have changed since you added them (for example, a sale has ended). Your order total is now ${formatPrice(orderData.total)}. Please review your order and press pay again.`)
+        return
+      }
 
       // 2. Initialize Paystack
       const checkoutRes = await fetch('/api/checkout', {

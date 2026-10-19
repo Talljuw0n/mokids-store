@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useCartStore } from '@/store/cart'
 import { useRouter } from 'next/navigation'
 import { LogoLink } from './LogoLink'
+import { SaleLink } from './SaleLink'
 
 export function NavBar() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -40,7 +41,7 @@ export function NavBar() {
             <Link href="/shop?gender=girls" className="text-sm font-bold text-gray-700 hover:text-[#D9247A] transition-colors">Girls</Link>
             <Link href="/shop?gender=boys" className="text-sm font-bold text-gray-700 hover:text-[#3DB8E8] transition-colors">Boys</Link>
             <Link href="/shop?sort=newest" className="text-sm font-bold text-gray-700 hover:text-gray-900 transition-colors">New In</Link>
-            <Link href="/shop?sale=true" className="text-sm font-bold text-[#E55A1C] hover:underline">Sale</Link>
+            <SaleLink className="text-sm font-bold text-[#E55A1C] hover:underline" />
           </div>
 
           {/* Search bar */}
@@ -102,7 +103,6 @@ export function NavBar() {
                 { href: '/shop?gender=girls', label: 'Girls', color: 'text-[#D9247A]' },
                 { href: '/shop?gender=boys', label: 'Boys', color: 'text-[#3DB8E8]' },
                 { href: '/shop?sort=newest', label: 'New In', color: '' },
-                { href: '/shop?sale=true', label: 'Sale', color: 'text-[#E55A1C]' },
               ].map((item) => (
                 <Link
                   key={item.href}
@@ -113,6 +113,10 @@ export function NavBar() {
                   {item.label}
                 </Link>
               ))}
+              <SaleLink
+                onClick={() => setMobileMenuOpen(false)}
+                className="py-3 border-b border-gray-50 text-sm text-[#E55A1C]"
+              />
             </div>
           </div>
         )}

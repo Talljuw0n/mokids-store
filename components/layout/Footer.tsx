@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { SaleLink } from './SaleLink'
 
 export function Footer() {
   const whatsappNumber = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2348000000000').replace(/^\+/, '')
@@ -30,7 +31,7 @@ export function Footer() {
               <li><Link href="/shop?gender=girls" className="hover:text-[#D9247A] transition-colors">Girls Collection</Link></li>
               <li><Link href="/shop?gender=boys" className="hover:text-[#3DB8E8] transition-colors">Boys Collection</Link></li>
               <li><Link href="/shop?sort=newest" className="hover:text-white transition-colors">New Arrivals</Link></li>
-              <li><Link href="/shop?sale=true" className="hover:text-[#E55A1C] transition-colors">Sale</Link></li>
+              <SaleLink listItem className="hover:text-[#E55A1C] transition-colors" />
             </ul>
           </div>
 

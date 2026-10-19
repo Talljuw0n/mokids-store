@@ -8,6 +8,7 @@ interface CartStore {
   removeItem: (productId: string, size: string) => void
   updateQuantity: (productId: string, size: string, quantity: number, maxQuantity?: number) => void
   clearCart: () => void
+  syncPrices: (prices: { product_id: string; size: string; price: number }[]) => void
   totalItems: () => number
   subtotal: () => number
 }
@@ -60,6 +61,17 @@ export const useCartStore = create<CartStore>()(
       },
 
       clearCart: () => set({ items: [] }),
+
+      // Replace saved prices with the server's current ones — a cart kept in
+      // localStorage can outlive a sale and still show the old sale prices
+      syncPrices: (prices) => {
+        set((state) => ({
+          items: state.items.map((i) => {
+            const match = prices.find((p) => p.product_id === i.product_id && p.size === i.size)
+            return match ? { ...i, price: match.price } : i
+          }),
+        }))
+      },
 
       totalItems: () => get().items.reduce((sum, i) => sum + i.quantity, 0),
 

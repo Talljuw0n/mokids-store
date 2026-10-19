@@ -112,5 +112,12 @@ export async function POST(req: NextRequest) {
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ orderId: data.id }, { status: 201 })
+  // Prices are returned so checkout can spot a cart holding stale prices
+  // (e.g. sale prices saved before the sale ended) and update it
+  return NextResponse.json({
+    orderId: data.id,
+    subtotal,
+    total,
+    prices: orderItems.map(i => ({ product_id: i.product_id, size: i.size, price: i.price })),
+  }, { status: 201 })
 }
