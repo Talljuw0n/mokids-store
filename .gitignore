@@ -39,3 +39,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# Private notes, kept off GitHub
+ADMIN_PASSWORD_GUIDE.md
